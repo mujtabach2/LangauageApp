@@ -1,10 +1,15 @@
+import React from 'react';
 import './App.css';
-import ChatGenerator from './ChatGenerator';
+import AppRouter from './AppRouter.js';
+import { FlagProvider } from "./components/FlagContext";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <div className="App">
-      <ChatGenerator />
+      <FlagProvider>
+        <AppRouter/>
+      </FlagProvider>
     </div>
   );
 }
