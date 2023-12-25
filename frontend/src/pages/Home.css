@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 6vw;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap');
+  .navbar-nav .nav-link {
+    font-size: 24px;
+    position: relative;
+    padding-bottom: 5px; /* Adjust the thickness of the line */
+    transition: border-bottom 0.3s ease-in-out;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    border-bottom: 2px solid #007bff; /* Adjust the color and thickness of the line on hover */
+  }
+  
+  .btn-primary:hover {
+    border-bottom: 2px solid #007bff; /* Adjust the color and thickness of the line on hover for the button */
+  }
+  /* Add this CSS for the animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.turbocharge {
+  color: #3980d5;
+  animation: slideIn 1s ease-in-out;
+  display: inline-block; /* Prevents the word from breaking into two lines */
+}
