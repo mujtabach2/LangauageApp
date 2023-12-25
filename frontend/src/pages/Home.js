@@ -1,11 +1,18 @@
 import React from 'react';
 import './Home.css'; // Import your CSS file
 import heroImg from './images/heroNew.png';
-import aiImg from './images/ai-platform-svgrepo-com.svg';
-import speechImg from './images/speaking-head-svgrepo-com.svg';
+import aiImg from './images/aiImg.svg';
+import speechImg from './images/speechImg.svg';
 import langImg from './images/language.svg';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleTryNowClick = () => {
+    navigate('/flags');
+  };
+
   return (
     <div >
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -27,7 +34,7 @@ const Home = () => {
                 </a>
               </li>
               <li className="nav-item" style={{marginLeft: "2vw"}}>
-              <button type="button" style={{ paddingLeft: "2vw",paddingRight:'2vw', fontSize: '1.6rem', backgroundColor: '#3980d5' }} className="btn btn-primary btn-lg">Try Now</button>
+              <button type="button" style={{ paddingLeft: "2vw",paddingRight:'2vw', fontSize: '1.6rem', backgroundColor: '#3980d5' }} className="btn btn-primary btn-lg" onClick={handleTryNowClick}>Try Now</button>
               </li>
             </ul>
           </div>
@@ -47,7 +54,7 @@ const Home = () => {
             </p>
           </div>
           <div style={{ marginRight: "26vw"}}>
-            <button type="button" style={{ borderRadius: "7%",paddingLeft: "4vw", paddingRight: "4vw", marginTop: '2vw', fontSize: '1.9rem', backgroundColor: '#3980d5', fontFamily: 'sans-serif' }} className="btn btn-primary btn-lg">Try Now</button>
+            <button type="button" style={{ borderRadius: "7%",paddingLeft: "4vw", paddingRight: "4vw", marginTop: '2vw', fontSize: '1.9rem', backgroundColor: '#3980d5', fontFamily: 'sans-serif' }} className="btn btn-primary btn-lg" onClick={handleTryNowClick}>Try Now</button>
           </div>
         </div>
 
@@ -56,6 +63,8 @@ const Home = () => {
         <div className="container" style={{ flex: '1', height: '100%' }}>
             <img src={heroImg} alt="phone" style={{ marginTop: '4vw', height: '30vw', objectFit: 'cover' }} />
         </div>
+
+      
     </div>
 
     {/* Features Section */}
@@ -72,9 +81,7 @@ const Home = () => {
   {/* Card 1 */}
   <div className="card" style={{ height: '20rem', width: "30%", margin: "0 1%", overflow: 'hidden' }}>
     <div className="card-body" style={{ height: "14rem", display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem' }}>
-      <svg xmlns="http://www.w3.org/2000/svg" height="5rem" width="5rem" fill="#1B1C57" viewBox="0 0 24 24" style={{ marginBottom: '1.5rem' }}>
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 16h-2v-6h2v6zm0-8h-2V7h2v3z"/>
-      </svg>
+    <img src={speechImg} style={{ marginBottom: '1.5rem', height: "9vw"}}/>
       <h5 className="card-title" style={{ color: '#3980d5', margin: '0', textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold' }}>Fun and Immersive</h5>
       <p className="card-text" style={{ color: '#707070', fontSize: '1.2rem', lineHeight: '1.6', margin: '0', textAlign: 'center' }}>
         Discover the joy of chatting with our AI, making language learning fun and immersive.
@@ -96,9 +103,7 @@ const Home = () => {
   {/* Card 3 */}
   <div className="card" style={{ height: '20rem', width: "30%", margin: "0 1%", overflow: 'hidden' }}>
     <div className="card-body" style={{ height: "14rem", display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem' }}>
-      <svg xmlns="http://www.w3.org/2000/svg" height="6rem" width="5rem" fill="#1B1C57" viewBox="0 0 24 24" style={{ marginBottom: '1.5rem' }}>
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 16h-2v-6h2v6zm0-8h-2V7h2v3z"/>
-      </svg>
+    <img src={aiImg} style={{ marginBottom: '1.5rem', height: "9vw"}}/>
       <h5 className="card-title" style={{ color: '#3980d5', margin: '0', textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold' }}>Speech Interaction</h5>
       <p className="card-text" style={{ color: '#707070', fontSize: '1.2rem', lineHeight: '1.6', margin: '0', textAlign: 'center' }}>
         Talk to our AI using speech, enhancing your conversational language skills.

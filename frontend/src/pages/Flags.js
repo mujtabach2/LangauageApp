@@ -1,11 +1,25 @@
-// Flags.js
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFlag } from "../components/FlagContext";
+import anime from "animejs/lib/anime.es.js";
+import { Link } from "react-router-dom";
 
 const Flags = () => {
   const { setFlag } = useFlag();
   const navigate = useNavigate();
+  const gridRef = useRef(null);
+
+  useEffect(() => {
+    // Animation for the flags on mount
+    anime({
+      targets: gridRef.current.querySelectorAll(".grid-item"),
+      translateY: [-20, 0],
+      opacity: [0, 1],
+      easing: "easeInOutQuad",
+      duration: 800,
+      delay: anime.stagger(100),
+    });
+  }, []);
 
   const languages = [
     { name: "English", flag: "🇺🇸" },
@@ -23,23 +37,34 @@ const Flags = () => {
   ];
 
   const handleButtonClick = (language) => {
-    setFlag(language.flag);
-    navigate("/difficulty");
-
-
-    // Change the page to "/difficulty" or perform other actions
-    
+    // Animation for the selected flag
+    anime({
+      targets: `.grid-item[data-flag='${language.flag}']`,
+      scale: [1, 1.2, 1],
+      easing: "easeInOutQuad",
+      duration: 500,
+      complete: () => {
+        setFlag(language.flag);
+        navigate("/difficulty");
+      },
+    });
   };
 
   return (
     <div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', paddingRight: '10px', paddingTop: '6px'}}>
+        <Link to="/">
+        <button type="button" class="btn-close" aria-label="Close"></button>
+        </Link>
+    </div>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
       <style>
         {`
           .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(4, 120px);
-            gap: 10px;
+            grid-template-rows: repeat(4, 150px); /* Adjust the flag height as needed */
+            gap: 20px;
           }
           .grid-item {
             background-color: white;
@@ -48,17 +73,24 @@ const Flags = () => {
             border: 1px solid #ddd;
             border-radius: 8px;
             cursor: pointer;
+            opacity: 0;
+            transition: transform 0.3s, box-shadow 0.3s;
+          }
+          .grid-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
           }
           .flag {
-            font-size: 36px; /* Adjust the font size as needed */
+            font-size: 48px; /* Adjust the font size as needed */
           }
         `}
       </style>
-      <div className="grid-container">
+      <div className="grid-container" ref={gridRef}>
         {languages.map((language, index) => (
           <div
             key={index}
             className="grid-item"
+            data-flag={language.flag}
             onClick={() => {
               handleButtonClick(language);
             }}
@@ -69,6 +101,7 @@ const Flags = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
