@@ -2,8 +2,9 @@
 
 ## Todo
 
-- make basic questions to allow basic inputs
+- get images for mode
 - add in voice recognition 
-- make gui 
-- think about user authy most likely no
+- make gui for chatbox and implement the script
+- make new api code 
+
 
