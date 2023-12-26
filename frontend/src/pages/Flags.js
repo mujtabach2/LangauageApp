@@ -52,12 +52,6 @@ const Flags = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', paddingRight: '10px', paddingTop: '6px'}}>
-        <Link to="/">
-        <button type="button" class="btn-close" aria-label="Close"></button>
-        </Link>
-    </div>
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
       <style>
         {`
           .grid-container {
@@ -83,8 +77,19 @@ const Flags = () => {
           .flag {
             font-size: 48px; /* Adjust the font size as needed */
           }
+          .corner-button {
+            position: fixed;
+            top: 5vw; /* Adjust this value to control the distance from the bottom */
+            right: 3vw; /* Adjust this value to control the distance from the right */
+            z-index: 999; /* Adjust the z-index to make sure the button appears above other content */
+          }
         `}
       </style>
+      <Link to="/" className="corner-button">
+        <button type="button" class="btn-close" aria-label="Close"></button>
+       </Link>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      
       <div className="grid-container" ref={gridRef}>
         {languages.map((language, index) => (
           <div
