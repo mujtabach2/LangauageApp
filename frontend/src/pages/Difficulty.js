@@ -27,9 +27,18 @@ const Difficulty = () => {
   }, [buttonRef]);
 
   const handleDifficultyClick = (difficulty) => {
-    setDifficulty(difficulty);
-    navigate("/mode"); // Navigate to /mode when a difficulty is selected
+    anime({
+      targets: buttonRef,
+      scale: [1, 1.2, 1],
+      easing: "easeInOutQuad",
+      duration: 500,
+      complete: () => {
+        setDifficulty(difficulty);
+      navigate("/mode");
+      },
+    });
   };
+     // Navigate to /mode when a difficulty is selected
 
   const handleButtonHover = (buttonRef) => {
     anime({

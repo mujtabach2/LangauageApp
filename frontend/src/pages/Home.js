@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import './Home.css'; // Import your CSS file
+import './Home.css'; 
 import heroImg from './images/heroNew.png';
 import aiImg from './images/aiImg.svg';
 import speechImg from './images/speechImg.svg';
@@ -21,7 +21,7 @@ const Home = () => {
       const [entry] = entries;
 
       if (entry.isIntersecting) {
-        // Trigger animation on button using anime.js
+       
         anime({
           targets: buttonElement,
           translateY: [-10, 0], // Bouncing effect
