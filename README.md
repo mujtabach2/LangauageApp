@@ -2,9 +2,10 @@
 
 ## Todo
 
-- get images for mode
+- add more modes
 - add in voice recognition 
-- make gui for chatbox and implement the script
-- make new api code 
+- make gui for chatbox
+- ask for user name 
+
 
 
