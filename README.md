@@ -3,9 +3,10 @@
 ## Todo
 
 - add more modes
-- add in voice recognition 
-- make gui for chatbox
-- ask for user name 
+- ask for topic as well 
+- clean up gui
+- ask if user want to speak , if so then make the respose always play 
+
 
 
 
