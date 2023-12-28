@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useFlag } from "../components/FlagContext";
+
+
 
 const ChatGenerator = () => {
   const [input, setInput] = useState('');
   const [generatedChat, setGeneratedChat] = useState('');
   const [error, setError] = useState(null);
+
+  const { selectedFlag, selectedDifficulty, selectedMode } = useFlag();
 
   const handleGenerateChat = async () => {
     try {
@@ -15,13 +20,15 @@ const ChatGenerator = () => {
       const requestBody = {
         role: 'User',
         user_role: { name: 'John' },
-        language: 'English',
-        proficiency: 'Intermediate',
-        topic: 'Conversation',
-        mode: 'Standard',
+        session_length: 'Short',
+        language: selectedFlag,
+        proficiency: selectedDifficulty,
+        topic: 'Sports',
+        mode: selectedMode,
         starter: true,
         input: input,
       };
+      console.log(requestBody);
 
       const response = await axios.post(apiUrl, requestBody);
 
@@ -55,6 +62,10 @@ const ChatGenerator = () => {
           <p>{JSON.stringify(generatedChat)}</p>
         </div>
       )}
+
+      <div>
+      </div>
+
     </div>
   );
 };

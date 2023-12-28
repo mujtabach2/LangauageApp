@@ -4,34 +4,39 @@ import { spawn } from 'child_process';
 import cors from 'cors';
 
 const app = express();
-const port = 3001; // Choose a port that is not in use
+const port = 3001;
 
 app.use(bodyParser.json());
 app.use(cors());
 
-// Define an endpoint for handling chat requests
 app.post('/generate-chat', async (req, res) => {
   try {
-    // Extract parameters from the request body
-    const { role, user_role, language, proficiency, topic, mode, starter, input } = req.body;
-    console.log(role, user_role, language, proficiency, topic, mode, starter, input);
-    // Spawn a Python process
-    const pythonProcess = spawn('python3', ['gptChat.py', role, JSON.stringify(user_role), language, proficiency, topic, mode, starter, input]);
+    const { role, user_role,session_length, language, proficiency, topic, mode, starter, input } = req.body;
+    console.log(role, user_role,session_length, language, proficiency, topic, mode, starter, input);
+
+    const pythonProcess = spawn('python3', ['gptChat.py', role, JSON.stringify(user_role),session_length, language, proficiency, topic, mode, starter, input]);
 
     let pythonOutput = '';
+    let pythonError = '';
 
-    // Handle data from the Python process
     pythonProcess.stdout.on('data', (data) => {
       pythonOutput += data.toString();
     });
 
-    pythonProcess.on('close', (code) => {
-      // Process has finished, parse the output or handle any additional logic
-      console.log(`Python process exited with code ${code}`);
-      console.log(`Python process output: ${pythonOutput}`);
+    pythonProcess.stderr.on('data', (data) => {
+      pythonError += data.toString();
+    });
 
-      // Send the generated chat back to the frontend
-      res.json({ chat: pythonOutput });
+    pythonProcess.on('close', (code) => {
+      console.log(`Python process exited with code ${code}`);
+
+      if (code === 0) {
+        console.log(`Python process output: ${pythonOutput}`);
+        res.json({ chat: pythonOutput });
+      } else {
+        console.error(`Python process error: ${pythonError}`);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
     });
   } catch (error) {
     console.error(error);
@@ -39,7 +44,6 @@ app.post('/generate-chat', async (req, res) => {
   }
 });
 
-// Start the Express server
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

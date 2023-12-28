@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 from dotenv import load_dotenv
 from langchain.prompts import (
     ChatPromptTemplate,
@@ -14,52 +15,56 @@ from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 
 
+
+
 load_dotenv()
 
-class GPTChat:
-    def __init__(self, engine):
-        try:
-            if engine == "OpenAI":
-                self.llm = ChatOpenAI(
-                    model_name="gpt-3.5-turbo",
-                    temperature=0.7
-                )
-            else:
-                raise KeyError("Engine not found")
-
-            self.memory = ConversationBufferMemory(return_messages=True)
-
-        except Exception as e:
-            print(f"An error occurred during GPTChat initialization: {e}")
-            sys.exit(1)  # Exit the script with an error code
-
-    def instruction(self, role, user_role ,session_length, language, proficiency, topic, mode, starter, user_input):
+class GPTChatWrapper:
+    def __init__(self, role, user_role, session_length, language, proficiency, topic, mode, starter, user_input):
+        self.gpt_chat = ChatOpenAI(
+                model_name="gpt-3.5-turbo",
+                temperature=0.7)  
         self.role = role
         self.user_role = user_role
+        self.session_length = session_length
         self.language = language
         self.proficiency = proficiency
         self.topic = topic
         self.mode = mode
         self.starter = starter
-        self.session_length = session_length
         self.user_input = user_input
+        self.memory = ConversationBufferMemory(max_history=8)
+        self.conversation_history = []
 
+    def run(self):
+        # Include history directly in the prompt
         prompt = ChatPromptTemplate.from_messages([
             SystemMessagePromptTemplate.from_template(self._specify_system_message()),
             MessagesPlaceholder(variable_name="history"),
-            HumanMessagePromptTemplate.from_template("""{input}""")
+            HumanMessagePromptTemplate.from_template(f"""{self.user_input}""")
         ])
 
-        self.conversation = ConversationChain(
-            memory=self.memory,
+        conversation_input = {
+            'history': self.conversation_history,
+            'input': self.user_input
+        }
+
+        conversation = LLMChain(
             prompt=prompt,
-            llm=self.llm,
+            llm=self.gpt_chat,
             verbose=False
         )
-        
-        return self.conversation.predict(history=[], input=user_input)
 
-# ...
+        response = conversation.predict(**conversation_input)
+
+        # Update conversation history with the current interaction
+        self.conversation_history.append({'role': self.role, 'message': self.user_input})
+        
+        return response
+
+    
+
+
 
     def _specify_system_message(self):
         
@@ -67,24 +72,19 @@ class GPTChat:
             'Short': {'Conversation': 8, 'Debate': 4},
             'Long': {'Conversation': 16, 'Debate': 8}
         }
-        exchange_counts = exchange_counts_dict[self.session_length][self.topic]
+        exchange_counts = 8 if self.session_length == 'Short' else 16
         
-        # Determine number of arguments in one debate round
-        argument_num_dict = {
-            'Beginner': 4,
-            'Intermediate': 6,
-            'Advanced': 8
-        }        
+        # Determine number of arguments in one debate roun       
         if self.proficiency == "Beginner":
-            language_proficiency = ""
+            language_proficiency = "Please express this idea using simple words and sentences, and avoid using idioms, slang, or complicated grammar."
         elif self.proficiency == "Intermediate":
-            language_proficiency = ""
+            language_proficiency = "Please use a broader selection of words and mix up your sentence structures. Feel free to include some idioms and casual expressions, but steer clear of overly technical language or intricate literary expressions."
         elif self.proficiency == "Advanced":
-            language_proficiency = ""
+            language_proficiency = "Please use advanced vocabulary, intricate sentence structures, idioms, colloquial expressions, and technical language when suitable."
         else:
             raise KeyError("Proficiency not found")
 
-        if self.topic == 'Conversation':
+        if self.mode == 'Conversation':
             prompt = f"""You are an AI that is good at role-playing. 
             You are simulating a typical conversation happened {self.topic}. 
             In this scenario, you are playing as a {self.role[0]} {self.role[1]}, speaking to a 
@@ -98,11 +98,11 @@ class GPTChat:
             {self.language} cultural."""
 
             
-        elif self.topic == "Debate":
+        elif self.mode == "Debate":
             prompt = f"""{self.role} is a {self.user_role} who is {language_proficiency} in {self.language} and wants to debate about {self.topic}"""
-        elif self.topic == "Quiz":
+        elif self.mode == "Quiz":
             prompt = f"""{self.role} is a {self.user_role} who is {language_proficiency} in {self.language} and wants to quiz about {self.topic}"""
-        elif self.topic == "Translation":
+        elif self.mode == "Translation":
             prompt = f"""{self.role} is a {self.user_role} who is {language_proficiency} in {self.language} and wants to translate {self.topic}"""
         else:
             raise KeyError("Topic not found")
@@ -114,29 +114,23 @@ class GPTChat:
 
         return prompt
 
-def main(role, user_role, language, session_length, proficiency, topic, mode, starter, user_input):
-    chatbot = GPTChat(engine="OpenAI")
-
-    # Create a list of messages for the 'history' key
-    response = chatbot.instruction(role, user_role, session_length, language, proficiency, topic, mode, starter, user_input)
-
-    print(response)
-    # Get the chatbot's respons
-    return response
-
-
 if __name__ == "__main__":
-    role = "Speaker"
-    user_role = {"name": "Listener"}
-    language = "English"
-    proficiency = "Intermediate"
-    session_length = "Short"
-    topic = "Conversation"
-    mode = "Interactive"
-    starter = True
-    user_input = "Hello, how are you?"
-    learning_mode = "Conversation"
+    # Extract parameters from command line arguments
+    role = sys.argv[1]
+    user_role = json.loads(sys.argv[2])
+    session_length = sys.argv[3]
+    language = sys.argv[4]
+    proficiency = sys.argv[5]
+    topic = sys.argv[6]
+    mode = sys.argv[7]
+    starter = sys.argv[8]
+    user_input = sys.argv[9]
 
-    response = main(role, user_role, language,session_length, proficiency, topic, mode, starter, user_input)
+    
+    # Initialize GPTChatWrapper and run the conversation
+    gpt_chat_wrapper = GPTChatWrapper(role, user_role, session_length, language, proficiency, topic, mode, starter, user_input)
+    response = gpt_chat_wrapper.run()
+    
+    # Print the response or handle it as needed
+    print(response)
 
-    print("Chatbot Response:", response)

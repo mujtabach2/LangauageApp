@@ -3,10 +3,9 @@ import { useFlag } from "../components/FlagContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import anime from "animejs/lib/anime.es.js";
+import debateImage from "./images/debate-svgrepo-com.svg";
+import conversationImage from "./images/speech-svgrepo-com (1).svg";
 
-// placeholder images for now 
-import conversationImage from "./images/logo.png";
-import debateImage from "./images/logo.png";
 
 const Mode = () => {
   const { setMode } = useFlag();
