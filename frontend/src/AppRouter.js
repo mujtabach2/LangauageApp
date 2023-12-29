@@ -5,6 +5,7 @@ import Difficulty from "./pages/Difficulty";
 import Flags from "./pages/Flags";
 import ChatGenerator from "./pages/ChatGenerator";
 import Mode from "./pages/Mode";
+import Finally from "./pages/finally";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const AppRouter = () => {
@@ -16,6 +17,7 @@ const AppRouter = () => {
                 <Route path="/flags" element={<Flags/>} />
                 <Route path="/chatgenerator" element={<ChatGenerator/>} />
                 <Route path="/mode" element={<Mode />} />
+                <Route path="/finally" element={<Finally />} />
             </Routes>
         </BrowserRouter>
     );

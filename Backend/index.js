@@ -11,10 +11,10 @@ app.use(cors());
 
 app.post('/generate-chat', async (req, res) => {
   try {
-    const { role, user_role,session_length, language, proficiency, topic, mode, starter, input } = req.body;
-    console.log(role, user_role,session_length, language, proficiency, topic, mode, starter, input);
+    const { role, name,session_length, language, proficiency, topic, mode, starter, input } = req.body;
+    console.log(role, name,session_length, language, proficiency, topic, mode, starter, input);
 
-    const pythonProcess = spawn('python3', ['gptChat.py', role, JSON.stringify(user_role),session_length, language, proficiency, topic, mode, starter, input]);
+    const pythonProcess = spawn('python3', ['gptChat.py', role, name, session_length, language, proficiency, topic, mode, starter, input]);
 
     let pythonOutput = '';
     let pythonError = '';
