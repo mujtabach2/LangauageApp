@@ -14,11 +14,11 @@
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.2",
-    "react-chat-engine": "^1.11.28",
+    "react-chat-engine": "^0.1.0",
     "react-chat-engine-pretty": "^0.1.8",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-switch": "^7.0.0",
     "responsivevoice": "^0.4.1",
     "web-vitals": "^2.1.4"
