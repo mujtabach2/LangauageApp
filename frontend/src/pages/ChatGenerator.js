@@ -192,7 +192,7 @@ const ChatGenerator = () => {
             <div style={{maxWidth:"40vw",padding: '10px', borderRadius: '8px', backgroundColor: message.role === 'User' ? '#e6f7ff' : '#3980d5' }}>
               <p style={{margin: '0', color: message.role === 'User' ? 'black' : 'white' }}>{message.content}</p>
               {message.role !== 'User' && (
-                <p style={{ margin: '0', fontSize: '1rem', color: 'lightgray' }}>{message.translation}</p> 
+                <p style={{ margin: '0', fontSize: '0.7rem', color: '	#D3D3D3' }}>{message.translation}</p> 
               )}
               {message.role !== 'User' && (
                 <button
