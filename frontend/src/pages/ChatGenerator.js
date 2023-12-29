@@ -8,9 +8,9 @@ import userPfp from './images/userpfp.jpg';
 import anime from 'animejs/lib/anime.es';
 import speech from "./images/speak.svg";
 import mic from "./images/mic.svg";
-import dotenv from 'dotenv';
+import { googleTranslateApiKey } from './config';
 import Finally from './finally';
-dotenv.config();
+
 
 
 
@@ -77,7 +77,7 @@ const ChatGenerator = () => {
 
 
   const translateText = async (text, targetLanguage) => {
-    const apiKey = process.env.GOOGLE_API_KEY; // Replace with your actual API key
+    const apiKey = googleTranslateApiKey; // Replace with your actual API key
     const apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
   
     try {
