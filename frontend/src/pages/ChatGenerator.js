@@ -78,8 +78,8 @@ const ChatGenerator = () => {
 
 
   const translateText = async (text, targetLanguage) => {
-    const apiKey = GOOGLE_API_KEY; // Replace with your actual API key
-    const apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
+    const apiKeys = GOOGLE_API_KEY; // Replace with your actual API key
+    const apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKeys}`;
   
     try {
       const response = await axios.post(apiUrl, {
