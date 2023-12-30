@@ -5,6 +5,7 @@ import cors from 'cors';
 
 const app = express();
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+const port = 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
