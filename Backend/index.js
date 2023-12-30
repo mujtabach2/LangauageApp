@@ -4,7 +4,7 @@ import { spawn } from 'child_process';
 import cors from 'cors';
 
 const app = express();
-const port = 3001;
+const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -45,5 +45,5 @@ app.post('/generate-chat', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`Server is running at ${baseUrl}`);
 });
