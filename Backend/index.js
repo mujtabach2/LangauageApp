@@ -8,7 +8,13 @@ const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://658fcb29541fd54265004efb--jade-sawine-12ea26.netlify.app',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  })
+);
 
 app.post('/generate-chat', async (req, res) => {
   try {
