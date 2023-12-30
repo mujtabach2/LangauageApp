@@ -97,7 +97,7 @@ const ChatGenerator = () => {
   
   const handleGenerateChat = async () => {
     try {
-      const apiUrl = 'https://intellichat-47bcdcf35a1c.herokuapp.com/generate-chat';
+      const apiUrl = 'https://ill-kerchief-lion.cyclic.app/generate-chat';
       anime({
         targets: '#generateButton',
         translateY: [-10, 0], // Animation from -10px to 0px in the Y-axis
