@@ -97,7 +97,7 @@ const ChatGenerator = () => {
   
   const handleGenerateChat = async () => {
     try {
-      const apiUrl = 'https://jade-sawine-12ea26.netlify.app/generate-chat';
+      const apiUrl = 'https://intellichat-bh71.onrender.com/generate-chat';
       anime({
         targets: '#generateButton',
         translateY: [-10, 0], // Animation from -10px to 0px in the Y-axis

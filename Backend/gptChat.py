@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-from dotenv import load_dotenv
 from langchain.prompts import (
     ChatPromptTemplate,
     MessagesPlaceholder,
@@ -16,8 +15,6 @@ from langchain.memory import ConversationBufferMemory
 
 
 
-
-load_dotenv()
 
 class GPTChatWrapper:
     def __init__(self, role, name, session_length, language, proficiency, topic, mode, starter, user_input):
