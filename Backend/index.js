@@ -5,7 +5,7 @@ import cors from 'cors';
 
 const app = express();
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -15,7 +15,9 @@ app.post('/generate-chat', async (req, res) => {
     const { role, name,session_length, language, proficiency, topic, mode, starter, input } = req.body;
     console.log(role, name,session_length, language, proficiency, topic, mode, starter, input);
 
-    const pythonProcess = spawn('python3', ['gptChat.py', role, name, session_length, language, proficiency, topic, mode, starter, input]);
+    const pythonProcess = spawn('python3', ['gptChat.py', role, name, session_length, language, proficiency, topic, mode, starter, input],
+      {env: { PATH: '/Library/Frameworks/Python.framework/Versions/3.11/bin/python3'}}
+    );
 
     let pythonOutput = '';
     let pythonError = '';
