@@ -78,7 +78,7 @@ const ChatGenerator = () => {
 
 
   const translateText = async (text, targetLanguage) => {
-    const apiKeys = GOOGLE_API_KEY; // Replace with your actual API key
+    const apiKeys = process.env.GOOGLE_API_KEY; // Replace with your actual API key
     const apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKeys}`;
   
     try {
