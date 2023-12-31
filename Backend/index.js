@@ -20,6 +20,7 @@ app.use(
 
 app.post('/generate-chat', async (req, res) => {
   try {
+    console.log(req.body);
     const { role, name, session_length, language, proficiency, topic, mode, starter, input } = req.body;
     console.log(role, name, session_length, language, proficiency, topic, mode, starter, input);
 

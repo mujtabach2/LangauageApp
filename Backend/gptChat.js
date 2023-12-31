@@ -118,16 +118,7 @@ export class GPTChatWrapper {
   }
 }
 
-// Extract parameters from command line arguments
-const role = process.argv[2];
-const name = process.argv[3];
-const session_length = process.argv[4];
-const language = process.argv[5];
-const proficiency = process.argv[6];
-const topic = process.argv[7];
-const mode = process.argv[8];
-const starter = process.argv[9];
-const user_input = process.argv[10];
+// Extract parameters from the request body
 
 // Initialize GPTChatWrapper and run the conversation
 const gpt_chat_wrapper = new GPTChatWrapper(role, name, session_length, language, proficiency, topic, mode, starter, user_input);
