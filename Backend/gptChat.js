@@ -6,7 +6,7 @@ import {
 } from 'langchain/prompts';
 
 import { LLMChain } from 'langchain/chains';
-import { ChatOpenAI } from 'langchain/chat_models';
+import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { ConversationBufferMemory } from 'langchain/memory';
 
 
