@@ -11,6 +11,12 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 
+app.options('/generate-chat', (req, res) => {
+  res.header('Access-Control-Allow-Methods', 'POST');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.send();
+});
+
 
 app.post('/generate-chat', async (req, res) => {
   try {
