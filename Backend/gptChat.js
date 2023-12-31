@@ -64,7 +64,7 @@ export class GPTChatWrapper {
     console.log(this.name);
 
     let language_proficiency;
-
+    console.log(this.proficiency)
     switch (this.proficiency) {
       case "Beginner":
         language_proficiency = "Please express this idea using simple words and sentences, and avoid using idioms, slang, or complicated grammar.";
