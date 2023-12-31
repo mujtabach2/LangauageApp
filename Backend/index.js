@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: '*',
+    origin: 'https://6590ad2cfef25bb927f66459--jade-sawine-12ea26.netlify.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   })
