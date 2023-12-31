@@ -7,7 +7,7 @@ import {
 
 import { LLMChain } from 'langchain/chains';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
-import { ConversationBufferMemory } from 'langchain/memory';
+import { ChatMessageHistory } from 'langchain/memory';
 
 
 export class GPTChatWrapper {
@@ -25,7 +25,7 @@ export class GPTChatWrapper {
     this.mode = mode;
     this.starter = starter;
     this.user_input = user_input;
-    this.memory = new ConversationBufferMemory({ max_history: 8 });
+    this.memory = new ChatMessageHistory({ max_history: 8 });
     this.conversation_history = [];
   }
 
