@@ -1,15 +1,21 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { spawn } from 'child_process';
-import cors from 'cors';
-
 import {GPTChatWrapper} from './gptChat.js';
 
 const app = express();
+const cors = require('cors');
+const corsOptions ={
+    origin:'https://6591e4a84abcd6533dffb2e8--jade-sawine-12ea26.netlify.app', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+
+app.use(cors(corsOptions));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 const port = process.env.PORT || 3000;
-
-app.use(cors());
 
 app.options('/generate-chat', (req, res) => {
   res.header('Access-Control-Allow-Methods', 'POST');
