@@ -22,7 +22,7 @@ app.post('/generate-chat', async (req, res) => {
     console.log(role, name,session_length, language, proficiency, topic, mode, starter, input);
 
     const pythonProcess = spawn('python3', ['gptChat.py', role, name, session_length, language, proficiency, topic, mode, starter, input],
-      {env: { PYTHON: 'python3'}}
+      {env: { PATH: '/Library/Frameworks/Python.framework/Versions/3.11/bin/python3'}}
     );
 
     let pythonOutput = '';
