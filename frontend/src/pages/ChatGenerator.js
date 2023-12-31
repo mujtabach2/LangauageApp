@@ -117,8 +117,8 @@ const ChatGenerator = () => {
         starter: true,
         input: input,
       };
-  
-      const response = await axios.post(apiUrl, requestBody);
+      console.log(requestBody);
+      const response = await axios.post(apiUrl, requestBody,{ validateStatus: status => status >= 200 && status < 300 || status === 302,});
       const chatMessage = response.data && response.data.chat ? response.data.chat : null;
       const lang = getLanguageCode(selectedFlag);
       const translatedText = await translateText(chatMessage, lang);
