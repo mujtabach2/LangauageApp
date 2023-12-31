@@ -22,25 +22,15 @@ app.post('/generate-chat', async (req, res) => {
     console.log(role, name, session_length, language, proficiency, topic, mode, starter, input);
 
     // Assuming gptChat.js is now your Node.js script
-    const nodeProcess = spawn('node', ['gptChat.js', role, name, session_length, language, proficiency, topic, mode, starter, input]);
-
-    let nodeOutput = '';
-    let nodeError = '';
-
-    nodeProcess.stdout.on('data', (data) => {
-      nodeOutput += data.toString();
-    });
-
-    nodeProcess.stderr.on('data', (data) => {
-      nodeError += data.toString();
-    });
+    const gpt_chat_wrapper = new GPTChatWrapper(role, name, session_length, language, proficiency, topic, mode, starter, input);
+    const response = gpt_chat_wrapper.run();
 
     nodeProcess.on('close', (code) => {
       console.log(`Node.js process exited with code ${code}`);
 
       if (code === 0) {
-        console.log(`Node.js process output: ${nodeOutput}`);
-        res.json({ chat: nodeOutput });
+        console.log(`Node.js process output: ${response}`);
+        res.json({ chat: response });
       } else {
         console.error(`Node.js process error: ${nodeError}`);
         res.status(500).json({ error: 'Internal Server Error' });
