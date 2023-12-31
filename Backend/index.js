@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { spawn } from 'child_process';
 import cors from 'cors';
+import { ReadableStream } from 'stream';
 
 import {GPTChatWrapper} from './gptChat.js';
 

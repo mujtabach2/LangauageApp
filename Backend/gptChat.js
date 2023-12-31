@@ -8,6 +8,8 @@ import {
 import { LLMChain } from 'langchain/chains';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { ChatMessageHistory } from 'langchain/memory';
+import { ReadableStream } from 'stream';
+
 
 
 export class GPTChatWrapper {
