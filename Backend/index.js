@@ -27,25 +27,14 @@ app.post('/generate-chat', async (req, res) => {
     const gpt_chat_wrapper = new GPTChatWrapper(role, name, session_length, language, proficiency, topic, mode, starter, input);
     const response = await gpt_chat_wrapper.run();
 
-    // Assuming you want to spawn a child process
-    const nodeProcess = spawn('node', ['otherScript.js']);
-
-    nodeProcess.on('close', (code) => {
-      console.log(`Node.js process exited with code ${code}`);
-
-      if (code === 0) {
-        console.log(`Node.js process output: ${response}`);
-        res.json({ chat: response });
-      } else {
-        console.error(`Node.js process error: ${nodeError}`);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-    });
+    // Return the response directly
+    res.json({ chat: response });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Server is running at ${baseUrl}`);
