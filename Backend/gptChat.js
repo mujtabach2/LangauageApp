@@ -134,3 +134,5 @@ const response = gpt_chat_wrapper.run();
 
 // Print the response or handle it as needed
 console.log(response);
+
+module.exports = GPTChatWrapper;
