@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import { spawn } from 'child_process';
 import cors from 'cors';
 
-import GPTChatWrapper from './gptChat.js';
+import {GPTChatWrapper} from './gptChat.js';
 
 const app = express();
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';

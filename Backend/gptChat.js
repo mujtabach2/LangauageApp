@@ -1,15 +1,16 @@
-const {
+import {
   ChatPromptTemplate,
   MessagesPlaceholder,
   SystemMessagePromptTemplate,
   HumanMessagePromptTemplate,
-} = require('langchain/prompts');
+} from 'langchain/prompts';
 
-const { LLMChain } = require('langchain/chains');
-const { ChatOpenAI } = require('langchain/chat_models');
-const { ConversationBufferMemory } = require('langchain/memory');
+import { LLMChain } from 'langchain/chains';
+import { ChatOpenAI } from 'langchain/chat_models';
+import { ConversationBufferMemory } from 'langchain/memory';
 
-class GPTChatWrapper {
+
+export class GPTChatWrapper {
   constructor(role, name, session_length, language, proficiency, topic, mode, starter, user_input) {
     this.gpt_chat = new ChatOpenAI({
       model_name: "gpt-3.5-turbo",
@@ -135,4 +136,3 @@ const response = gpt_chat_wrapper.run();
 // Print the response or handle it as needed
 console.log(response);
 
-module.exports = GPTChatWrapper;
