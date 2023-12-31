@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "langchain": "^0.0.213"
   },
   "engines": {
     "node": "16.20.2",

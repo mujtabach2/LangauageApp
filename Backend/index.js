@@ -1,7 +1,7 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import { spawn } from 'child_process';
-import cors from 'cors';
+const express = require('express');
+const bodyParser = require('body-parser');
+const { spawn } = require('child_process');
+const cors = require('cors');
 
 const app = express();
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
@@ -18,32 +18,31 @@ app.use(
 
 app.post('/generate-chat', async (req, res) => {
   try {
-    const { role, name,session_length, language, proficiency, topic, mode, starter, input } = req.body;
-    console.log(role, name,session_length, language, proficiency, topic, mode, starter, input);
+    const { role, name, session_length, language, proficiency, topic, mode, starter, input } = req.body;
+    console.log(role, name, session_length, language, proficiency, topic, mode, starter, input);
 
-    const pythonProcess = spawn('python3', ['gptChat.py', role, name, session_length, language, proficiency, topic, mode, starter, input],
-      {env: { PATH: '/Library/Frameworks/Python.framework/Versions/3.11/bin/python3'}}
-    );
+    // Assuming gptChat.js is now your Node.js script
+    const nodeProcess = spawn('node', ['gptChat.js', role, name, session_length, language, proficiency, topic, mode, starter, input]);
 
-    let pythonOutput = '';
-    let pythonError = '';
+    let nodeOutput = '';
+    let nodeError = '';
 
-    pythonProcess.stdout.on('data', (data) => {
-      pythonOutput += data.toString();
+    nodeProcess.stdout.on('data', (data) => {
+      nodeOutput += data.toString();
     });
 
-    pythonProcess.stderr.on('data', (data) => {
-      pythonError += data.toString();
+    nodeProcess.stderr.on('data', (data) => {
+      nodeError += data.toString();
     });
 
-    pythonProcess.on('close', (code) => {
-      console.log(`Python process exited with code ${code}`);
+    nodeProcess.on('close', (code) => {
+      console.log(`Node.js process exited with code ${code}`);
 
       if (code === 0) {
-        console.log(`Python process output: ${pythonOutput}`);
-        res.json({ chat: pythonOutput });
+        console.log(`Node.js process output: ${nodeOutput}`);
+        res.json({ chat: nodeOutput });
       } else {
-        console.error(`Python process error: ${pythonError}`);
+        console.error(`Node.js process error: ${nodeError}`);
         res.status(500).json({ error: 'Internal Server Error' });
       }
     });
