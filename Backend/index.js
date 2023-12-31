@@ -31,7 +31,7 @@ app.post('/generate-chat', async (req, res) => {
     console.log(role, name, session_length, language, proficiency, topic, mode, starter, input);
 
     // Assuming GPTChatWrapper is an ES module
-    const gpt_chat_wrapper = new GPTChatWrapper(role, name, session_length, language, proficiency, topic, mode, starter, input);
+    const gpt_chat_wrapper = new GPTChatWrapper('User', name, session_length, language, proficiency, topic, mode, starter, input);
     const response = await gpt_chat_wrapper.run();
 
     // Return the response directly
