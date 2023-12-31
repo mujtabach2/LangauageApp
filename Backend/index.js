@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import {GPTChatWrapper} from './gptChat.js';
 
 const app = express();
-const cors = require('cors');
+import cors from 'cors';
 const corsOptions ={
     origin:'https://6591e4a84abcd6533dffb2e8--jade-sawine-12ea26.netlify.app', 
     credentials:true,            //access-control-allow-credentials:true
