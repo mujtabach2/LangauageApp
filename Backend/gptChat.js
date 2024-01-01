@@ -9,7 +9,6 @@ import { LLMChain } from 'langchain/chains';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { ChatMessageHistory } from 'langchain/memory';
 
-
 export class GPTChatWrapper {
   constructor(role, name, session_length, language, proficiency, topic, mode, starter, user_input) {
     this.gpt_chat = new ChatOpenAI({
@@ -30,31 +29,37 @@ export class GPTChatWrapper {
   }
 
   run() {
-    const prompt = ChatPromptTemplate.from_messages([
-      SystemMessagePromptTemplate.from_template(this._specify_system_message()),
-      MessagesPlaceholder({ variable_name: "history" }),
-      HumanMessagePromptTemplate.from_template(`${this.user_input}`)
-    ]);
+    try {
+      const prompt = ChatPromptTemplate.from_messages([
+        SystemMessagePromptTemplate.from_template(this._specify_system_message()),
+        MessagesPlaceholder({ variable_name: "history" }),
+        HumanMessagePromptTemplate.from_template(`${this.user_input}`)
+      ]);
 
-    const conversation_input = {
-      history: this.conversation_history,
-      input: this.user_input
-    };
+      const conversation_input = {
+        history: this.conversation_history,
+        input: this.user_input
+      };
 
-    const conversation = new LLMChain({
-      prompt: prompt,
-      llm: this.gpt_chat,
-      verbose: false
-    });
+      const conversation = new LLMChain({
+        prompt: prompt,
+        llm: this.gpt_chat,
+        verbose: false
+      });
 
-    const response = conversation.predict(conversation_input);
+      const response = conversation.predict(conversation_input);
 
-    this.conversation_history.push({ role: this.role, message: this.user_input });
+      this.conversation_history.push({ role: this.role, message: this.user_input });
 
-    return response;
+      return response;
+    } catch (error) {
+      console.error("Error in GPTChatWrapper:", error.message);
+      throw error; // Re-throw the error for handling at a higher level, if needed
+    }
   }
 
   _specify_system_message() {
+    try {
     const exchange_counts_dict = {
       Short: { Conversation: 8, Debate: 4 },
       Long: { Conversation: 16, Debate: 8 }
@@ -115,6 +120,9 @@ export class GPTChatWrapper {
     }
 
     return prompt;
+  } catch (error) {
+    console.error("Error in GPTChatWrapper:", error.message);
+    throw error; // Re-throw the error for handling at a higher level, if needed
   }
 }
-
+}
