@@ -129,20 +129,9 @@ export class GPTChatWrapper {
 
 try {
   // Extract parameters from the request body
-  const {
-    role,
-    name,
-    session_length,
-    language,
-    proficiency,
-    topic,
-    mode,
-    starter,
-    user_input
-  } = req.body;
 
   // Initialize GPTChatWrapper and run the conversation
-  const gpt_chat_wrapper = new GPTChatWrapper(role, name, session_length, language, proficiency, topic, mode, starter, user_input);
+  const gpt_chat_wrapper = new GPTChatWrapper('User', 'josh', session_length, language, proficiency, topic, mode, starter, user_input);
   const response = gpt_chat_wrapper.run();
 
   // Print the response or handle it as needed
