@@ -139,7 +139,7 @@ try {
     mode,
     starter,
     user_input
-  } = request.body;
+  } = req.body;
 
   // Initialize GPTChatWrapper and run the conversation
   const gpt_chat_wrapper = new GPTChatWrapper(role, name, session_length, language, proficiency, topic, mode, starter, user_input);
