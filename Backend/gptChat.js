@@ -127,16 +127,3 @@ export class GPTChatWrapper {
 }
 }
 
-try {
-  // Extract parameters from the request body
-
-  // Initialize GPTChatWrapper and run the conversation
-  const gpt_chat_wrapper = new GPTChatWrapper('User', 'josh', session_length, language, proficiency, topic, mode, starter, user_input);
-  const response = gpt_chat_wrapper.run();
-
-  // Print the response or handle it as needed
-  console.log(response);
-} catch (error) {
-  console.error("Error in GPTChatWrapper usage:", error.message);
-  // Handle the error at a higher level, send an appropriate response, etc.
-}

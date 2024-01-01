@@ -34,8 +34,9 @@ app.post('/generate-chat', async (req, res) => {
     const gpt_chat_wrapper = new GPTChatWrapper('User', name, session_length, language, proficiency, topic, mode, starter, input);
     const response = await gpt_chat_wrapper.run();
 
+    console.log(response);
     // Return the response directly
-    res.json({ chat: response });
+    res({ chat: response });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
