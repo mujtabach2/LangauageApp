@@ -34,7 +34,11 @@ app.post('/generate-chat', async (req, res) => {
     const gpt_chat_wrapper = new GPTChatWrapper('User', name, session_length, language, proficiency, topic, mode, starter, input);
     const response = await gpt_chat_wrapper.run();
 
-    console.log(response);
+    if (response === null) {
+      res.status(500).json({ error: 'shii not working' });
+    }else{
+      res.status(200).json({ chat: response });
+    }
     // Return the response directly
     res({ chat: response });
   } catch (error) {
