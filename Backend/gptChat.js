@@ -31,7 +31,6 @@ export class GPTChatWrapper {
     this.memory = new ChatMessageHistory({ max_history: 8 });
     this.conversation_history = [];
   }
-
   async run() {
     try {
       console.log("_specify_system_message():", this._specify_system_message());
@@ -44,11 +43,21 @@ export class GPTChatWrapper {
       const historyPlaceholder = new MessagesPlaceholder({ variable_name: "history" });
       const userInputTemplate = input ? PromptTemplate.fromTemplate(input) : null;
   
+      // Check if any template is null or undefined
+      if (!systemMessageTemplate || !historyPlaceholder || !userInputTemplate) {
+        throw new Error("One or more message templates are invalid.");
+      }
+  
       const prompt = ChatPromptTemplate.fromMessages([
         systemMessageTemplate,
         historyPlaceholder,
         userInputTemplate,
-      ].filter(Boolean)); // Filter out null/undefined templates
+      ].filter(Boolean));
+  
+      // Check if prompt is null or undefined
+      if (!prompt) {
+        throw new Error("Constructed prompt is invalid.");
+      }
   
       const conversation = new LLMChain({
         prompt: prompt.toString(),
@@ -63,10 +72,23 @@ export class GPTChatWrapper {
       return response;
     } catch (error) {
       console.error("Error in GPTChatWrapper:", error.message);
+      // Log additional details if needed
+      console.log("Error details:", error);
       throw error; // Re-throw the error for handling at a higher level, if needed
     }
   }
   
+  _buildPrompt(input) {
+    return ChatPromptTemplate.fromMessages([
+      SystemMessagePromptTemplate.fromTemplate(this._specify_system_message()),
+      new MessagesPlaceholder({ variable_name: "history" }),
+      input ? HumanMessagePromptTemplate.fromTemplate(input) : input,
+    ]);
+  }
+
+  _updateConversationHistory() {
+    this.conversation_history.push({ role: this.role, message: this.user_input });
+  }
 
   _specify_system_message() {
     try {
