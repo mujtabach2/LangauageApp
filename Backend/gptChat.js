@@ -32,38 +32,41 @@ export class GPTChatWrapper {
     this.conversation_history = [];
   }
 
- async run() {
+  async run() {
     try {
-        console.log("_specify_system_message():", this._specify_system_message());
-        console.log("user_input:", this.user_input)
-        console.log("conversation_history:", this.conversation_history);
-
-         const input = this.user_input;
-
-        const prompt = ChatPromptTemplate.fromMessages([
-            PromptTemplate.fromTemplate(this._specify_system_message()),
-            new MessagesPlaceholder({ variable_name: "history" }),
-            input ? PromptTemplate.fromTemplate(input) : input,
-        ]);
-
-    
-
-        const conversation = new LLMChain({
-            prompt: prompt.toString(),
-            llm: this.gpt_chat,
-            verbose: false
-        });
-
-        const response = conversation.predict(prompt);
-
-        this.conversation_history.push({ role: this.role, message: this.user_input });
-
-        return response;
+      console.log("_specify_system_message():", this._specify_system_message());
+      console.log("user_input:", this.user_input);
+      console.log("conversation_history:", this.conversation_history);
+  
+      const input = this.user_input;
+  
+      const systemMessageTemplate = PromptTemplate.fromTemplate(this._specify_system_message());
+      const historyPlaceholder = new MessagesPlaceholder({ variable_name: "history" });
+      const userInputTemplate = input ? PromptTemplate.fromTemplate(input) : null;
+  
+      const prompt = ChatPromptTemplate.fromMessages([
+        systemMessageTemplate,
+        historyPlaceholder,
+        userInputTemplate,
+      ].filter(Boolean)); // Filter out null/undefined templates
+  
+      const conversation = new LLMChain({
+        prompt: prompt.toString(),
+        llm: this.gpt_chat,
+        verbose: false,
+      });
+  
+      const response = await conversation.predict(prompt);
+  
+      this._updateConversationHistory();
+  
+      return response;
     } catch (error) {
-        console.error("Error in GPTChatWrapper:", error.message);
-        throw error; // Re-throw the error for handling at a higher level, if needed
+      console.error("Error in GPTChatWrapper:", error.message);
+      throw error; // Re-throw the error for handling at a higher level, if needed
     }
-}
+  }
+  
 
   _specify_system_message() {
     try {
