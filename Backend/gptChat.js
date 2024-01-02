@@ -41,6 +41,9 @@ export class GPTChatWrapper {
   
       const systemMessageTemplate = PromptTemplate.fromTemplate(this._specify_system_message());
       console.log("_specify_system_message():", this._specify_system_message());
+      // Inside the _specify_system_message() function
+      console.log("Template:", prompt.toString()); // Add this line to check the template value
+      console.log("System Message Template:", systemMessageTemplate); // Add this line to check the systemMessageTemplate value
 
       
       const historyPlaceholder = new MessagesPlaceholder({ variable_name: "history" });
