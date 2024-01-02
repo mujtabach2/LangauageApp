@@ -3,6 +3,7 @@ import {
   MessagesPlaceholder,
   SystemMessagePromptTemplate,
   HumanMessagePromptTemplate,
+
 } from "@langchain/core/prompts";
 
 import { LLMChain } from 'langchain/chains';
@@ -36,31 +37,24 @@ export class GPTChatWrapper {
 
          const input = this.user_input;
 
-         const chatPrompt = ChatPromptTemplate.fromMessages([
-          _specify_system_message(),
-          messagesPlaceholder,
-          userMessageTemplate,
+        const prompt = ChatPromptTemplate.fromMessages([
+            SystemMessagePromptTemplate.fromTemplate(this._specify_system_message()),
+            new MessagesPlaceholder({ variable_name: "history" }),
+            input ? HumanMessagePromptTemplate.fromTemplate(input) : input,
         ]);
-    
-        
-    
-        const conversation_input = {
+
+        const formattedPrompt = prompt.format({
             history: this.conversation_history ? this.conversation_history : [],
             input: input,
-        };
-
-        const formattedPrompt = chatPrompt.formatPrompt({
-          input_language: "English",  // You can replace these with your actual variables
-          output_language: this.language,
-          text: input,
         });
+
         const conversation = new LLMChain({
             prompt: formattedPrompt.toString(),
             llm: this.gpt_chat,
             verbose: false
         });
 
-        const response = conversation.predict(conversation_input);
+        const response = conversation.predict(formattedPrompt.toString());
 
         this.conversation_history.push({ role: this.role, message: this.user_input });
 
