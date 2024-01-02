@@ -28,38 +28,39 @@ export class GPTChatWrapper {
     this.conversation_history = [];
   }
 
-  run() {
+  _run() {
     try {
-      console.log("_specify_system_message():", this._specify_system_message());
-      console.log("user_input:", this.user_input)
-      
-      const prompt = ChatPromptTemplate.fromMessages([
-        SystemMessagePromptTemplate.fromTemplate(this._specify_system_message()),
-        new MessagesPlaceholder({ variable_name: "history" }),
-        HumanMessagePromptTemplate.fromTemplate(this.user_input)
-      ]);
+        console.log("_specify_system_message():", this._specify_system_message());
+        console.log("user_input:", this.user_input)
+        console.log("conversation_history:", this.conversation_history);
 
-      const conversation_input = {
-        history: this.conversation_history,
-        input: this.user_input
-      };
+        const prompt = ChatPromptTemplate.fromMessages([
+            SystemMessagePromptTemplate.fromTemplate(this._specify_system_message()),
+            new MessagesPlaceholder({ variable_name: "history" }),
+            HumanMessagePromptTemplate.fromTemplate({ message: this.user_input })
+        ]);
 
-      const conversation = new LLMChain({
-        prompt: prompt,
-        llm: this.gpt_chat,
-        verbose: false
-      });
+        const conversation_input = {
+            history: this.conversation_history,
+            input: this.user_input
+        };
 
-      const response = conversation.predict(conversation_input);
+        const conversation = new LLMChain({
+            prompt: prompt,
+            llm: this.gpt_chat,
+            verbose: false
+        });
 
-      this.conversation_history.push({ role: this.role, message: this.user_input });
+        const response = conversation.predict(conversation_input);
 
-      return response;
+        this.conversation_history.push({ role: this.role, message: this.user_input });
+
+        return response;
     } catch (error) {
-      console.error("Error in GPTChatWrapper:", error.message);
-      throw error; // Re-throw the error for handling at a higher level, if needed
+        console.error("Error in GPTChatWrapper:", error.message);
+        throw error; // Re-throw the error for handling at a higher level, if needed
     }
-  }
+}
 
   _specify_system_message() {
     try {
