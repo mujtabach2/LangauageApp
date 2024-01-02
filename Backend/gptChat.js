@@ -51,7 +51,7 @@ export class GPTChatWrapper {
     return result.answer; // Adjust this based on the actual structure of the response
   }
 
-  buildConversationPrompt(question) {
+   run(question) {
     // Build the conversation prompt based on the user question and system message
     const systemMessageTemplate = this._specify_system_message();
     const standaloneQuestionTemplate = `Given some conversation history (if any) and a question, convert the question to a standalone question. 

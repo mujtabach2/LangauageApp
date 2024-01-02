@@ -32,7 +32,7 @@ app.post('/generate-chat', async (req, res) => {
 
     // Assuming GPTChatWrapper is an ES module
     const gpt_chat_wrapper = new GPTChatWrapper('User', name, session_length, language, proficiency, topic, mode, starter, input);
-    const response = await gpt_chat_wrapper.run();
+    const response = await gpt_chat_wrapper.run(input);
 
     if (response === null) {
       res.status(500).json({ error: 'shii not working' });
