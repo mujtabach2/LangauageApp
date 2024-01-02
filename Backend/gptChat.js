@@ -112,6 +112,18 @@ export class GPTChatWrapper {
     ]).toString({ conv_history: formatConvHistory(this.getConversationHistory()), question });
   }
 
+  coerceMessageLikeToMessage(message_like) {
+    // Convert a message-like object to a message object
+    if (message_like instanceof Message) {
+      return message_like;
+    } else if (typeof message_like === "string") {
+      return new Message({ text: message_like });
+    } else {
+      throw new Error("Message-like object is not a Message or string");
+    }
+  }
+
+ 
 
   _specify_system_message() {
     try {
@@ -138,6 +150,8 @@ export class GPTChatWrapper {
 
       let prompt;
 
+
+
       switch (this.mode) {
         case 'Conversation':
           prompt = `You are an AI that is good at role-playing.
@@ -159,7 +173,8 @@ export class GPTChatWrapper {
           throw new Error("Topic not found");
       }
 
-      return new SystemMessagePromptTemplate({ message: prompt });
+      
+      return new SystemMessagePromptTemplate({ message: this.coerceMessageLikeToMessage(prompt) });
     } catch (error) {
       console.error("Error in GPTChatWrapper:", error.message);
       throw error; // Re-throw the error for handling at a higher level, if needed
