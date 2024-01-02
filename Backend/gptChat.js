@@ -4,6 +4,9 @@ import {
   HumanMessagePromptTemplate
 } from "@langchain/core/prompts";
 
+import { PromptTemplate } from "langchain/prompts";
+
+
 
 import { ChatPromptTemplate } from "langchain/prompts";
 import { LLMChain } from 'langchain/chains';
@@ -37,10 +40,10 @@ export class GPTChatWrapper {
 
          const input = this.user_input;
 
-        const prompt = ChatPromptTemplate.fromMessages([
-            SystemMessagePromptTemplate.fromTemplate(this._specify_system_message()),
+        const prompt = PromptTemplate.fromMessages([
+            PromptTemplate.fromTemplate(this._specify_system_message()),
             new MessagesPlaceholder({ variable_name: "history" }),
-            input ? HumanMessagePromptTemplate.fromTemplate(input) : input,
+            input ? PromptTemplate.fromTemplate(input) : input,
         ]);
 
     
