@@ -15,10 +15,11 @@ function formatConvHistory(messages) {
 export class GPTChatWrapper {
 
 
-  constructor() {
+  constructor( role, name, session_length, language, proficiency, topic, mode, starter, user_input) {
     // Initialize your GPT model and other necessary variables
     this.llm = new ChatOpenAI({ openAIApiKey: process.env.OPENAI_API_KEY });
     this.conversationHistory = [];
+    
     this.role = role;
     this.name = name;
     this.session_length = session_length;
