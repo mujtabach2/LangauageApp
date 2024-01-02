@@ -94,10 +94,10 @@ export class GPTChatWrapper {
 
     switch (this.mode) {
       case 'Conversation':
-        prompt = `You are an AI that is good at role-playing.
+        prompt += `You are an AI that is good at role-playing.
           You are simulating a typical conversation happened ${this.topic}.
           In this scenario, you are playing as a ${this.role[0]} ${this.role[1]}, speaking to a
-          ${this.name}.
+          ${this.name ? this.name : "john"}.
           Your conversation should only be conducted in ${this.language}. Do not translate.
           This simulated ${this.topic} is designed for ${this.language} language learners to learn real-life
           conversations in ${this.language}. You should assume the learners' proficiency level in
@@ -107,7 +107,7 @@ export class GPTChatWrapper {
           ${this.language} cultural. Keep the conversation going and try to avoid dead-end. maximum 25 words per exchange. Your conversation should only be conducted in ${this.language}. Do not translate.`;
         break;
       case "Debate":
-        prompt = `${this.role} is a ${this.name} who is ${language_proficiency} in ${this.language} and wants to debate about ${this.topic}, max 30 words per exchange Your conversation should only be conducted in ${this.language}. Do not translate.`;
+        prompt = `${this.role} is a ${this.name ? this.name : "john"} who is ${language_proficiency} in ${this.language} and wants to debate about ${this.topic}, max 30 words per exchange Your conversation should only be conducted in ${this.language}. Do not translate.`;
         break;
       case "Quiz":
         prompt = `${this.role} is a ${this.name} who is ${language_proficiency} in ${this.language} and wants to quiz about ${this.topic}`;
