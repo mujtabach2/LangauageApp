@@ -2,8 +2,7 @@ import {
   ChatPromptTemplate,
   MessagesPlaceholder,
   SystemMessagePromptTemplate,
-  HumanMessagePromptTemplate,
-
+  HumanMessagePromptTemplate
 } from "@langchain/core/prompts";
 
 import { LLMChain } from 'langchain/chains';
@@ -29,7 +28,7 @@ export class GPTChatWrapper {
     this.conversation_history = [];
   }
 
-  run() {
+ async run() {
     try {
         console.log("_specify_system_message():", this._specify_system_message());
         console.log("user_input:", this.user_input)
@@ -43,10 +42,11 @@ export class GPTChatWrapper {
             input ? HumanMessagePromptTemplate.fromTemplate(input) : input,
         ]);
 
-        const formattedPrompt = prompt.format({
-            history: this.conversation_history ? this.conversation_history : [],
-            input: input,
-        });
+        const formattedPrompt = await chatPrompt.formatPrompt({
+          history: this.conversation_history ? this.conversation_history : [],
+          input: input,
+      });
+      
 
         const conversation = new LLMChain({
             prompt: formattedPrompt.toString(),
@@ -54,7 +54,7 @@ export class GPTChatWrapper {
             verbose: false
         });
 
-        const response = conversation.predict(formattedPrompt.toString());
+        const response = conversation.predict(formattedPrompt);
 
         this.conversation_history.push({ role: this.role, message: this.user_input });
 
