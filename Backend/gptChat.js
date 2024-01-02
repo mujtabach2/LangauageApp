@@ -1,10 +1,11 @@
 import {
-  ChatPromptTemplate,
   MessagesPlaceholder,
   SystemMessagePromptTemplate,
   HumanMessagePromptTemplate
 } from "@langchain/core/prompts";
 
+
+import { ChatPromptTemplate } from "langchain/prompts";
 import { LLMChain } from 'langchain/chains';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { ChatMessageHistory } from 'langchain/memory';
