@@ -95,63 +95,56 @@ export class GPTChatWrapper {
 
   _specify_system_message() {
     try {
-    const exchange_counts_dict = {
-      Short: { Conversation: 8, Debate: 4 },
-      Long: { Conversation: 16, Debate: 8 }
-    };
-    const exchange_counts = this.session_length === 'Short' ? 8 : 16;
-
-    console.log(this.name);
-
-    let language_proficiency;
-    console.log(this.proficiency)
-    switch (this.proficiency) {
-      case "Beginner":
-        language_proficiency = "Please express this idea using simple words and sentences, and avoid using idioms, slang, or complicated grammar.";
-        break;
-      case "Intermediate":
-        language_proficiency = "Please use a broader selection of words and mix up your sentence structures. Feel free to include some idioms and casual expressions, but steer clear of overly technical language or intricate literary expressions.";
-        break;
-      case "Amateur":
-        language_proficiency = "Please use advanced vocabulary, intricate sentence structures, idioms, colloquial expressions, and technical language when suitable.";
-        break;
-      default:
-        throw new Error("Proficiency not found");
+      const exchange_counts_dict = {
+        Short: { Conversation: 8, Debate: 4 },
+        Long: { Conversation: 16, Debate: 8 }
+      };
+      const exchange_counts = this.session_length === 'Short' ? 8 : 16;
+  
+      let language_proficiency;
+      switch (this.proficiency) {
+        case "Beginner":
+          language_proficiency = "Please express this idea using simple words and sentences, and avoid using idioms, slang, or complicated grammar.";
+          break;
+        case "Intermediate":
+          language_proficiency = "Please use a broader selection of words and mix up your sentence structures. Feel free to include some idioms and casual expressions, but steer clear of overly technical language or intricate literary expressions.";
+          break;
+        case "Amateur":
+          language_proficiency = "Please use advanced vocabulary, intricate sentence structures, idioms, colloquial expressions, and technical language when suitable.";
+          break;
+        default:
+          throw new Error("Proficiency not found");
+      }
+  
+      let prompt;
+  
+      switch (this.mode) {
+        case 'Conversation':
+          prompt = `You are an AI that is good at role-playing.
+            You are simulating a typical conversation happened ${this.topic}.
+            In this scenario, you are playing as a AI, speaking to a
+            ${this.name ? this.name : "Human"}.
+            Your conversation should only be conducted in ${this.language}. Do not translate.
+            This simulated ${this.topic} is designed for ${this.language} language learners to learn real-life
+            conversations in ${this.language}. You should assume the learners' proficiency level in
+            ${this.language} is ${this.proficiency}. Therefore, you should .
+            You should finish the conversation within ${exchange_counts} exchanges with the ${this.name ? this.name : "Human"}.
+            Make your conversation with ${this.name ? this.name : "Human"} natural and typical in the considered scenario in
+            ${this.language} cultural. Keep the conversation going and try to avoid dead-end. maximum 25 words per exchange. Your conversation should only be conducted in ${this.language}. Do not translate.`;
+          break;
+        case "Debate":
+          prompt = `${this.role} is a ${this.name ? this.name : "john"} who is ${language_proficiency} in ${this.language} and wants to debate about ${this.topic}, max 30 words per exchange Your conversation should only be conducted in ${this.language}. Do not translate.`;
+          break;
+        default:
+          throw new Error("Topic not found");
+      }
+  
+      return new SystemMessagePromptTemplate({ message: prompt });
+    } catch (error) {
+      console.error("Error in GPTChatWrapper:", error.message);
+      throw error; // Re-throw the error for handling at a higher level, if needed
     }
-
-    let prompt;
-
-    switch (this.mode) {
-      case 'Conversation':
-        prompt = `You are an AI that is good at role-playing.
-          You are simulating a typical conversation happened ${this.topic}.
-          In this scenario, you are playing as a AI, speaking to a
-          ${this.name ? this.name : "Human"}.
-          Your conversation should only be conducted in ${this.language}. Do not translate.
-          This simulated ${this.topic} is designed for ${this.language} language learners to learn real-life
-          conversations in ${this.language}. You should assume the learners' proficiency level in
-          ${this.language} is ${this.proficiency}. Therefore, you should .
-          You should finish the conversation within ${exchange_counts} exchanges with the ${this.name ? this.name : "Human"}.
-          Make your conversation with ${this.name ? this.name : "Human"} natural and typical in the considered scenario in
-          ${this.language} cultural. Keep the conversation going and try to avoid dead-end. maximum 25 words per exchange. Your conversation should only be conducted in ${this.language}. Do not translate.`;
-        break;
-      case "Debate":
-        prompt = `${this.role} is a ${this.name ? this.name : "john"} who is ${language_proficiency} in ${this.language} and wants to debate about ${this.topic}, max 30 words per exchange Your conversation should only be conducted in ${this.language}. Do not translate.`;
-        break;
-      default:
-        throw new Error("Topic not found");
-    }
-
-    
-    prompt = prompt.toString();
-
-    prompt = new SystemMessagePromptTemplate({ message: prompt });
-    return prompt;
-  } catch (error) {
-    console.error("Error in GPTChatWrapper:", error.message);
-    throw error; // Re-throw the error for handling at a higher level, if needed
   }
-}
-
+  
 }
 
