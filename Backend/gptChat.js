@@ -67,7 +67,7 @@ export class GPTChatWrapper {
   
       const response = await conversation.predict(prompt);
   
-      this._updateConversationHistory();
+      // Update conversation history logic goes here
   
       return response;
     } catch (error) {
@@ -151,5 +151,6 @@ export class GPTChatWrapper {
     throw error; // Re-throw the error for handling at a higher level, if needed
   }
 }
+
 }
 
