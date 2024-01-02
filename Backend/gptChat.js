@@ -1,76 +1,32 @@
-import {
-  MessagesPlaceholder,
-  SystemMessagePromptTemplate,
-  HumanMessagePromptTemplate
-} from "@langchain/core/prompts";
-
-import { PromptTemplate } from "langchain/prompts";
-
-
-
-import { ChatPromptTemplate } from "langchain/prompts";
-import { LLMChain } from 'langchain/chains';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
+import { PromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate, HumanMessagePromptTemplate } from 'langchain/prompts';
+import { LLMChain } from 'langchain/chains';
 import { ChatMessageHistory } from 'langchain/memory';
+import { RunnablePassthrough, RunnableSequence } from 'langchain/schema/runnable';
+import { StringOutputParser } from 'langchain/schema/output_parser';
+import { retriever } from '/utils/retriever';
+import { combineDocuments } from '/utils/combineDocuments';
+import { formatConvHistory } from '/utils/formatConvHistory';
 
 export class GPTChatWrapper {
-  constructor(role, name, session_length, language, proficiency, topic, mode, starter, user_input) {
-    this.gpt_chat = new ChatOpenAI({
-      model_name: "gpt-3.5-turbo",
-      temperature: 0.7
-    });
-    this.role = role;
-    this.name = name;
-    this.session_length = session_length;
-    this.language = language;
-    this.proficiency = proficiency;
-    this.topic = topic;
-    this.mode = mode;
-    this.starter = starter;
-    this.user_input = user_input;
-    this.memory = new ChatMessageHistory({ max_history: 8 });
-    this.conversation_history = [];
+  constructor() {
+    // Initialize your GPT model and other necessary variables
+    this.llm = new ChatOpenAI({ openAIApiKey: process.env.OPENAI_API_KEY });
+    this.conversationHistory = [];
   }
-  async run() {
-    try {
-    
-      const input = this.user_input;
-  
-      const systemMessageTemplate = PromptTemplate.fromTemplate(this._specify_system_message());
-      // Inside the _specify_system_message() function
-      console.log("Template:", prompt.toString()); // Add this line to check the template value
-      console.log("System Message Template:", systemMessageTemplate); // Add this line to check the systemMessageTemplate value
 
-      
-      const historyPlaceholder = new MessagesPlaceholder({ variable_name: "history" });
-      const userInputTemplate = input ? PromptTemplate.fromTemplate(input) : null;
-  
-      // Check if any template is null or undefined
-      if (!systemMessageTemplate || !historyPlaceholder || !userInputTemplate) {
-        throw new Error("One or more message templates are invalid.");
-      }
-  
-      const prompt = ChatPromptTemplate.fromMessages([
-        systemMessageTemplate,
-        historyPlaceholder,
-        userInputTemplate,
-      ].filter(Boolean));
-  
-      // Check if prompt is null or undefined
-      if (!prompt) {
-        throw new Error("Constructed prompt is invalid.");
-      }
-  
-      const conversation = new LLMChain({
-        prompt: prompt.toString(),
-        llm: this.gpt_chat,
-        verbose: false,
-      });
-  
-      const response = await conversation.predict(prompt);
-  
-      // Update conversation history logic goes here
-  
+  async progressConversation(question) {
+    try {
+      // Add user message to conversation history
+      this.addToConversationHistory('User', question);
+
+      // Run the conversation logic
+      const response = await this.runConversation(question);
+
+      // Add AI response to conversation history
+      this.addToConversationHistory('AI', response);
+
+      // Return or do something with the response
       return response;
     } catch (error) {
       console.error("Error in GPTChatWrapper:", error.message);
@@ -79,17 +35,44 @@ export class GPTChatWrapper {
       throw error; // Re-throw the error for handling at a higher level, if needed
     }
   }
-  
-  _buildPrompt(input) {
-    return ChatPromptTemplate.fromMessages([
-      SystemMessagePromptTemplate.fromTemplate(this._specify_system_message()),
-      new MessagesPlaceholder({ variable_name: "history" }),
-      input ? HumanMessagePromptTemplate.fromTemplate(input) : input,
-    ]);
+
+  async runConversation(question) {
+    // Build the prompt template for the conversation
+    const conversationPrompt = this.buildConversationPrompt(question);
+
+    // Run the conversation using the GPT model
+    const result = await this.llm.predict(conversationPrompt);
+
+    // Extract and return the AI response
+    return result.answer; // Adjust this based on the actual structure of the response
   }
 
-  _updateConversationHistory() {
-    this.conversation_history.push({ role: this.role, message: this.user_input });
+  buildConversationPrompt(question) {
+    // Build the conversation prompt based on the user question and system message
+    const systemMessageTemplate = this._specify_system_message();
+    const standaloneQuestionTemplate = `Given some conversation history (if any) and a question, convert the question to a standalone question. 
+      conversation history: {conv_history}
+      question: {question} 
+      standalone question:`;
+
+    const standaloneQuestionPrompt = PromptTemplate.fromTemplate(standaloneQuestionTemplate);
+
+    // Return the constructed prompt
+    return ChatPromptTemplate.fromMessages([
+      systemMessageTemplate,
+      new MessagesPlaceholder({ variable_name: "history" }),
+      standaloneQuestionPrompt,
+    ]).toString({ conv_history: formatConvHistory(this.getConversationHistory()), question });
+  }
+
+  addToConversationHistory(role, message) {
+    // Add a message to the conversation history
+    this.getConversationHistory().push({ role, message });
+  }
+
+  getConversationHistory() {
+    // Return the conversation history array
+    return this.conversationHistory || (this.conversationHistory = []);
   }
 
   _specify_system_message() {
@@ -99,7 +82,7 @@ export class GPTChatWrapper {
         Long: { Conversation: 16, Debate: 8 }
       };
       const exchange_counts = this.session_length === 'Short' ? 8 : 16;
-  
+
       let language_proficiency;
       switch (this.proficiency) {
         case "Beginner":
@@ -114,14 +97,14 @@ export class GPTChatWrapper {
         default:
           throw new Error("Proficiency not found");
       }
-  
+
       let prompt;
-  
+
       switch (this.mode) {
         case 'Conversation':
           prompt = `You are an AI that is good at role-playing.
             You are simulating a typical conversation happened ${this.topic}.
-            In this scenario, you are playing as a AI, speaking to a
+            In this scenario, you are playing as an AI, speaking to a
             ${this.name ? this.name : "Human"}.
             Your conversation should only be conducted in ${this.language}. Do not translate.
             This simulated ${this.topic} is designed for ${this.language} language learners to learn real-life
@@ -137,13 +120,13 @@ export class GPTChatWrapper {
         default:
           throw new Error("Topic not found");
       }
-  
+
       return new SystemMessagePromptTemplate({ message: prompt });
     } catch (error) {
       console.error("Error in GPTChatWrapper:", error.message);
       throw error; // Re-throw the error for handling at a higher level, if needed
     }
   }
-  
 }
 
+// Rest of the code remains the same
