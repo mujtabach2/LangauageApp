@@ -119,11 +119,11 @@ export class GPTChatWrapper {
         throw new Error("Proficiency not found");
     }
 
-    let prompt = "";
+    let prompt;
 
     switch (this.mode) {
       case 'Conversation':
-        prompt += `You are an AI that is good at role-playing.
+        prompt = SystemMessagePromptTemplate(`You are an AI that is good at role-playing.
           You are simulating a typical conversation happened ${this.topic}.
           In this scenario, you are playing as a AI, speaking to a
           ${this.name ? this.name : "Human"}.
@@ -133,20 +133,15 @@ export class GPTChatWrapper {
           ${this.language} is ${this.proficiency}. Therefore, you should .
           You should finish the conversation within ${exchange_counts} exchanges with the ${this.name ? this.name : "Human"}.
           Make your conversation with ${this.name ? this.name : "Human"} natural and typical in the considered scenario in
-          ${this.language} cultural. Keep the conversation going and try to avoid dead-end. maximum 25 words per exchange. Your conversation should only be conducted in ${this.language}. Do not translate.`;
+          ${this.language} cultural. Keep the conversation going and try to avoid dead-end. maximum 25 words per exchange. Your conversation should only be conducted in ${this.language}. Do not translate.`);
         break;
       case "Debate":
-        prompt = `${this.role} is a ${this.name ? this.name : "john"} who is ${language_proficiency} in ${this.language} and wants to debate about ${this.topic}, max 30 words per exchange Your conversation should only be conducted in ${this.language}. Do not translate.`;
+        prompt = SystemMessagePromptTemplate(`${this.role} is a ${this.name ? this.name : "john"} who is ${language_proficiency} in ${this.language} and wants to debate about ${this.topic}, max 30 words per exchange Your conversation should only be conducted in ${this.language}. Do not translate.`);
         break;
       default:
         throw new Error("Topic not found");
     }
 
-    if (this.starter) {
-      prompt += `You are leading the ${this.topic}`;
-    } else {
-      prompt += `Wait for ${this.name ? this.name : "Human"}'s statement.`;
-    }
 
     return prompt;
   } catch (error) {
