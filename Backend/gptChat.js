@@ -36,19 +36,26 @@ export class GPTChatWrapper {
 
          const input = this.user_input;
 
-        const prompt = ChatPromptTemplate.fromMessages([
-            SystemMessagePromptTemplate.fromTemplate(this._specify_system_message()),
-            new MessagesPlaceholder({ variable_name: "history" }),
-            input ? HumanMessagePromptTemplate.fromTemplate(input) : input,
+         const chatPrompt = ChatPromptTemplate.fromMessages([
+          _specify_system_message(),
+          messagesPlaceholder,
+          userMessageTemplate,
         ]);
-
+    
+        
+    
         const conversation_input = {
             history: this.conversation_history ? this.conversation_history : [],
             input: input,
         };
 
+        const formattedPrompt = chatPrompt.formatPrompt({
+          input_language: "English",  // You can replace these with your actual variables
+          output_language: this.language,
+          text: input,
+        });
         const conversation = new LLMChain({
-            prompt: prompt.toString(),
+            prompt: formattedPrompt.toString(),
             llm: this.gpt_chat,
             verbose: false
         });
