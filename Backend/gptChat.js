@@ -44,10 +44,9 @@ export class GPTChatWrapper {
         ]);
 
     
-      
 
         const conversation = new LLMChain({
-            prompt: formattedPrompt.toString(),
+            prompt: prompt.toString(),
             llm: this.gpt_chat,
             verbose: false
         });
