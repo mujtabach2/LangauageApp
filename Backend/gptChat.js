@@ -96,7 +96,7 @@ export class GPTChatWrapper {
       case 'Conversation':
         prompt += `You are an AI that is good at role-playing.
           You are simulating a typical conversation happened ${this.topic}.
-          In this scenario, you are playing as a ${this.role[0]} ${this.role[1]}, speaking to a
+          In this scenario, you are playing as a conversationalist, speaking to a
           ${this.name ? this.name : "Human"}.
           Your conversation should only be conducted in ${this.language}. Do not translate.
           This simulated ${this.topic} is designed for ${this.language} language learners to learn real-life
