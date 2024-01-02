@@ -97,23 +97,17 @@ export class GPTChatWrapper {
         prompt += `You are an AI that is good at role-playing.
           You are simulating a typical conversation happened ${this.topic}.
           In this scenario, you are playing as a ${this.role[0]} ${this.role[1]}, speaking to a
-          ${this.name ? this.name : "john"}.
+          ${this.name ? this.name : "Human"}.
           Your conversation should only be conducted in ${this.language}. Do not translate.
           This simulated ${this.topic} is designed for ${this.language} language learners to learn real-life
           conversations in ${this.language}. You should assume the learners' proficiency level in
           ${this.language} is ${this.proficiency}. Therefore, you should .
-          You should finish the conversation within ${exchange_counts} exchanges with the ${this.name["name"]}.
-          Make your conversation with ${this.name["name"]} natural and typical in the considered scenario in
+          You should finish the conversation within ${exchange_counts} exchanges with the ${this.name ? this.name : "Human"}.
+          Make your conversation with ${this.name ? this.name : "Human"} natural and typical in the considered scenario in
           ${this.language} cultural. Keep the conversation going and try to avoid dead-end. maximum 25 words per exchange. Your conversation should only be conducted in ${this.language}. Do not translate.`;
         break;
       case "Debate":
         prompt = `${this.role} is a ${this.name ? this.name : "john"} who is ${language_proficiency} in ${this.language} and wants to debate about ${this.topic}, max 30 words per exchange Your conversation should only be conducted in ${this.language}. Do not translate.`;
-        break;
-      case "Quiz":
-        prompt = `${this.role} is a ${this.name} who is ${language_proficiency} in ${this.language} and wants to quiz about ${this.topic}`;
-        break;
-      case "Translation":
-        prompt = `${this.role} is a ${this.name} who is ${language_proficiency} in ${this.language} and wants to translate ${this.topic}`;
         break;
       default:
         throw new Error("Topic not found");
@@ -122,7 +116,7 @@ export class GPTChatWrapper {
     if (this.starter) {
       prompt += `You are leading the ${this.topic}`;
     } else {
-      prompt += `Wait for ${this.name['name']}'s statement.`;
+      prompt += `Wait for ${this.name ? this.name : "Human"}'s statement.`;
     }
 
     return prompt;
