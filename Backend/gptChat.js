@@ -43,10 +43,7 @@ export class GPTChatWrapper {
             input ? HumanMessagePromptTemplate.fromTemplate(input) : input,
         ]);
 
-        const formattedPrompt = await chatPrompt.formatPrompt({
-          history: this.conversation_history ? this.conversation_history : [],
-          input: input,
-      });
+    
       
 
         const conversation = new LLMChain({
@@ -55,7 +52,7 @@ export class GPTChatWrapper {
             verbose: false
         });
 
-        const response = conversation.predict(formattedPrompt);
+        const response = conversation.predict(prompt);
 
         this.conversation_history.push({ role: this.role, message: this.user_input });
 
