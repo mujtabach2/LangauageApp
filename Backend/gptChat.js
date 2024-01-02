@@ -2,6 +2,9 @@ import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { PromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate, HumanMessagePromptTemplate } from 'langchain/prompts';
 import { LLMChain } from 'langchain/chains';
 import { ChatMessageHistory } from 'langchain/memory';
+import { ChatPromptTemplate } from 'langchain/prompts';
+
+
 
 function formatConvHistory(messages) {
   return messages.map((message, i) => {
@@ -66,6 +69,31 @@ export class GPTChatWrapper {
     return result.answer; // Adjust this based on the actual structure of the response
   }
 
+
+  buildConversationPrompt(question) {
+    // Build the conversation prompt based on the user question
+    const standaloneQuestionTemplate = `Given some conversation history (if any) and a question, convert the question to a standalone question. 
+      conversation history: {conv_history}
+      question: {question} 
+      standalone question:`;
+
+    const standaloneQuestionPrompt = PromptTemplate.fromTemplate(standaloneQuestionTemplate);
+
+    // Return the constructed prompt
+    return standaloneQuestionPrompt.toString({ conv_history: formatConvHistory(this.getConversationHistory()), question });
+  }
+
+  addToConversationHistory(role, message) {
+    // Add a message to the conversation history
+    this.getConversationHistory().push({ role, message });
+  }
+
+  getConversationHistory() {
+    // Return the conversation history array
+    return this.conversationHistory || (this.conversationHistory = []);
+  }
+
+
    run(question) {
     // Build the conversation prompt based on the user question and system message
     const systemMessageTemplate = this._specify_system_message();
@@ -84,15 +112,6 @@ export class GPTChatWrapper {
     ]).toString({ conv_history: formatConvHistory(this.getConversationHistory()), question });
   }
 
-  addToConversationHistory(role, message) {
-    // Add a message to the conversation history
-    this.getConversationHistory().push({ role, message });
-  }
-
-  getConversationHistory() {
-    // Return the conversation history array
-    return this.conversationHistory || (this.conversationHistory = []);
-  }
 
   _specify_system_message() {
     try {
