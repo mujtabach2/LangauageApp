@@ -39,7 +39,7 @@ export class GPTChatWrapper {
         const prompt = ChatPromptTemplate.fromMessages([
             SystemMessagePromptTemplate.fromTemplate(this._specify_system_message()),
             new MessagesPlaceholder({ variable_name: "history" }),
-            HumanMessagePromptTemplate.fromTemplate(input)
+            input ? HumanMessagePromptTemplate.fromTemplate(input) : input,
         ]);
 
         const conversation_input = {
