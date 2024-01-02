@@ -40,6 +40,9 @@ export class GPTChatWrapper {
       const input = this.user_input;
   
       const systemMessageTemplate = PromptTemplate.fromTemplate(this._specify_system_message());
+      console.log("_specify_system_message():", this._specify_system_message());
+
+      
       const historyPlaceholder = new MessagesPlaceholder({ variable_name: "history" });
       const userInputTemplate = input ? PromptTemplate.fromTemplate(input) : null;
   
@@ -116,7 +119,7 @@ export class GPTChatWrapper {
         throw new Error("Proficiency not found");
     }
 
-    let prompt;
+    let prompt = "";
 
     switch (this.mode) {
       case 'Conversation':
