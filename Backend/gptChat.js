@@ -1,12 +1,16 @@
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { PromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate, HumanMessagePromptTemplate } from 'langchain/prompts';
 import { LLMChain } from 'langchain/chains';
-import { ChatMessageHistory } from 'langchain/memory';
-import { RunnablePassthrough, RunnableSequence } from 'langchain/schema/runnable';
-import { StringOutputParser } from 'langchain/schema/output_parser';
-import { retriever } from '/utils/retriever';
-import { combineDocuments } from '/utils/combineDocuments';
-import { formatConvHistory } from '/utils/formatConvHistory';
+
+function formatConvHistory(messages) {
+  return messages.map((message, i) => {
+      if (i % 2 === 0){
+          return `Human: ${message}`
+      } else {
+          return `AI: ${message}`
+      }
+  }).join('\n')
+}
 
 export class GPTChatWrapper {
   constructor() {
