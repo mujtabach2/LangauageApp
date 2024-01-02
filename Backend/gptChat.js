@@ -1,6 +1,7 @@
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 import { PromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate, HumanMessagePromptTemplate } from 'langchain/prompts';
 import { LLMChain } from 'langchain/chains';
+import { ChatMessageHistory } from 'langchain/memory';
 
 function formatConvHistory(messages) {
   return messages.map((message, i) => {
@@ -19,7 +20,7 @@ export class GPTChatWrapper {
     // Initialize your GPT model and other necessary variables
     this.llm = new ChatOpenAI({ openAIApiKey: process.env.OPENAI_API_KEY });
     this.conversationHistory = [];
-    
+
     this.role = role;
     this.name = name;
     this.session_length = session_length;
@@ -30,7 +31,7 @@ export class GPTChatWrapper {
     this.starter = starter;
     this.user_input = user_input;
     this.memory = new ChatMessageHistory({ max_history: 8 });
-    this.conversation_history = [];
+
   }
 
   async progressConversation(question) {
