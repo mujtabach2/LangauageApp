@@ -6,6 +6,7 @@ import { ChatPromptTemplate } from 'langchain/prompts';
 
 
 
+
 function formatConvHistory(messages) {
   return messages.map((message, i) => {
       if (i % 2 === 0){
@@ -112,15 +113,7 @@ export class GPTChatWrapper {
     ]).toString({ conv_history: formatConvHistory(this.getConversationHistory()), question });
   }
 
-  coerceMessageLikeToMessage(message_like) {
-    // Convert a message-like object to a message object
-    if (message_like instanceof Message) {
-      return message_like;
-    } else if (typeof message_like === "string") {
-      return new Message({ text: message_like });
-    } else {
-      throw new Error("Message-like object is not a Message or string");
-    }
+  
   }
 
  
@@ -157,7 +150,7 @@ export class GPTChatWrapper {
           prompt = `You are an AI that is good at role-playing.
             You are simulating a typical conversation happened ${this.topic}.
             In this scenario, you are playing as an AI, speaking to a
-            ${this.name ? this.name : "Human"}.
+            $ {this.name ? this.name : "Human"}.
             Your conversation should only be conducted in ${this.language}. Do not translate.
             This simulated ${this.topic} is designed for ${this.language} language learners to learn real-life
             conversations in ${this.language}. You should assume the learners' proficiency level in
@@ -174,12 +167,14 @@ export class GPTChatWrapper {
       }
 
       
-      return new SystemMessagePromptTemplate({ message: this.coerceMessageLikeToMessage(prompt) });
-    } catch (error) {
+      return new SystemMessagePromptTemplate( prompt );
+    }catch (error) {
       console.error("Error in GPTChatWrapper:", error.message);
       throw error; // Re-throw the error for handling at a higher level, if needed
     }
   }
-}
 
-// Rest of the code remains the same
+  
+
+
+

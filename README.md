@@ -4,7 +4,8 @@
 
 
 - clean up gui
-- connect to web 
+- fix algo 
+
 
 
 
