@@ -4,8 +4,7 @@
 
 
 - clean up gui
-- fix algo 
-
+- clean up algo make more efficient 
 
 
 
