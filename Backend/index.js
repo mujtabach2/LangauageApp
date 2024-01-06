@@ -37,10 +37,10 @@ app.post('/generate-chat', async (req, res) => {
     if (response === null) {
       res.status(500).json({ error: 'shii not working' });
     }else{
-      res.status(200).json({ chat: response });
+      res.status(200).json({ chat: response.text });
     }
     // Return the response directly
-    res({ chat: response });
+    res = response.text;
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
