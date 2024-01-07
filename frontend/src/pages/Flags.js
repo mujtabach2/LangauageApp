@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useFlag } from "../components/FlagContext";
+import { useFlag } from "./components/FlagContext";
 import anime from "animejs/lib/anime.es.js";
 import { Link } from "react-router-dom";
 

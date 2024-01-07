@@ -69,7 +69,6 @@ const Home = () => {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
           <a className="navbar-brand" href="#">
-            {/* Your logo content goes here */}
             <img src={logo} alt="logo" style={{ height: '4vw' }} />
           </a>
           <div className="navbar-collapse justify-content-end" style={{width: "34vw"}} >

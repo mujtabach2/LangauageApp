@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useFlag } from "../components/FlagContext";
+import { useFlag } from "./components/FlagContext";
 import logo from './images/logo.png';
 import send from './images/send.svg';
 import robotPfp from './images/robotpfp.png';
@@ -9,7 +9,8 @@ import anime from 'animejs/lib/anime.es';
 import speech from "./images/speak.svg";
 import mic from "./images/mic.svg";
 import Finally from './finally';
-require('dotenv').config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 
 
@@ -29,6 +30,8 @@ const ChatGenerator = () => {
   const { selectedFlag, selectedDifficulty, selectedMode, selectedTopic, selectedUsername,selectedTalkingMode } = useFlag();
   const recognition = new window.webkitSpeechRecognition()
   const [translation, setTranslation] = useState(null); 
+  const [isListening, setIsListening] = useState(false); 
+  const micButtonRef = React.createRef();
 
   const addMessageToChat = (role, content, translation) => {
     setChatMessages((prevMessages) => [...prevMessages, {role, content, translation}]);
@@ -74,7 +77,6 @@ const ChatGenerator = () => {
 
   return languageMappings[flag];
   };
-
 
 
   const translateText = async (text, targetLanguage) => {
@@ -148,12 +150,37 @@ const ChatGenerator = () => {
  
 
   const handleSpeechRecognition = () => {
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setInput(transcript);
-    };
+    if (isListening) {
+      recognition.stop();
+      setIsListening(false);
 
-    recognition.start();
+      // Reset mic button animation
+      anime({
+        targets: micButtonRef.current,
+        translateY: 0,
+        scale: 1,
+        duration: 300,
+        easing: 'easeInOutQuad',
+      });
+    } else {
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setInput(transcript);
+      };
+
+      recognition.start();
+      setIsListening(true);
+
+      // Start mic button animation
+      anime({
+        targets: micButtonRef.current,
+        translateY: -10,
+        scale: 1.1,
+        duration: 300,
+        easing: 'easeInOutQuad',
+        loop: true,
+      });
+    }
   };
 
   useEffect(() => {
@@ -182,7 +209,7 @@ const ChatGenerator = () => {
         <img style={{ height: '4vw' }} src={logo} alt="Logo" />
       </h1>
 
-      <div style={{ display: 'flex', flexDirection: 'column', height: '80vw', padding: '15px', overflowY: 'auto', backgroundColor: '#1E1E1E' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '70vw', padding: '15px', overflowY: 'auto', backgroundColor: '#1E1E1E' }}>
         {chatMessages.map((message, index) => (
           <div key={index} style={{ marginBottom: '15px', display: 'flex', flexDirection: message.role === 'User' ? 'row-reverse' : 'row' }}>
             <div style={{ marginLeft: '10px', marginRight: '10px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden' }}>
@@ -244,6 +271,7 @@ const ChatGenerator = () => {
           <img src={send} color="white" height="35vw" alt="Generate" />
         </button>
         <button
+          ref={micButtonRef}
           onClick={handleSpeechRecognition}
           style={{
             marginLeft: '10px',
@@ -256,8 +284,8 @@ const ChatGenerator = () => {
             color: 'white',
           }}
         >
-          <img src={mic} height="35vw" alt="Speech" />
-        </button>
+          <img src={mic} color="white" height="35vw" alt="Speech" />
+    </button>
       </div>
     </div>
 

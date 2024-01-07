@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Card } from "react-bootstrap";
-import { useFlag } from "../components/FlagContext";
+import { useFlag } from "./components/FlagContext";
 import { useNavigate } from "react-router-dom";
 import anime from "animejs/lib/anime.es.js";
 import Switch from "react-switch";

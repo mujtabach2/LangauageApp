@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import AppRouter from './AppRouter.js';
-import { FlagProvider } from "./components/FlagContext";
+import { FlagProvider } from "./pages/components/FlagContext.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
