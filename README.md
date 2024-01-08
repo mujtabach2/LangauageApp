@@ -1,4 +1,6 @@
 # Intelli Chat
+![logo](frontend/src/pages/images/logo.png)
+
 Intelli-Chat Generator is an AI-driven language learning tool that allows users to engage in chat conversations with an AI bot, making language learning fun and immersive.
 
 ## Features
@@ -23,6 +25,8 @@ Visit [IntelliChat](https://659b92eb4826241a5019b6ff--intelli-chat.netlify.app) 
 
 - [Node.js](https://nodejs.org/)
 - [npm](https://www.npmjs.com/)
+- [OpenAI Api](https://openai.com/blog/openai-api)
+- [Google Translate Api](https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwiW74bNl82DAxVFR0cBHfuBCjIYABAAGgJxdQ&gclid=Cj0KCQiAtOmsBhCnARIsAGPa5yaLpZz-rhHuboD98X-Vg0UC5kBXVHXfSTG6S3hGFL0zYBZz5rZJAV8aAhekEALw_wcB&ohost=www.google.com&cid=CAESVeD2NTd2u4Pm_LEeKafiOgMC4tmeH1C4-I3CUqGHi-r4Lo2epoUfEV4LyFyPGuAaqaJwdUpTLu0wqr_wYDv4EljsHWrKeE4Lvr7Ivc_zG4tvwMN-Hd0&sig=AOD64_0UetPeDd9agsFunMytQpUdt1h0Qw&q&adurl&ved=2ahUKEwiSw4HNl82DAxXqC3kGHdMfB2AQ0Qx6BAgIEAE)
 
 ## Installation
 
@@ -34,21 +38,31 @@ Visit [IntelliChat](https://659b92eb4826241a5019b6ff--intelli-chat.netlify.app) 
 2. Install dependencies:
 
     ```bash
-    cd your-repo
+    cd frontend 
+    npm install
+    cd ../Backend
     npm install
     ```
-3. Start the development server:
+3. Set up .ENV file with api key variables and base urls.
+4. Start the backend server:
 
     ```bash
+    cd Backend
     npm start
     ```
-### Usage Local Version
+5. Start the frontend server:
+    ```bash
+    cd frontend
+    npm start
+    ```
+   
+### Usage: Local Version
 
 Open your browser and go to http://localhost:3000 to view the application. Note you have to set the backend and frontend urls manually.
 
 
 
-### Usage Online Version
+### Usage: Online Version
 
 1. Navigate to the Chat Generator section on the website.
 2. Choose your language, difficulty, topic, and other preferences.
@@ -69,7 +83,7 @@ We welcome contributions! To contribute to the project:
 
 ## Contact
 
-For inquiries and support, please contact [Mujtaba Chaudhry](https://linkedin.com/in/mujtabach2).
+For inquiries and support, please contact [Mujtaba Chaudhry](https://www.linkedin.com/in/mujtaba-chaudhry/).
 
 ## Acknowledgments
 
