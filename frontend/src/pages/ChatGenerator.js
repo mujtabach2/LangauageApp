@@ -12,10 +12,6 @@ import Finally from './finally';
 import * as dotenv from "dotenv";
 dotenv.config();
 
-
-
-
-
 const ChatGenerator = () => {
   const [input, setInput] = useState('');
   const [generatedChat, setGeneratedChat] = useState('');
@@ -34,7 +30,8 @@ const ChatGenerator = () => {
   const micButtonRef = React.createRef();
 
   const addMessageToChat = (role, content, translation) => {
-    setChatMessages((prevMessages) => [...prevMessages, {role, content, translation}]);
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    setChatMessages((prevMessages) => [...prevMessages, {role, content, translation, timestamp}]);
   };
 
   const getLanguageCode = (flag) => {
@@ -173,7 +170,7 @@ const ChatGenerator = () => {
 
       // Start mic button animation
       anime({
-        targets: micButtonRef.current,
+        targets: micButtonRef.current.querySelector('.red-circle'),
         translateY: -10,
         scale: 1.1,
         duration: 300,
@@ -184,13 +181,11 @@ const ChatGenerator = () => {
   };
 
   useEffect(() => {
-    // Cleanup speech recognition when component unmounts
     return () => {
       recognition.stop();
     };
   }, [recognition])
   useEffect(() => {
-    // Cleanup when component unmounts
     return () => {
       const recognition = new (
         window.SpeechRecognition || window.webkitSpeechRecognition
@@ -200,29 +195,31 @@ const ChatGenerator = () => {
   }, []);
 
   return (
-    <div style={{ height: '100%', Width: '80vw', fontFamily: 'Arial, sans-serif' }}>
-      {showFinally && <Finally onClose={() => setShowFinally(false)} username={selectedUsername} />}
-
-
-    <div style={{ height:'10vw', backgroundColor: '#1E1E1E', padding: '10px', borderBottom: '1px solid #ddd' }}>
-      <h1 style={{ margin: '0', fontSize: '1.5em', color: '#333' }}>
-        <img style={{ height: '4vw' }} src={logo} alt="Logo" />
+    <div style={{ height: '100vh', width: '100vw', fontFamily: 'Arial, sans-serif', display: 'flex', flexDirection: 'column' }}>
+    {showFinally && <Finally onClose={() => setShowFinally(false)} username={selectedUsername} />}
+    {/* // header */}
+    <div style={{ width: '100vw', height: '10vh', backgroundColor: '#DFDFDF', padding: '10px', borderBottom: '1px solid #ddd' }}>
+      <h1 style={{ fontSize: '1.5em', color: '#333' }}>
+        <a href="/" >
+           <img style={{ height: '4vw' }} src={logo} alt="Logo" />
+        </a>
       </h1>
 
-      <div style={{ display: 'flex', flexDirection: 'column', height: '70vw', padding: '15px', overflowY: 'auto', backgroundColor: '#1E1E1E' }}>
+      {/* chat messages */}
+      <div style={{ width: '100vw', flex: '1', display: 'flex', flexDirection: 'column', padding: '15px', overflowY: 'auto', backgroundColor: 'white', paddingBottom: '5vh' }}>
         {chatMessages.map((message, index) => (
           <div key={index} style={{ marginBottom: '15px', display: 'flex', flexDirection: message.role === 'User' ? 'row-reverse' : 'row' }}>
-            <div style={{ marginLeft: '10px', marginRight: '10px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden' }}>
+            <div style={{ marginLeft: '1.25vw', marginRight: '1.25vw', width: '5vw', height: '5vw', borderRadius: '50%', overflow: 'hidden' }}>
               {message.role === 'User' ? (
                 <img src={userPfp} alt="User PFP" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
               ) : (
                 <img src={robotPfp} alt="Robot PFP" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
               )}
             </div>
-            <div style={{maxWidth:"40vw",padding: '10px', borderRadius: '8px', backgroundColor: message.role === 'User' ? '#e6f7ff' : '#3980d5' }}>
-              <p style={{margin: '0', color: message.role === 'User' ? 'black' : 'white' }}>{message.content}</p>
+            <div style={{maxWidth:"40vw",padding: '10px', borderRadius: '8px', backgroundColor: message.role === 'User' ? '#53d769' : '#3980d5' }}>
+              <p style={{margin: '0', color: 'white' }}>{message.content}</p>
               {message.role !== 'User' && (
-                <p style={{ margin: '0', fontSize: '0.7rem', color: '	#D3D3D3' }}>{message.translation}</p> 
+                <p style={{ margin: '0', fontSize: '0.7rem', color: '#D3D3D3' }} dangerouslySetInnerHTML={{ __html: message.translation }}></p> 
               )}
               {message.role !== 'User' && (
                 <button
@@ -242,19 +239,25 @@ const ChatGenerator = () => {
                     color: 'white',
                   }}
                 >
-                  <img src={speech} height="20vw" alt="Speech" marginRight="90vw"/>
+                  <img src={speech} height="18vw" alt="Speech" marginRight="90vw"/>
                 </button>
+              )}
+              {message.role === 'User' ? (
+                <p style={{ margin: '0', fontSize: '0.7rem', color: '#DFDFDF', textAlign: message.role === 'User' ? 'left' : 'right' }}>{message.timestamp}</p>
+              ):(
+                <p style={{ margin: '0', fontSize: '0.7rem', color: '#DFDFDF', textAlign: message.role === 'User' ? 'left' : 'right' }}>{message.timestamp}</p>
               )}
             </div>
           </div>
         ))}
       </div>
-      <div style={{ borderTop: '1px solid #ddd', padding: '15px', backgroundColor: '#1E1E1E', display: 'flex', alignItems: 'center' }}>
+       {/* input box and generate button */}
+       <div style={{ width: '100vw', height: '10vh', borderTop: '1px solid #ddd', padding: '15px', backgroundColor: '#DFDFDF', display: 'flex', alignItems: 'center', position: 'fixed', bottom: 0 , zIndex: 1}}>
         <textarea
           id="input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          style={{ flex: '1', color: 'white', backgroundColor: '#1E1E1E', minHeight: '10vw', padding: '8px', borderRadius: '5px', border: '1px solid #ccc', resize: 'none' }}
+          style={{ flex: '1', color: 'black', backgroundColor: 'white', Height: '10vw', padding: '8px', borderRadius: '5px', border: '1px solid #ccc', resize: 'none' }}
         />
         <button
           id="generateButton"
@@ -282,15 +285,26 @@ const ChatGenerator = () => {
             borderRadius: '5px',
             backgroundColor: 'transparent',
             color: 'white',
+            position: 'relative',  
           }}
         >
-          <img src={mic} color="white" height="35vw" alt="Speech" />
-    </button>
+          {isListening ? (
+            <div
+              className="red-circle"
+              style={{
+                width: '2.5vw', height: '2.5vw',  
+                borderRadius: '50%',
+                backgroundColor: 'red',
+                animation: 'bounce 1s infinite', 
+                boxShadow: 'inset 0 0 5px rgba(0, 0, 0, 0.5)',
+              }}
+            ></div>
+          ) : (
+            <img src={mic} color="black" height="35vw" alt="Speech" />
+          )}
+      </button>
       </div>
     </div>
-
-    
-    
   </div>
 );
 };

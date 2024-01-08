@@ -3,8 +3,9 @@
 # dependencies
 /node_modules
 /.pnp
-.pnp.js
+.pnp.js\
 
+./frontend/src/pages/ChatGenerator.js
 # testing
 /coverage
 
