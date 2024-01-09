@@ -15,9 +15,9 @@ Visit [IntelliChat](https://659b92eb4826241a5019b6ff--intelli-chat.netlify.app) 
 
 ## Screenshots
 
-![Screenshot 1]('frontend/src/pages/images/Screenshot 2024-01-08 at 8.49.35 PM.png')
-![Screenshot 2]('frontend/src/pages/images/Screenshot 2024-01-08 at 8.47.11 PM.png')
-![Screenshot 3]('frontend/src/pages/images/Screenshot 2024-01-08 at 8.46.53 PM.png')
+![Screenshot 1](frontend/src/pages/images/scr1.png)
+![Screenshot 2](frontend/src/pages/images/scr2.png)
+![Screenshot 3](frontend/src/pages/images/scr3.png)
 
 ## Getting Started
 
