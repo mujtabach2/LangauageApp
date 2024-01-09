@@ -64,7 +64,7 @@ Open your browser and go to http://localhost:3000 to view the application. Note 
 
 ### Usage: Online Version
 
-1. Navigate to the Chat Generator section on the website.
+1. Click Try Now.
 2. Choose your language, difficulty, topic, and other preferences.
 3. Type your input or use speech recognition.
 4. Click the "Generate" button to engage in a chat conversation with the AI.
