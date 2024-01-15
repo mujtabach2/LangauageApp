@@ -9,6 +9,7 @@ import githubIcon from './images/github.svg';
 import linkedinIcon from './images/linkedin.svg';
 import anime from 'animejs/lib/anime.es.js';
 import logo from './images/logo.png';
+import backgroundImage from './images/backgroundLang.png';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -120,46 +121,50 @@ const Home = () => {
 
       
     </div>
-  <div>
+  <div style={{marginTop:'30vh', position: 'relative', overflow: 'hidden'}}>
     {/* Features Section */}
-    <svg  xmlns="http://www.w3.org/2000/svg" width="100vw" height="60vw" viewBox="0 0 1920 928" fill="none" style={{marginTop:"20vh"}}>
-      <path d="M2097.45 718.077C2238.32 772.614 2242.45 880.511 2226.9 927.643L2033.27 912.291L-19.9984 912.291L-259.625 261.38C-249.523 212.789 -192.002 121.409 -42.7306 144.618C143.859 173.629 157.32 103.788 199.958 55.7536C242.596 7.71962 301.571 -35.9369 444.97 49.7042C588.37 135.345 736.371 190.741 880.346 117.397C995.526 58.7212 1087.89 73.327 1120.92 82.1769C1153.95 91.0269 1241.24 124.56 1311.65 232.964C1399.66 368.47 1555.53 394.496 1722.54 392.029C1889.55 389.561 1918.8 456.856 1931.7 519.774C1944.61 582.692 1921.35 649.907 2097.45 718.077Z" fill="#3980d5"/>
-    </svg>
 
-      <svg id="about" xmlns="http://www.w3.org/2000/svg" width="100vw" height="60vw" viewBox="0 0 1920 678" fill="none" style={{marginTop:"-60vh"}}>
-          <path d="M98.6108 465.042C-18.2377 455.489 -43.0636 394.719 -40.8705 365.529L-40.8705 0L1961.87 0V365.529C1964.06 394.719 1939.24 455.489 1822.39 465.042C1676.33 476.983 1680.28 518.779 1657.91 552.614C1635.54 586.448 1600.01 620.282 1475 593.414C1350 566.545 1227.62 557.589 1134.19 621.278C1059.45 672.228 987.102 678 960.5 678C933.898 678 861.547 672.228 786.806 621.278C693.38 557.589 571.005 566.545 445.998 593.414C320.991 620.282 285.463 586.448 263.093 552.614C240.724 518.779 244.671 476.983 98.6108 465.042Z" fill="#3980d5"/>
-      </svg>
+    <img src={backgroundImage} alt="phone" style={{width: '100vw', height: 'auto'}} />
 
 
-    <div className="container" style={{ marginTop: "-80vh", display: 'flex', justifyContent: 'space-around' }}>
+    <div className="containers" style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        display: 'flex',
+        justifyContent: 'space-around',
+        maxWidth: '80%',
+        maxHeight: '70%',
+      }}>
       {/* Card 1 */}
-      <div className="card" style={{ height: '20rem', width: "30%", margin: "0 1%", overflow: 'hidden' }}>
-        <div className="card-body" style={{ height: "14rem", display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem' }}>
+      <div className="card" style={{maxHeight: '60%', width: "30%", margin: "0 1%", overflow: 'hidden' }}>
+        <div className="card-body" style={{maxHeight: "60%", display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem' }}>
         <img src={speechImg} style={{ marginBottom: '1.5rem', height: "9vh"}}/>
           <h5 className="card-title" style={{ color: '#3980d5', margin: '0', textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold' }}>Fun and Immersive</h5>
-          <p className="card-text" style={{ color: '#707070', fontSize: '1.2rem', lineHeight: '1.6', margin: '0', textAlign: 'center', paddingBottom:'4h'}}>
+          <p className="card-text" style={{ color: '#707070', fontSize: '1rem', lineHeight: '1.6', margin: '0', textAlign: 'center', paddingBottom:'4h'}}>
             Discover the joy of chatting with our AI, making language learning fun and immersive.
           </p>
         </div>
       </div>
 
       {/* Card 2 */}
-      <div className="card" style={{ height: '24rem', width: "40%", margin: "0 1%", overflow: 'hidden' }}>
-        <div className="card-body" style={{ height: "16rem", display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem' }}>
+      <div className="card" style={{height: '60%', width: "40%", margin: "0 1%", overflow: 'hidden' }}>
+        <div className="card-body" style={{ maxHeight: "60%", display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem' }}>
         <img src={langImg} style={{ marginBottom: '1.5rem', height: "9vh"}}/>
           <h5 className="card-title" style={{ color: '#3980d5', margin: '0', textAlign: 'center', fontSize: '2rem', fontWeight: 'bold' }}>15+ Languages</h5>
-          <p className="card-text" style={{ color: '#707070', fontSize: '1.2rem', lineHeight: '1.6', margin: '0', textAlign: 'center',paddingBottom:'4vh' }}>
+          <p className="card-text" style={{ color: '#707070', fontSize: '1rem', lineHeight: '1.6', margin: '0', textAlign: 'center',paddingBottom:'4vh' }}>
             Explore the diverse range of languages available, with support for 15+ languages.
           </p>
         </div>
       </div>
 
       {/* Card 3 */}
-      <div className="card" style={{ height: '20rem', width: "30%", margin: "0 1%", overflow: 'hidden' }}>
-        <div className="card-body" style={{ height: "14rem", display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem' }}>
+      <div className="card" style={{ maxHeight: '60%', width: "30%", margin: "0 1%", overflow: 'hidden' }}>
+        <div className="card-body" style={{ maxHeight: "60%", display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem' }}>
         <img src={aiImg} style={{ marginBottom: '1.5rem', height: "9vh"}}/>
           <h5 className="card-title" style={{ color: '#3980d5', margin: '0', textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold' }}>Speech Interaction</h5>
-          <p className="card-text" style={{ color: '#707070', fontSize: '1.2rem', lineHeight: '1.6', margin: '0', textAlign: 'center',paddingBottom:'4vh'}}>
+          <p className="card-text" style={{ color: '#707070', fontSize: '1rem', lineHeight: '1.6', margin: '0', textAlign: 'center',paddingBottom:'4vh'}}>
             Talk to our AI using speech, enhancing your conversational language skills.
           </p>
         </div>
@@ -170,7 +175,7 @@ const Home = () => {
     {/* CTA Section */}
 
 
-   <section className="cta-section" style={{ marginTop: '60vh', backgroundColor: '#ffffff', color: '#333', padding: '2rem 0', textAlign: 'center', position: 'relative', marginBottom: '10vh', paddingBottom: '40vh' }}>
+   <section className="cta-section" style={{ marginTop: '30vh', backgroundColor: '#ffffff', color: '#333', padding: '2rem 0', textAlign: 'center', position: 'relative', marginBottom: '10vh', paddingBottom: '40vh' }}>
       {/* Colorful background illustration */}
 
       <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -190,7 +195,7 @@ const Home = () => {
     
 
 {/* Footer Section */}
-      <div style={{ marginTop: '30vh',position: 'relative', zIndex: 1 }}>
+      <div style={{ marginTop: '10vh',position: 'relative', zIndex: 1 }}>
           <footer className="footer" style={{ zIndex: '0', position: 'absolute', bottom: '0', left: '0', right: '0', backgroundColor: '#f8f9fa', padding: '2rem 0', textAlign: 'center' }}>
             <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
