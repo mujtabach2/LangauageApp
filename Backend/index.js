@@ -17,11 +17,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 const port = process.env.PORT || 3000;
 
-app.options('/generate-chat', (req, res) => {
-  res.header('Access-Control-Allow-Methods', 'POST');
-  res.header('Access-Control-Allow-Headers', '*');
-  res.send();
-});
 
 
 app.post('/generate-chat', async (req, res) => {
