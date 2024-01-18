@@ -1,1 +1,2 @@
-/generate-chat/*    https://ill-kerchief-lion.cyclic.app/:splat    200
+RewriteEngine On
+RewriteRule ^/generate-chat/(.*)$ https://ill-kerchief-lion.cyclic.app/ [R=301,L]
