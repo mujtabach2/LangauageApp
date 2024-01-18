@@ -1,6 +1,14 @@
+# Redirects
+[[redirects]]
+  from = "/generate-chat"
+  to = "https://motionless-gray-lizard.cyclic.app/:splat"
+  status = 200
+  force = true
+
+# Headers
 [[headers]]
   for = "/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "https://intelli-chat.netlify.app, https://ill-kerchief-lion.cyclic.app"
+    [headers.values]
+    Access-Control-Allow-Origin = "https://intelli-chat.netlify.app"
     Access-Control-Allow-Headers = "*"
     Access-Control-Allow-Methods = "GET, POST, PUT, DELETE"

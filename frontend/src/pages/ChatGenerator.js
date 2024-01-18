@@ -96,7 +96,7 @@ const ChatGenerator = () => {
   
   const handleGenerateChat = async () => {
     try {
-      const apiUrl = 'https://ill-kerchief-lion.cyclic.app/generate-chat';
+      const apiUrl = 'https://motionless-gray-lizard.cyclic.app/generate-chat';
       anime({
         targets: '#generateButton',
         translateY: [-10, 0], // Animation from -10px to 0px in the Y-axis
@@ -119,7 +119,7 @@ const ChatGenerator = () => {
       console.log(requestBody);
       const response = await axios.post(apiUrl, requestBody,{ validateStatus: status => status >= 200 && status < 300 || status === 302,
         withCredentials: true,
-        timeout: 3000,});
+        timeout: 10000,});
       const chatMessage = response.data && response.data.chat ? response.data.chat : null;
       const lang = getLanguageCode(selectedFlag);
       const translatedText = await translateText(chatMessage, lang);
