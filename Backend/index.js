@@ -19,7 +19,7 @@ const port = process.env.PORT || 3000;
 
 app.options('/generate-chat', (req, res) => {
   res.header('Access-Control-Allow-Methods', 'POST');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Headers', '*');
   res.send();
 });
 
