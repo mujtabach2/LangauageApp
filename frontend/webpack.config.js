@@ -1,12 +1,12 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
   // Your existing webpack configuration...
 
   resolve: {
     fallback: {
-      "os": require.resolve("os-browserify/browser"),
-      "path": require.resolve("path-browserify"),
+      os: require.resolve("os-browserify/browser"),
+      path: require.resolve("path-browserify"),
     },
   },
 };

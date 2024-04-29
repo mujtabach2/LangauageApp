@@ -9,7 +9,7 @@ export const FlagProvider = ({ children }) => {
   const [selectedMode, setSelectedMode] = useState(null);
   const [selectedUsername, setSelectedUsername] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState(null);
-  const [selectedTalkingMode, setIsTalkingMode] = useState('false');
+  const [selectedTalkingMode, setIsTalkingMode] = useState("false");
 
   const setFlag = (flag) => {
     setSelectedFlag(flag);
@@ -24,18 +24,33 @@ export const FlagProvider = ({ children }) => {
 
   const setUsername = (username) => {
     setSelectedUsername(username);
-  }
+  };
 
   const setTopic = (topic) => {
     setSelectedTopic(topic);
-  }
+  };
 
   const setTalkingMode = (talkingMode) => {
     setIsTalkingMode(talkingMode);
-  }
+  };
 
   return (
-    <FlagContext.Provider value={{ selectedFlag, setFlag, selectedDifficulty, setDifficulty, selectedMode, setMode, selectedUsername, setUsername, selectedTopic, setTopic, selectedTalkingMode, setTalkingMode}}>
+    <FlagContext.Provider
+      value={{
+        selectedFlag,
+        setFlag,
+        selectedDifficulty,
+        setDifficulty,
+        selectedMode,
+        setMode,
+        selectedUsername,
+        setUsername,
+        selectedTopic,
+        setTopic,
+        selectedTalkingMode,
+        setTalkingMode,
+      }}
+    >
       {children}
     </FlagContext.Provider>
   );

@@ -1,11 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { useFlag } from "./components/FlagContext";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Row, Col } from "react-bootstrap";
 import anime from "animejs/lib/anime.es.js";
 import debateImage from "./images/debate-svgrepo-com.svg";
 import conversationImage from "./images/speech-svgrepo-com (1).svg";
-
 
 const Mode = () => {
   const { setMode } = useFlag();
@@ -15,7 +13,9 @@ const Mode = () => {
   useEffect(() => {
     // Animation for the flags on mount
     anime({
-      targets: buttonRef.map((ref) => ref.current.querySelectorAll(".btn-with-padding")),
+      targets: buttonRef.map((ref) =>
+        ref.current.querySelectorAll(".btn-with-padding"),
+      ),
       translateY: [-20, 0],
       opacity: [0, 1],
       easing: "easeInOutQuad",
@@ -48,7 +48,7 @@ const Mode = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white h-[100vh]">
       <style>
         {`
           .btn-with-padding {
@@ -66,6 +66,14 @@ const Mode = () => {
             top: 5vw;
             right: 3vw;
             z-index: 999;
+
+          }
+          .hovering:hover {
+            transform: scale(1.05);
+            opacity: 1;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-color: #f0f0f0;
+            background-color: #D3D3D3;
           }
         `}
       </style>
@@ -74,36 +82,55 @@ const Mode = () => {
         <button type="button" className="btn-close" aria-label="Close"></button>
       </Link>
 
-      <div className="mt-5" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Row style={{ gap: "7vw", marginRight: "10vw", marginLeft: "10vw" }}>
-          <Col ref={buttonRef[0]}>
-            <Button
-              variant="light"
-              size="lg"
+      <div
+        className="pt-40"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div className="grid grid-cols-2 gap-x-7 mx-10">
+          <div class="" ref={buttonRef[0]}>
+            <button
               onClick={() => handleModeClick("Conversation")}
-              className="btn-with-padding btn-with-padding"
-              ref={(el) => el && el.addEventListener("mouseenter", () => handleButtonHover(el))}
+              className="btn-with-padding"
+              onMouseEnter={(el) => handleButtonHover(el)}
               onMouseLeave={(el) => handleButtonLeave(el)}
+              class="border-5 rounded-2xl p-10 hovering"
             >
-              <img src={conversationImage} alt="Conversation" style={{ width: "70%", height: "auto" }} />
-              <div style={{ fontFamily: "Arial, sans-serif", color: "#333", marginTop: "8px", fontSize: "2rem", fontWeight: "bold" }}>Conversation</div>
-            </Button>
-          </Col>
-          <Col ref={buttonRef[1]}>
-            <Button
-              variant="light"
-              size="lg"
+              <img
+                src={conversationImage}
+                alt="Conversation"
+                className="w-70 h-auto"
+              />
+              <div className="font-sans text-gray-700 mt-8 text-2xl font-bold">
+                Conversation
+              </div>
+            </button>
+          </div>
+          <div class="flex flex-col justify-center" ref={buttonRef[1]}>
+            <button
               onClick={() => handleModeClick("Debate")}
               className="btn-with-padding"
-              ref={(el) => el && el.addEventListener("mouseenter", () => handleButtonHover(el))}
+              onMouseEnter={(el) => handleButtonHover(el)}
               onMouseLeave={(el) => handleButtonLeave(el)}
+              class="border-5 rounded-2xl p-10 hovering"
             >
-              <img src={debateImage} alt="Debate" style={{ width: "70%", height: "auto" }} />
-              <div style={{ fontFamily: "Arial, sans-serif", color: "#333", marginTop: "8px", fontSize: "2rem", marginLeft: "8px", fontWeight: "bold" }}>Debate</div>
-            </Button>
-          </Col>
-        </Row>
+              <img src={debateImage} alt="Debate" className="w-70 h-auto" />
+              <div className="font-sans text-gray-700 mt-8  text-2xl font-bold">
+                Debate
+              </div>
+            </button>
+          </div>
+        </div>
       </div>
+      <ul className="steps mt-20">
+        <li className="step step-success" data-content=""></li>
+        <li className="step step-success" data-content=""></li>
+        <li className="step step-success" data-content=""></li>
+        <li className="step step-info" data-content="💬"></li>
+      </ul>
     </div>
   );
 };

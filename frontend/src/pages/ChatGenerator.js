@@ -1,37 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useFlag } from "./components/FlagContext";
-import logo from './images/logo.png';
-import send from './images/send.svg';
-import robotPfp from './images/robotpfp.png';
-import userPfp from './images/userpfp.jpg';
-import anime from 'animejs/lib/anime.es';
+import logo from "./images/logo.png";
+import send from "./images/send.svg";
+import robotPfp from "./images/robotpfp.png";
+import userPfp from "./images/userpfp.jpg";
+import anime from "animejs/lib/anime.es";
 import speech from "./images/speak.svg";
 import mic from "./images/mic.svg";
-import Finally from './finally';
+import Finally from "./finally";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const ChatGenerator = () => {
-  const [input, setInput] = useState('');
-  const [generatedChat, setGeneratedChat] = useState('');
+  const [input, setInput] = useState("");
+  const [generatedChat, setGeneratedChat] = useState("");
   const [error, setError] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
   const [showFinally, setShowFinally] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
 
-  const handleShowFinally = () => {
-    setShowFinally(true);
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleGenerateChat();
+      setInput("");
+    }
   };
 
-  const { selectedFlag, selectedDifficulty, selectedMode, selectedTopic, selectedUsername,selectedTalkingMode } = useFlag();
-  const recognition = new window.webkitSpeechRecognition()
-  const [translation, setTranslation] = useState(null); 
-  const [isListening, setIsListening] = useState(false); 
+  const {
+    selectedFlag,
+    selectedDifficulty,
+    selectedMode,
+    selectedTopic,
+    selectedUsername,
+    selectedTalkingMode,
+  } = useFlag();
+  const recognition = new window.webkitSpeechRecognition();
+  const [translation, setTranslation] = useState(null);
+  const [isListening, setIsListening] = useState(false);
   const micButtonRef = React.createRef();
 
   const addMessageToChat = (role, content, translation) => {
-    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    setChatMessages((prevMessages) => [...prevMessages, {role, content, translation, timestamp}]);
+    const timestamp = new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    setChatMessages((prevMessages) => [
+      ...prevMessages,
+      { role, content, translation, timestamp },
+    ]);
   };
 
   const getLanguageCode = (flag) => {
@@ -50,65 +67,67 @@ const ChatGenerator = () => {
       "🇳🇱": "nl-NL", // Dutch
       "🇸🇦": "ar-SA", // Arabic
     };
-  
+
     // Default to English if the flag is not found
     return languageMappings[flag];
   };
 
-  const getLanguageName = (flag) => 
-  {
+  const getLanguageName = (flag) => {
     const languageMappings = {
-    "🇺🇸": "English", // English
-    "🇪🇸": "Spanish", // Spanish
-    "🇫🇷": "French", // French
-    "🇩🇪": "German", // German
-    "🇨🇳": "Chinese", // Chinese
-    "🇯🇵": "Japanese", // Japanese
-    "🇰🇷": "Korean", // Korean
-    "🇷🇺": "Russian", // Russian
-    "🇮🇹": "Italian", // Italian
-    "🇵🇹": "Portuguese", // Portuguese
-    "🇳🇱": "Dutch", // Dutch
-    "🇸🇦": "Arabic", // Arabic
-  };
+      "🇺🇸": "English", // English
+      "🇪🇸": "Spanish", // Spanish
+      "🇫🇷": "French", // French
+      "🇩🇪": "German", // German
+      "🇨🇳": "Chinese", // Chinese
+      "🇯🇵": "Japanese", // Japanese
+      "🇰🇷": "Korean", // Korean
+      "🇷🇺": "Russian", // Russian
+      "🇮🇹": "Italian", // Italian
+      "🇵🇹": "Portuguese", // Portuguese
+      "🇳🇱": "Dutch", // Dutch
+      "🇸🇦": "Arabic", // Arabic
+    };
 
-  return languageMappings[flag];
+    return languageMappings[flag];
   };
-
 
   const translateText = async (text, targetLanguage) => {
     const apiKeys = process.env.GOOGLE_API_KEY; // Replace with your actual API key
     const apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKeys}`;
-  
+
     try {
       const response = await axios.post(apiUrl, {
         q: text,
         source: targetLanguage, // Assuming the source language is English
         target: "en",
       });
-  
+
+      console.log();
       return response.data.data.translations[0].translatedText;
     } catch (error) {
-      console.error('Translation error:', error.response ? error.response.data : error.message);
+      console.error(
+        "Translation error:",
+        error.response ? error.response.data : error.message,
+      );
       return null;
     }
   };
-  
+
   const handleGenerateChat = async () => {
     try {
-      const apiUrl = 'https://motionless-gray-lizard.cyclic.app/generate-chat';
+      const apiUrl = "https://motionless-gray-lizard.cyclic.app/generate-chat";
       anime({
-        targets: '#generateButton',
+        targets: "#generateButton",
         translateY: [-10, 0], // Animation from -10px to 0px in the Y-axis
         opacity: [0, 1], // Fade in
         duration: 500,
-        easing: 'easeInOutQuad',
+        easing: "easeInOutQuad",
       });
-  
+
       const requestBody = {
-        role: 'User',
+        role: "User",
         name: selectedUsername,
-        session_length: 'Short',
+        session_length: "Short",
         language: getLanguageName(selectedFlag),
         proficiency: selectedDifficulty,
         topic: selectedTopic,
@@ -117,36 +136,36 @@ const ChatGenerator = () => {
         input: input,
       };
       console.log(requestBody);
-      const response = await axios.post(apiUrl, requestBody,{ validateStatus: status => status >= 200 && status < 300 || status === 302,
+      const response = await axios.post(apiUrl, requestBody, {
+        validateStatus: (status) =>
+          (status >= 200 && status < 300) || status === 302,
         withCredentials: true,
-        timeout: 10000,});
-      const chatMessage = response.data && response.data.chat ? response.data.chat : null;
+        timeout: 3000,
+      });
+      const chatMessage =
+        response.data && response.data.chat ? response.data.chat : null;
       const lang = getLanguageCode(selectedFlag);
       const translatedText = await translateText(chatMessage, lang);
-  
+
       console.log(chatMessage);
       console.log(translatedText);
-  
+
       setGeneratedChat(chatMessage);
-      addMessageToChat('User', input);
-      addMessageToChat('Generator', chatMessage, translatedText);
+      addMessageToChat("User", input);
+      addMessageToChat("Generator", chatMessage, translatedText);
       if (!selectedTalkingMode) {
         const utterance = new SpeechSynthesisUtterance(chatMessage);
         utterance.lang = lang;
         window.speechSynthesis.speak(utterance);
       }
-  
-      
-      setInput('');
+
+      setInput("");
     } catch (err) {
       console.error(err);
-      setError('Please fill out the form properly.'); // Display error in chat
-      addMessageToChat('Generator', 'Please fill out the form properly.'); // Add error message to chat
+      setError("Please fill out the form properly."); // Display error in chat
+      addMessageToChat("Generator", "Please fill out the form properly."); // Add error message to chat
     }
   };
-  
-
- 
 
   const handleSpeechRecognition = () => {
     if (isListening) {
@@ -159,7 +178,7 @@ const ChatGenerator = () => {
         translateY: 0,
         scale: 1,
         duration: 300,
-        easing: 'easeInOutQuad',
+        easing: "easeInOutQuad",
       });
     } else {
       recognition.onresult = (event) => {
@@ -172,11 +191,11 @@ const ChatGenerator = () => {
 
       // Start mic button animation
       anime({
-        targets: micButtonRef.current.querySelector('.red-circle'),
+        targets: micButtonRef.current.querySelector(".red-circle"),
         translateY: -10,
         scale: 1.1,
         duration: 300,
-        easing: 'easeInOutQuad',
+        easing: "easeInOutQuad",
         loop: true,
       });
     }
@@ -186,128 +205,132 @@ const ChatGenerator = () => {
     return () => {
       recognition.stop();
     };
-  }, [recognition])
+  }, [recognition]);
   useEffect(() => {
     return () => {
-      const recognition = new (
-        window.SpeechRecognition || window.webkitSpeechRecognition
-      )();
+      const recognition = new (window.SpeechRecognition ||
+        window.webkitSpeechRecognition)();
       recognition.stop();
     };
   }, []);
-
+  let lastUserMessageIndex = chatMessages.length - 1;
+  console.log(chatMessages);
   return (
-    <div style={{ height: '100vh', width: '100vw', fontFamily: 'Arial, sans-serif', display: 'flex', flexDirection: 'column' }}>
-    {showFinally && <Finally onClose={() => setShowFinally(false)} username={selectedUsername} />}
-    {/* // header */}
-    <div style={{ width: '100vw', height: '10vh', backgroundColor: '#DFDFDF', padding: '10px', borderBottom: '1px solid #ddd' }}>
-      <h1 style={{ fontSize: '1.5em', color: '#333' }}>
-        <a href="/" >
-           <img style={{ height: '4vw' }} src={logo} alt="Logo" />
-        </a>
-      </h1>
+    <div className="flex flex-col h-screen">
+      {showFinally && (
+        <Finally
+          onClose={() => setShowFinally(false)}
+          username={selectedUsername}
+        />
+      )}
+      <div className="h-10 flex items-center justify-between bg-gray-300 px-4 border-b border-gray-400">
+        <h1 className="text-lg">
+          <a to="/">
+            <img className="h-10" src={logo} alt="Logo" />
+          </a>
+        </h1>
+      </div>
 
-      {/* chat messages */}
-      <div style={{ width: '100vw', flex: '1', display: 'flex', flexDirection: 'column', padding: '15px', overflowY: 'auto', backgroundColor: 'white', paddingBottom: '5vh' }}>
+      <div className="flex-1 overflow-auto p-4 bg-white">
         {chatMessages.map((message, index) => (
-          <div key={index} style={{ marginBottom: '15px', display: 'flex', flexDirection: message.role === 'User' ? 'row-reverse' : 'row' }}>
-            <div style={{ marginLeft: '1.25vw', marginRight: '1.25vw', width: '5vw', height: '5vw', borderRadius: '50%', overflow: 'hidden' }}>
-              {message.role === 'User' ? (
-                <img src={userPfp} alt="User PFP" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
-              ) : (
-                <img src={robotPfp} alt="Robot PFP" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
-              )}
+          <div
+            key={index}
+            className={`chat ${message.role === "User" ? "chat-end" : "chat-start"}`}
+          >
+            <div className="chat-image avatar">
+              <div className="w-10 rounded-full">
+                <img
+                  alt="User Avatar"
+                  src={message.role === "User" ? userPfp : robotPfp}
+                />
+              </div>
             </div>
-            <div style={{maxWidth:"40vw",padding: '10px', borderRadius: '8px', backgroundColor: message.role === 'User' ? '#53d769' : '#3980d5' }}>
-              <p style={{margin: '0', color: 'white' }}>{message.content}</p>
-              {message.role !== 'User' && (
-                <p style={{ margin: '0', fontSize: '0.7rem', color: '#D3D3D3' }} dangerouslySetInnerHTML={{ __html: message.translation }}></p> 
+            <div className="chat-header">
+              {message.role === "User" ? selectedUsername : "Robot"}
+            </div>
+            <div
+              className={`chat-bubble ${message.role === "User" ? "bg-green-500" : "bg-blue-500"} text-white py-2 px-4 rounded-lg`}
+            >
+              {isTyping && message.role === "User" ? (
+                <div className="typing-indicator">
+                  <p className="mb-1">Typing...</p>
+                </div>
+              ) : (
+                <p className="mb-1">{message.content}</p>
               )}
-              {message.role !== 'User' && (
+              {message.role !== "User" && (
+                <p
+                  className="text-xs"
+                  dangerouslySetInnerHTML={{ __html: message.translation }}
+                ></p>
+              )}
+              {message.role !== "User" && (
                 <button
                   onClick={() => {
-                    const utterance = new SpeechSynthesisUtterance(message.content);
+                    const utterance = new SpeechSynthesisUtterance(
+                      message.content,
+                    );
                     utterance.lang = getLanguageCode(selectedFlag);
                     window.speechSynthesis.speak(utterance);
                   }}
-                  style={{
-                    marginTop: '5px',
-                    padding: '5px',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                    border: 'none',
-                    borderRadius: '5px',
-                    backgroundColor: '#3980d5',
-                    color: 'white',
-                  }}
+                  className="mt-2 py-1 px-2 text-sm cursor-pointer border-none rounded "
                 >
-                  <img src={speech} height="18vw" alt="Speech" marginRight="90vw"/>
+                  <img src={speech} alt="Speech" className="h-4 mr-2" />
                 </button>
               )}
-              {message.role === 'User' ? (
-                <p style={{ margin: '0', fontSize: '0.7rem', color: '#DFDFDF', textAlign: message.role === 'User' ? 'left' : 'right' }}>{message.timestamp}</p>
-              ):(
-                <p style={{ margin: '0', fontSize: '0.7rem', color: '#DFDFDF', textAlign: message.role === 'User' ? 'left' : 'right' }}>{message.timestamp}</p>
-              )}
+            </div>
+            <div className="chat-footer opacity-50">
+              {message.role === "User"
+                ? "Delivered"
+                : `Seen at ${message.timestamp}`}
             </div>
           </div>
         ))}
       </div>
-       {/* input box and generate button */}
-       <div style={{ width: '100vw', height: '10vh', borderTop: '1px solid #ddd', padding: '15px', backgroundColor: '#DFDFDF', display: 'flex', alignItems: 'center', position: 'fixed', bottom: 0 , zIndex: 1}}>
-        <textarea
+
+      <div className="h-24 flex items-center bg-gray-300 px-4 border-t border-gray-400 fixed bottom-0 w-full">
+        <input
           id="input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          style={{ flex: '1', color: 'black', backgroundColor: 'white', Height: '10vw', padding: '8px', borderRadius: '5px', border: '1px solid #ccc', resize: 'none' }}
+          type="text"
+          className="input flex-1 h-full bg-white p-2 ml-[-2vh] rounded border border-gray-400 resize-none"
+          placeholder="Type your message here..."
+          onKeyDown={(e) => handleKeyDown(e)}
         />
         <button
           id="generateButton"
           onClick={handleGenerateChat}
-          style={{
-            padding: '10px',
-            fontSize: '16px',
-            cursor: 'pointer',
-            border: 'none',
-            borderRadius: '5px',
-            backgroundColor: 'transparent',
-          }}
+          className="p-2 cursor-pointer rounded-full bg-transparent hovering ml-2"
         >
-          <img src={send} color="white" height="35vw" alt="Generate" />
+          <img src={send} alt="Generate" className="h-8" />
         </button>
         <button
           ref={micButtonRef}
           onClick={handleSpeechRecognition}
-          style={{
-            marginLeft: '10px',
-            padding: '10px',
-            fontSize: '16px',
-            cursor: 'pointer',
-            border: 'none',
-            borderRadius: '5px',
-            backgroundColor: 'transparent',
-            color: 'white',
-            position: 'relative',  
-          }}
+          className="ml-4 p-2 cursor-pointer rounded-full bg-transparent relative hovering"
         >
           {isListening ? (
             <div
-              className="red-circle"
-              style={{
-                width: '2.5vw', height: '2.5vw',  
-                borderRadius: '50%',
-                backgroundColor: 'red',
-                animation: 'bounce 1s infinite', 
-                boxShadow: 'inset 0 0 5px rgba(0, 0, 0, 0.5)',
-              }}
+              className="w-6 h-6 rounded-full bg-red-500 animate-bounce absolute inset-0 m-auto"
+              style={{ boxShadow: "inset 0 0 5px rgba(0, 0, 0, 0.5)" }}
             ></div>
           ) : (
-            <img src={mic} color="black" height="35vw" alt="Speech" />
+            <img src={mic} alt="Speech" className="h-8" />
           )}
-      </button>
+        </button>
       </div>
+      <style>
+        {`
+        .hovering:hover {
+          transform: scale(1.05);
+          opacity: 1;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          border-color: #f0f0f0;
+          background-color: #D3D3D3;
+        }`}
+      </style>
     </div>
-  </div>
-);
+  );
 };
 export default ChatGenerator;

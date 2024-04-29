@@ -22,8 +22,10 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",
     "react-scripts": "^3.0.1",
+    "react-slick": "^0.30.2",
     "react-switch": "^7.0.0",
     "responsivevoice": "^0.4.1",
+    "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4",
     "webpack": "^5.89.0",
     "yarn": "^1.22.21"
@@ -32,7 +34,8 @@
     "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build --config webpack.config.js",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write \"**/*.js\""
   },
   "eslintConfig": {
     "extends": [

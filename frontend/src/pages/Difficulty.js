@@ -1,7 +1,6 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import { useFlag } from "./components/FlagContext";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Row, Col } from "react-bootstrap";
 import anime from "animejs/lib/anime.es.js";
 import intermediateImage from "./images/intermediate.svg";
 import amateurImage from "./images/amateur.svg";
@@ -15,7 +14,9 @@ const Difficulty = () => {
   useEffect(() => {
     // Animation for the flags on mount
     anime({
-      targets: buttonRef.map((ref) => ref.current.querySelectorAll(".btn-with-padding")),
+      targets: buttonRef.map((ref) =>
+        ref.current.querySelectorAll(".btn-with-padding"),
+      ),
       translateY: [-20, 0],
       opacity: [0, 1],
       easing: "easeInOutQuad",
@@ -32,11 +33,10 @@ const Difficulty = () => {
       duration: 500,
       complete: () => {
         setDifficulty(difficulty);
-      navigate("/mode");
+        navigate("/mode");
       },
     });
   };
-     // Navigate to /mode when a difficulty is selected
 
   const handleButtonHover = (buttonRef) => {
     anime({
@@ -57,76 +57,75 @@ const Difficulty = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white h-[100vh]">
       <style>
         {`
-          .btn-with-padding {
-            background-color: white;
-            color: white;
-            font-size: 1.6rem;
-            border-radius: 7%;
-            padding-left: 4vw;
-            padding-right: 4vw;
-            margin-top: 15vw;
-            font-family: sans-serif;
-            
+          .hovering:hover {
+            transform: scale(1.05);
+            opacity: 1;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-color: #f0f0f0;
+            background-color: #D3D3D3;
           }
-          .corner-button {
-            position: fixed;
-            top: 5vw; /* Adjust this value to control the distance from the bottom */
-            right: 3vw; /* Adjust this value to control the distance from the right */
-            z-index: 999; /* Adjust the z-index to make sure the button appears above other content */
-          }
-        `}
+          `}
       </style>
-  
-      <Link to="/" className="corner-button">
+      <Link to="/" className="fixed top-5 right-3 z-50">
         <button type="button" className="btn-close" aria-label="Close"></button>
       </Link>
-      
-      <div className="mt-5" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Row style={{ gap: "7vw", marginRight:"10vw", marginLeft: "10vw"}}>
-          <Col ref={buttonRef[0]}>
-            <Button
-              variant="light"
-              size="lg"
+
+      <div className="pt-[20vh] bg-white flex justify-center items-center">
+        <div className="grid grid-cols-3 gap-x-7 mx-10">
+          <div class="border-5 rounded-2xl p-10 hovering" ref={buttonRef[0]}>
+            <button
               onClick={() => handleDifficultyClick("Beginner")}
-              className="btn-with-padding btn-with-padding"
-              ref={(el) => el && el.addEventListener("mouseenter", () => handleButtonHover(el))}
+              className="btn-with-padding"
+              onMouseEnter={(el) => handleButtonHover(el)}
               onMouseLeave={(el) => handleButtonLeave(el)}
             >
-              <img src={beginnerImage} alt="Beginner" style={{ width: "70%", height: "auto" }} />
-              <div style={{ fontFamily: "Arial, sans-serif", color: "#333", marginTop: "8px", fontSize: "2rem", fontWeight: "bold" }}>Beginner</div>
-            </Button>
-          </Col>
-          <Col ref={buttonRef[1]}>
-            <Button
-              variant="light"
-              size="lg"
+              <img src={beginnerImage} alt="Beginner" className="w-70 h-auto" />
+              <div className="font-sans text-gray-700 mt-8 text-2xl font-bold">
+                Beginner
+              </div>
+            </button>
+          </div>
+          <div class="border-5 rounded-2xl p-10 hovering" ref={buttonRef[1]}>
+            <button
               onClick={() => handleDifficultyClick("Amateur")}
               className="btn-with-padding"
-              ref={(el) => el && el.addEventListener("mouseenter", () => handleButtonHover(el))}
+              onMouseEnter={(el) => handleButtonHover(el)}
               onMouseLeave={(el) => handleButtonLeave(el)}
             >
-              <img src={amateurImage} alt="Amateur" style={{ width: "70%", height: "auto" }} />
-              <div style={{ fontFamily: "Arial, sans-serif", color: "#333", marginTop: "8px", fontSize: "2rem",marginLeft: "8px", fontWeight: "bold" }}>Amateur</div>
-            </Button>
-          </Col>
-          <Col ref={buttonRef[2]}>
-            <Button
-              variant="light"
-              size="lg"
+              <img src={amateurImage} alt="Amateur" className="w-70 h-auto" />
+              <div className="font-sans text-gray-700 mt-8 ml-8 text-2xl font-bold">
+                Amateur
+              </div>
+            </button>
+          </div>
+          <div class="border-5 rounded-2xl p-10 hovering" ref={buttonRef[2]}>
+            <button
               onClick={() => handleDifficultyClick("Intermediate")}
               className="btn-with-padding"
-              ref={(el) => el && el.addEventListener("mouseenter", () => handleButtonHover(el))}
+              onMouseEnter={(el) => handleButtonHover(el)}
               onMouseLeave={(el) => handleButtonLeave(el)}
             >
-              <img src={intermediateImage} alt="Intermediate" style={{ width: "70%", height: "auto" }} />
-              <div style={{ fontFamily: "Arial, sans-serif", color: "#333", marginTop: "8px", fontSize: "2rem", fontWeight: "bold" }}>Intermediate</div>
-            </Button>
-          </Col>
-        </Row>
+              <img
+                src={intermediateImage}
+                alt="Intermediate"
+                className="w-70 h-auto"
+              />
+              <div className="font-sans text-gray-700 mt-8 text-2xl font-bold">
+                Intermediate
+              </div>
+            </button>
+          </div>
+        </div>
       </div>
+      <ul className="steps mt-20">
+        <li className="step step-success" data-content=""></li>
+        <li className="step step-success" data-content=""></li>
+        <li className="step" data-content=""></li>
+        <li className="step step-info" data-content="💬"></li>
+      </ul>
     </div>
   );
 };

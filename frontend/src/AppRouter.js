@@ -9,18 +9,18 @@ import Finally from "./pages/finally";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const AppRouter = () => {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/difficulty" element={<Difficulty />} />
-                <Route path="/flags" element={<Flags/>} />
-                <Route path="/chatgenerator" element={<ChatGenerator/>} />
-                <Route path="/mode" element={<Mode />} />
-                <Route path="/finally" element={<Finally />} />
-            </Routes>
-        </BrowserRouter>
-    );
-}
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/difficulty" element={<Difficulty />} />
+        <Route path="/flags" element={<Flags />} />
+        <Route path="/chatgenerator" element={<ChatGenerator />} />
+        <Route path="/mode" element={<Mode />} />
+        <Route path="/finally" element={<Finally />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default AppRouter;

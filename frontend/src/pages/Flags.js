@@ -51,7 +51,7 @@ const Flags = () => {
   };
 
   return (
-    <div>
+    <div class="flex justify-center items-center">
       <style>
         {`
           .grid-container {
@@ -87,26 +87,40 @@ const Flags = () => {
       </style>
       <Link to="/" className="corner-button">
         <button type="button" class="btn-close" aria-label="Close"></button>
-       </Link>
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      
-      <div className="grid-container" ref={gridRef}>
-        {languages.map((language, index) => (
-          <div
-            key={index}
-            className="grid-item"
-            data-flag={language.flag}
-            onClick={() => {
-              handleButtonClick(language);
-            }}
-          >
-            <span className="flag">{language.flag}</span>
-            <br />
-            <span>{language.name}</span>
+      </Link>
+      <div class="flex justify-center items-center flex-col  w-[50%]">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "90vh",
+          }}
+        >
+          <div className="grid-container" ref={gridRef}>
+            {languages.map((language, index) => (
+              <div
+                key={index}
+                className="grid-item"
+                data-flag={language.flag}
+                onClick={() => {
+                  handleButtonClick(language);
+                }}
+              >
+                <span className="flag">{language.flag}</span>
+                <br />
+                <span>{language.name}</span>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+        <ul class="steps">
+          <li class="step step-success" data-content=""></li>
+          <li class="step" data-content=""></li>
+          <li class="step" data-content=""></li>
+          <li className="step step-info" data-content="💬"></li>
+        </ul>
       </div>
-    </div>
     </div>
   );
 };
