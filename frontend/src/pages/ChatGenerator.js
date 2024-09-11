@@ -115,7 +115,7 @@ const ChatGenerator = () => {
 
   const handleGenerateChat = async () => {
     try {
-      const apiUrl = 'https://intelli-chat-e9vv.onrender.com/generate-chat';  // Note the relative URL
+      const apiUrl = 'https://langappbackend-9495eb968c5a.herokuapp.com/generate-chat';  // Note the relative URL
       
       console.log("API URL:", apiUrl);  // Log the API URL
 

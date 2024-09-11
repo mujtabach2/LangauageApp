@@ -8,7 +8,7 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-  origin: '*',
+  origin: 'https://intelli-chat.netlify.app',
   credentials: true,
 }));
 
