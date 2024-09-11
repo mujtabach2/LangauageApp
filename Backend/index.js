@@ -8,11 +8,10 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: process.env.FRONTEND_URL || 'https://intelli-chat.netlify.app',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  optionsSuccessStatus: 200
 }));
 
 // Enable pre-flight requests for all routes
@@ -21,7 +20,7 @@ app.options('*', cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const baseUrl = process.env.BASE_URL || 'https://localhost:3001';
+const baseUrl = process.env.BASE_URL || 'https://intelli-chat-e9vv.onrender.com';
 const port = process.env.PORT || 3000;
 
 app.post('/generate-chat', async (req, res) => {
