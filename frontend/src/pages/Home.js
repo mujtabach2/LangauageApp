@@ -15,6 +15,7 @@ import Reviews from "./reviews.js";
 const Home = () => {
   const navigate = useNavigate();
   const buttonRef = useRef(null);
+  const featuresRef = useRef(null);
 
   useEffect(() => {
     const buttonElement = buttonRef.current;
@@ -50,6 +51,43 @@ const Home = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const featuresElement = featuresRef.current;
+    const cards = featuresElement.querySelectorAll('.feature-card');
+
+    const handleIntersection = (entries) => {
+      const [entry] = entries;
+      if (entry.isIntersecting) {
+        anime({
+          targets: cards,
+          opacity: [0, 1],
+          translateY: [50, 0],
+          easing: 'easeOutExpo',
+          duration: 1500,
+          delay: anime.stagger(300, {start: 300}),
+          complete: () => {
+            // Disconnect the observer after the animation completes
+            observer.disconnect();
+          }
+        });
+      }
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, {
+      threshold: 0.1 // Trigger when at least 10% of the target is visible
+    });
+
+    if (featuresElement) {
+      observer.observe(featuresElement);
+    }
+
+    return () => {
+      if (featuresElement) {
+        observer.unobserve(featuresElement);
+      }
+    };
+  }, []);
+
   const handleTryNowClick = () => {
     navigate("/flags");
   };
@@ -67,50 +105,58 @@ const Home = () => {
 
   return (
     <div>
-      <nav
-        style={{ position: "relative", zIndex: 1 }}
-        className="navbar navbar-expand-lg navbar-light bg-light"
-      >
+      <nav className="navbar navbar-expand-lg navbar-light bg-light" style={{ position: "relative", zIndex: 1 }}>
         <div className="container">
           <a className="navbar-brand" href="#">
-            <img src={logo} alt="logo" style={{ height: "6vh" }} />
+            <img src={logo} alt="logo" style={{ height: "6vh", width: "auto", objectFit: "contain" }} />
           </a>
-          <div
-            className="navbar-collapse justify-content-end"
-            style={{ width: "34vw" }}
-          >
-            <ul className="navbar-nav">
-              <li className="nav-item active">
-                <a
-                  className="nav-link"
-                  href="#"
-                  style={{ fontSize: "1.4rem" }}
-                  onClick={handleAboutClick}
-                >
+          <button className="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto align-items-center">
+              <li className="nav-item me-3">
+                <a className="nav-link" href="#" style={{ fontSize: "1.4rem" }} onClick={handleAboutClick}>
                   About
                 </a>
               </li>
-              <li className="nav-item" style={{ marginLeft: "2vw" }}>
-                <a
-                  className="nav-link"
-                  href="#"
-                  style={{ fontSize: "1.4rem" }}
-                  onClick={handleContactClick}
-                >
+              <li className="nav-item me-3">
+                <a className="nav-link" href="#" style={{ fontSize: "1.4rem" }} onClick={handleContactClick}>
                   Contact
                 </a>
               </li>
-              <li className="nav-item" style={{ marginLeft: "2vw" }}>
+              <li className="nav-item">
                 <button
+                  onClick={handleTryNowClick}
                   type="button"
                   style={{
-                    paddingLeft: "2vw",
-                    paddingRight: "2vw",
-                    fontSize: "1.3rem",
+                    borderRadius: "30px",
+                    padding: "0.5rem 1.5rem",
+                    fontSize: "1.4rem",
                     backgroundColor: "#3980d5",
+                    color: "#ffffff",
+                    fontFamily: "sans-serif",
+                    border: "none",
+                    boxShadow: "0 4px 6px rgba(57, 128, 213, 0.3)",
+                    transition: "all 0.3s ease",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                    whiteSpace: "nowrap",
                   }}
-                  className="btn btn-primary btn-lg"
-                  onClick={handleTryNowClick}
+                  className="btn btn-primary try-now-button"
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = "#2c6ab8";
+                    e.target.style.transform = "translateY(-2px)";
+                    e.target.style.boxShadow = "0 6px 8px rgba(57, 128, 213, 0.4)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = "#3980d5";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow = "0 4px 6px rgba(57, 128, 213, 0.3)";
+                  }}
                 >
                   Try Now
                 </button>
@@ -124,17 +170,18 @@ const Home = () => {
       <div
         style={{
           position: "relative",
-          zindex: 1,
+          zIndex: 1,
           display: "flex",
-          height: "30vh",
+          flexDirection: "column",
           alignItems: "center",
+          padding: "4rem 2rem", // Increased padding
+          marginBottom: "4rem", // Added margin bottom
         }}
-        class="mt-10"
-     
+        className="mt-10 header-section"
       >
         {/* Left Section */}
-        <div style={{ flex: "1", marginTop: "15vh", paddingLeft: "10vw" }}>
-          <div style={{ width: "60%" }}>
+        <div className="left-section" style={{ width: "100%", maxWidth: "600px", marginBottom: "2rem" }}>
+          <div>
             <h2
               style={{
                 textAlign: "left",
@@ -163,20 +210,34 @@ const Home = () => {
               chat-based AI tools.
             </p>
           </div>
-          <div style={{ marginRight: "26vw" }}>
+          <div>
             <button
               onClick={handleTryNowClick}
               type="button"
               style={{
-                borderRadius: "7%",
-                paddingLeft: "4vw",
-                paddingRight: "4vw",
-                marginTop: "2vw",
-                fontSize: "1.9rem",
+                borderRadius: "30px",
+                padding: "1rem 2.5rem",
+                marginTop: "2rem",
+                fontSize: "1.6rem",
                 backgroundColor: "#3980d5",
+                color: "#ffffff",
                 fontFamily: "sans-serif",
+                border: "none",
+                boxShadow: "0 4px 6px rgba(57, 128, 213, 0.3)",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
               }}
-              className="btn btn-primary btn-lg"
+              className="btn btn-primary btn-lg try-now-button"
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = "#2c6ab8";
+                e.target.style.transform = "translateY(-2px)";
+                e.target.style.boxShadow = "0 6px 8px rgba(57, 128, 213, 0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = "#3980d5";
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "0 4px 6px rgba(57, 128, 213, 0.3)";
+              }}
             >
               Try Now
             </button>
@@ -184,58 +245,59 @@ const Home = () => {
         </div>
 
         {/* Right Section with Image */}
-        <div className="container" style={{ flex: "1", height: "60vh" }}>
+        <div className="right-section" style={{ width: "100%", maxWidth: "600px" }}>
           <img
             src={heroImg}
             alt="phone"
             style={{
-              marginTop: "10vh",
-              height: "50vh",
-              objectFit: "cover",
-              paddingTop: "5vh",
+              width: "100%",
+              height: "auto",
+              maxHeight: "50vh",
+              objectFit: "contain",
             }}
           />
         </div>
       </div>
       <div
-        style={{ marginTop: "30vh", position: "relative", overflow: "hidden" }}
-        id = "about"
+        ref={featuresRef}
+        style={{
+          position: "relative",
+          overflow: "hidden",
+          padding: "4rem 2rem",
+          background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+          marginBottom: "4rem", // Added margin bottom
+        }}
+        id="about"
       >
         {/* Features Section */}
-
-        <img
-          src={backgroundImage}
-          alt="phone"
-          style={{ width: "100vw", height: "auto" }}
-        />
-
         <div
-          className="containers"
+          className="features-grid"
           style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            display: "flex",
-            justifyContent: "space-around",
-            maxWidth: "80%",
-            maxHeight: "70%",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: "2rem",
+            maxWidth: "1200px",
+            margin: "0 auto",
+            position: "relative",
+            zIndex: 1,
           }}
         >
           {/* Card 1 */}
           <div
-            className="card"
+            className="feature-card"
             style={{
-              maxHeight: "60%",
-              width: "30%",
-              margin: "0 1%",
+              background: "rgba(255, 255, 255, 0.9)",
+              borderRadius: "12px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
               overflow: "hidden",
+              opacity: 0,
+              transform: "translateY(50px)",
             }}
           >
             <div
-              className="card-body"
+              className="card-content"
               style={{
-                maxHeight: "60%",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -244,51 +306,50 @@ const Home = () => {
             >
               <img
                 src={speechImg}
-                style={{ marginBottom: "1.5rem", height: "9vh" }}
+                alt="Fun and Immersive"
+                style={{ width: "64px", height: "64px", marginBottom: "1.5rem" }}
               />
-              <h5
-                className="card-title"
+              <h3
                 style={{
                   color: "#3980d5",
-                  margin: "0",
+                  margin: "0 0 1rem",
                   textAlign: "center",
-                  fontSize: "1.8rem",
+                  fontSize: "1.5rem",
                   fontWeight: "bold",
                 }}
               >
                 Fun and Immersive
-              </h5>
+              </h3>
               <p
-                className="card-text"
                 style={{
                   color: "#707070",
                   fontSize: "1rem",
                   lineHeight: "1.6",
                   margin: "0",
                   textAlign: "center",
-                  paddingBottom: "4h",
                 }}
               >
-                Discover the joy of chatting with our AI, making language
-                learning fun and immersive.
+                Discover the joy of chatting with our AI, making language learning fun and immersive.
               </p>
             </div>
           </div>
 
           {/* Card 2 */}
           <div
-            className="card"
+            className="feature-card"
             style={{
-              height: "60%",
-              width: "40%",
-              margin: "0 1%",
+              background: "rgba(255, 255, 255, 0.9)",
+              borderRadius: "12px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
               overflow: "hidden",
+              opacity: 0,
+              transform: "translateY(50px)",
             }}
           >
             <div
-              className="card-body"
+              className="card-content"
               style={{
-                maxHeight: "60%",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -297,51 +358,50 @@ const Home = () => {
             >
               <img
                 src={langImg}
-                style={{ marginBottom: "1.5rem", height: "9vh" }}
+                alt="15+ Languages"
+                style={{ width: "64px", height: "64px", marginBottom: "1.5rem" }}
               />
-              <h5
-                className="card-title"
+              <h3
                 style={{
                   color: "#3980d5",
-                  margin: "0",
+                  margin: "0 0 1rem",
                   textAlign: "center",
-                  fontSize: "2rem",
+                  fontSize: "1.5rem",
                   fontWeight: "bold",
                 }}
               >
                 15+ Languages
-              </h5>
+              </h3>
               <p
-                className="card-text"
                 style={{
                   color: "#707070",
                   fontSize: "1rem",
                   lineHeight: "1.6",
                   margin: "0",
                   textAlign: "center",
-                  paddingBottom: "4vh",
                 }}
               >
-                Explore the diverse range of languages available, with support
-                for 15+ languages.
+                Explore the diverse range of languages available, with support for 15+ languages.
               </p>
             </div>
           </div>
 
           {/* Card 3 */}
           <div
-            className="card"
+            className="feature-card"
             style={{
-              maxHeight: "60%",
-              width: "30%",
-              margin: "0 1%",
+              background: "rgba(255, 255, 255, 0.9)",
+              borderRadius: "12px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
               overflow: "hidden",
+              opacity: 0,
+              transform: "translateY(50px)",
             }}
           >
             <div
-              className="card-body"
+              className="card-content"
               style={{
-                maxHeight: "60%",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -350,54 +410,56 @@ const Home = () => {
             >
               <img
                 src={aiImg}
-                style={{ marginBottom: "1.5rem", height: "9vh" }}
+                alt="Speech Interaction"
+                style={{ width: "64px", height: "64px", marginBottom: "1.5rem" }}
               />
-              <h5
-                className="card-title"
+              <h3
                 style={{
                   color: "#3980d5",
-                  margin: "0",
+                  margin: "0 0 1rem",
                   textAlign: "center",
-                  fontSize: "1.8rem",
+                  fontSize: "1.5rem",
                   fontWeight: "bold",
                 }}
               >
                 Speech Interaction
-              </h5>
+              </h3>
               <p
-                className="card-text"
                 style={{
                   color: "#707070",
                   fontSize: "1rem",
                   lineHeight: "1.6",
                   margin: "0",
                   textAlign: "center",
-                  paddingBottom: "4vh",
                 }}
               >
-                Talk to our AI using speech, enhancing your conversational
-                language skills.
+                Talk to our AI using speech, enhancing your conversational language skills.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* CTA Section */}
+      {/* MyTable Component */}
+      <div style={{ marginBottom: "4rem" }}> {/* Added wrapper with margin */}
+        <MyTable />
+      </div>
 
-      <MyTable />
-      <Reviews />
+      {/* Reviews Component */}
+      <div style={{ marginBottom: "10rem" }}> {/* Added wrapper with margin */}
+        <Reviews />
+      </div>
+
+      {/* CTA Section */}
       <section
         className="cta-section"
         style={{
-          marginTop: "10vh",
           backgroundColor: "#ffffff",
           color: "#333",
-          padding: "2rem 0",
+          padding: "4rem 0",
           textAlign: "center",
           position: "relative",
-          marginBottom: "10vh",
-          paddingBottom: "40vh",
+          marginBottom: "20rem", // Adjusted margin
         }}
       >
         {/* Colorful background illustration */}
@@ -408,10 +470,11 @@ const Home = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            position: "relative",
           }}
         >
-          <h3 style={{ fontSize: "2rem", margin: "0", fontWeight: "bold" }}>
-          Let's make learning a new language interesting!
+          <h3 style={{ fontSize: "2rem", margin: "0 0 1rem", fontWeight: "bold" }}>
+            Let's make learning a new language interesting!
           </h3>
           <button
             ref={buttonRef}
@@ -430,7 +493,7 @@ const Home = () => {
           >
             Get Started Now
           </button>
-          <p style={{ width: "33vw", fontSize: "1.2rem", margin: "0" }}>
+          <p style={{ width: "100%", maxWidth: "33rem", fontSize: "1.2rem", margin: "1rem 0 0" }}>
             Dive into the world of AI conversations. Start chatting with our
             friendly AI bot for an experience like never before!
           </p>
@@ -438,15 +501,12 @@ const Home = () => {
       </section>
 
       {/* Footer Section */}
-      <div style={{ marginTop: "10vh", position: "relative", zIndex: 1 }}>
+      <div style={{ position: "relative", zIndex: 1 }}>
         <footer
           className="footer"
           style={{
             zIndex: "0",
-            position: "absolute",
-            bottom: "0",
-            left: "0",
-            right: "0",
+            position: "relative", // Changed from absolute to relative
             backgroundColor: "#f8f9fa",
             padding: "2rem 0",
             textAlign: "center",

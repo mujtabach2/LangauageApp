@@ -6,69 +6,78 @@ import anki from "./images/anki.png";
 import books from "./images/book.png";
 function MyTable() {
   return (
-    <div class="flex flex-col justify-center items-center ">
-        <style>
-            {`
-            .caveatS {
-            
-                    font-family: "Caveat", cursive;
-                    font-optical-sizing: auto;
-                    font-weight: 400;
-                    font-style: normal;
-                  }
-            `}
-        </style>
-   <div class="flex flex-col text-center w-full pt-10 "><p class="sm:text-5xl text-4xl font-extrabold leading-loose sm:leading-loose">Why? Because language learning tools are <span class="relative"><span class="relative z-20 p-2   text-white ">boring</span><span class="bg-[#397fd5] absolute inset-x-0 inset-y-1"></span><span class="absolute -top-6 md:-top-7 -left-6 text-base font-normal -rotate-3 md:-rotate-6 __className_18396d caveatS">all the same</span><span class="absolute -top-5 -right-6 text-base font-normal rotate-3  __className_18396d caveatS">generic</span><span class="absolute -bottom-5 -right-5 text-base font-normal -rotate-3 scale-110  __className_18396d caveatS">outdated</span><span class="absolute -bottom-6 -left-8 text-base font-normal scale-90 rotate-1  __className_18396d caveatS">theoratical</span></span><span class="pl-4">🥱</span></p></div>
-    <div className="grid grid-cols-4 grid-rows-4 gap-0 w-[40vw]" style={{marginTop: "-8vh"}}>
-      {/* Row 1 */}
-      <div className="border-b border-gray-200 h-[20vh] flex justify-center items-center">
+    <div className="flex flex-col justify-center items-center w-full px-4">
+      <style>
+        {`
+        .caveatS {
+          font-family: "Caveat", cursive;
+          font-optical-sizing: auto;
+          font-weight: 400;
+          font-style: normal;
+        }
+        `}
+      </style>
+      <div className="flex flex-col text-center w-full pt-10">
+        <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight sm:leading-loose">
+          Why? Because language learning tools are <span className="relative">
+            <span className="relative z-20 p-1 sm:p-2 text-white">boring</span>
+            <span className="bg-[#397fd5] absolute inset-x-0 inset-y-1"></span>
+            <span className="absolute -top-4 sm:-top-6 md:-top-7 -left-4 sm:-left-6 text-xs sm:text-sm md:text-base font-normal -rotate-3 md:-rotate-6 caveatS">all the same</span>
+            <span className="absolute -top-3 sm:-top-5 -right-4 sm:-right-6 text-xs sm:text-sm md:text-base font-normal rotate-3 caveatS">generic</span>
+            <span className="absolute -bottom-3 sm:-bottom-5 -right-3 sm:-right-5 text-xs sm:text-sm md:text-base font-normal -rotate-3 scale-110 caveatS">outdated</span>
+            <span className="absolute -bottom-4 sm:-bottom-6 -left-6 sm:-left-8 text-xs sm:text-sm md:text-base font-normal scale-90 rotate-1 caveatS">theoretical</span>
+          </span><span className="pl-2 sm:pl-4">🥱</span>
+        </p>
       </div>
-      <div className="border-b border-gray-200  h-[20vh] pt-[10vh]  flex justify-center items-center">Fun</div>
-      <div className="border-b border-gray-200  h-[20vh]  pt-[10vh] flex justify-center items-center">Easy</div>
-      <div className="border-b border-gray-200  h-[20vh]  pt-[10vh]  flex justify-center items-center">Varied</div>
-      
-      {/* Row 2 */}
-      <div className="border-b border-gray-200  h-[20vh] flex justify-center items-center">
-        <img src={doulingo} className="h-[60%]" alt="duolingo" />
-      </div>
-      <div className="border-b border-gray-200  h-[20vh] flex justify-center items-center">
-        <img src={check} className="h-[30%]" alt="check" />
-      </div>
-      <div className="border-b border-gray-200  h-[20vh] flex justify-center items-center">
-        <img src={check} className="h-[30%]" alt="check" />
-      </div>
-      <div className="border-b border-gray-200  h-[20vh] flex justify-center items-center">
-        <img src={cross} className="h-[25%]" alt="cross" />
-      </div>
+      <div className="grid grid-cols-4 grid-rows-4 gap-0 w-full max-w-3xl mt-8 sm:mt-12">
+        {/* Row 1 */}
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center"></div>
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center text-sm sm:text-base">Fun</div>
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center text-sm sm:text-base">Easy</div>
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center text-sm sm:text-base">Varied</div>
+        
+        {/* Row 2 */}
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center">
+          <img src={doulingo} className="h-8 sm:h-12" alt="duolingo" />
+        </div>
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center">
+          <img src={check} className="h-4 sm:h-6" alt="check" />
+        </div>
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center">
+          <img src={check} className="h-4 sm:h-6" alt="check" />
+        </div>
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center">
+          <img src={cross} className="h-3 sm:h-5" alt="cross" />
+        </div>
 
-      {/* Row 3 */}
-      <div className="border-b border-gray-200  h-[20vh] flex justify-center items-center">
-        <img src={anki} className="h-[60%]" alt="anki" />
-      </div>
-      <div className="border-b border-gray-200  h-[20vh] flex justify-center items-center">
-        <img src={cross} className="h-[25%]" alt="cross" />
-      </div>
-      <div className="border-b border-gray-200  h-[20vh] flex justify-center items-center">
-        <img src={cross} className="h-[25%]" alt="cross" />
-      </div>
-      <div className="border-b border-gray-200  h-[20vh] flex justify-center items-center">
-        <img src={check} className="h-[30%]" alt="check" /> 
-      </div>
+        {/* Row 3 */}
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center">
+          <img src={anki} className="h-8 sm:h-12" alt="anki" />
+        </div>
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center">
+          <img src={cross} className="h-3 sm:h-5" alt="cross" />
+        </div>
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center">
+          <img src={cross} className="h-3 sm:h-5" alt="cross" />
+        </div>
+        <div className="border-b border-gray-200 h-16 sm:h-20 flex justify-center items-center">
+          <img src={check} className="h-4 sm:h-6" alt="check" /> 
+        </div>
 
-      {/* Row 4 */}
-      <div className=" h-[20vh] flex justify-center items-center">
-        <img src={books} className="h-[60%]" alt="books" />
+        {/* Row 4 */}
+        <div className="h-16 sm:h-20 flex justify-center items-center">
+          <img src={books} className="h-8 sm:h-12" alt="books" />
+        </div>
+        <div className="h-16 sm:h-20 flex justify-center items-center">
+          <img src={cross} className="h-3 sm:h-5" alt="cross" />
+        </div>
+        <div className="h-16 sm:h-20 flex justify-center items-center">
+          <img src={check} className="h-4 sm:h-6" alt="check" />
+        </div>
+        <div className="h-16 sm:h-20 flex justify-center items-center">
+          <img src={cross} className="h-3 sm:h-5" alt="cross" />
+        </div>
       </div>
-      <div className="h-[20vh] flex justify-center items-center">
-        <img src={cross} className="h-[25%]" alt="cross" />
-      </div>
-      <div className="h-[20vh] flex justify-center items-center">
-        <img src={check} className="h-[30%]" alt="check" />
-      </div>
-      <div className=" h-[20vh] flex justify-center items-center">
-        <img src={cross} className="h-[25%]" alt="cross" />
-      </div>
-    </div>
     </div>
   );
 };

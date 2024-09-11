@@ -57,70 +57,46 @@ const Difficulty = () => {
   };
 
   return (
-    <div className="bg-white h-[100vh]">
+    <div className="bg-white min-h-screen flex flex-col justify-center">
       <style>
         {`
           .hovering:hover {
             transform: scale(1.05);
             opacity: 1;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 0.625em rgba(0, 0, 0, 0.2);
             border-color: #f0f0f0;
             background-color: #D3D3D3;
           }
           `}
       </style>
-      <Link to="/" className="fixed top-5 right-3 z-50">
+      <Link to="/" className="absolute top-5 right-3 z-50">
         <button type="button" className="btn-close" aria-label="Close"></button>
       </Link>
 
-      <div className="pt-[20vh] bg-white flex justify-center items-center">
-        <div className="grid grid-cols-3 gap-x-7 mx-10">
-          <div class="border-5 rounded-2xl p-10 hovering" ref={buttonRef[0]}>
-            <button
-              onClick={() => handleDifficultyClick("Beginner")}
-              className="btn-with-padding"
-              onMouseEnter={(el) => handleButtonHover(el)}
-              onMouseLeave={(el) => handleButtonLeave(el)}
-            >
-              <img src={beginnerImage} alt="Beginner" className="w-70 h-auto" />
-              <div className="font-sans text-gray-700 mt-8 text-2xl font-bold">
-                Beginner
-              </div>
-            </button>
-          </div>
-          <div class="border-5 rounded-2xl p-10 hovering" ref={buttonRef[1]}>
-            <button
-              onClick={() => handleDifficultyClick("Amateur")}
-              className="btn-with-padding"
-              onMouseEnter={(el) => handleButtonHover(el)}
-              onMouseLeave={(el) => handleButtonLeave(el)}
-            >
-              <img src={amateurImage} alt="Amateur" className="w-70 h-auto" />
-              <div className="font-sans text-gray-700 mt-8 ml-8 text-2xl font-bold">
-                Amateur
-              </div>
-            </button>
-          </div>
-          <div class="border-5 rounded-2xl p-10 hovering" ref={buttonRef[2]}>
-            <button
-              onClick={() => handleDifficultyClick("Intermediate")}
-              className="btn-with-padding"
-              onMouseEnter={(el) => handleButtonHover(el)}
-              onMouseLeave={(el) => handleButtonLeave(el)}
-            >
-              <img
-                src={intermediateImage}
-                alt="Intermediate"
-                className="w-70 h-auto"
-              />
-              <div className="font-sans text-gray-700 mt-8 text-2xl font-bold">
-                Intermediate
-              </div>
-            </button>
-          </div>
+      <div className="bg-white flex justify-center items-center flex-grow">
+        <div className="flex flex-row gap-2 sm:gap-4 w-[95%] max-w-5xl">
+          {["Beginner", "Amateur", "Intermediate"].map((level, index) => (
+            <div key={level} className="flex-1 border rounded-xl p-2 sm:p-3 hovering" ref={buttonRef[index]}>
+              <button
+                onClick={() => handleDifficultyClick(level)}
+                className="btn-with-padding w-full h-full flex flex-col items-center justify-center"
+                onMouseEnter={(el) => handleButtonHover(el)}
+                onMouseLeave={(el) => handleButtonLeave(el)}
+              >
+                <img
+                  src={level === "Beginner" ? beginnerImage : level === "Amateur" ? amateurImage : intermediateImage}
+                  alt={level}
+                  className="w-[60%] sm:w-[70%] h-auto"
+                />
+                <div className="font-sans text-gray-700 mt-1 sm:mt-2 text-[0.6rem] sm:text-xs md:text-sm font-bold truncate w-full text-center">
+                  {level}
+                </div>
+              </button>
+            </div>
+          ))}
         </div>
       </div>
-      <ul className="steps mt-20">
+      <ul className="steps w-full mb-6 sm:mb-8">
         <li className="step step-success" data-content=""></li>
         <li className="step step-success" data-content=""></li>
         <li className="step" data-content=""></li>

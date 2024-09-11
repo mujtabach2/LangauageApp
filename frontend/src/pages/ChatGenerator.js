@@ -115,7 +115,11 @@ const ChatGenerator = () => {
 
   const handleGenerateChat = async () => {
     try {
-      const apiUrl = "https://motionless-gray-lizard.cyclic.app/generate-chat";
+      const apiUrl = "https://intelli-chat-e9vv.onrender.com/generate-chat";
+      
+      // Log the API URL to ensure it's correct
+      console.log("API URL:", apiUrl);
+
       anime({
         targets: "#generateButton",
         translateY: [-10, 0], // Animation from -10px to 0px in the Y-axis
@@ -161,9 +165,22 @@ const ChatGenerator = () => {
 
       setInput("");
     } catch (err) {
-      console.error(err);
-      setError("Please fill out the form properly."); // Display error in chat
-      addMessageToChat("Generator", "Please fill out the form properly."); // Add error message to chat
+      console.error("Error details:", err);
+      if (err.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error("Response data:", err.response.data);
+        console.error("Response status:", err.response.status);
+        console.error("Response headers:", err.response.headers);
+      } else if (err.request) {
+        // The request was made but no response was received
+        console.error("No response received:", err.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error message:", err.message);
+      }
+      setError("An error occurred while generating the chat. Please try again.");
+      addMessageToChat("Generator", "An error occurred. Please try again.");
     }
   };
 
@@ -216,120 +233,128 @@ const ChatGenerator = () => {
   let lastUserMessageIndex = chatMessages.length - 1;
   console.log(chatMessages);
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-gray-100">
       {showFinally && (
         <Finally
           onClose={() => setShowFinally(false)}
           username={selectedUsername}
         />
       )}
-      <div className="h-10 flex items-center justify-between bg-gray-300 px-4 border-b border-gray-400">
-        <h1 className="text-lg">
-          <a to="/">
-            <img className="h-10" src={logo} alt="Logo" />
+      <div className="h-16 flex items-center justify-between bg-white px-6 shadow-md">
+        <h1 className="text-xl font-semibold text-gray-800">
+          <a href="/">
+            <img className="h-12" src={logo} alt="Logo" />
           </a>
         </h1>
       </div>
 
-      <div className="flex-1 overflow-auto p-4 bg-white">
+      <div className="flex-1 overflow-auto p-6 bg-gray-100">
         {chatMessages.map((message, index) => (
           <div
             key={index}
-            className={`chat ${message.role === "User" ? "chat-end" : "chat-start"}`}
+            className={`flex ${
+              message.role === "User" ? "justify-end" : "justify-start"
+            } mb-4`}
           >
-            <div className="chat-image avatar">
-              <div className="w-10 rounded-full">
-                <img
-                  alt="User Avatar"
-                  src={message.role === "User" ? userPfp : robotPfp}
-                />
-              </div>
-            </div>
-            <div className="chat-header">
-              {message.role === "User" ? selectedUsername : "Robot"}
-            </div>
             <div
-              className={`chat-bubble ${message.role === "User" ? "bg-green-500" : "bg-blue-500"} text-white py-2 px-4 rounded-lg`}
+              className={`max-w-[70%] ${
+                message.role === "User" ? "order-2" : "order-1"
+              }`}
             >
-              {isTyping && message.role === "User" ? (
-                <div className="typing-indicator">
-                  <p className="mb-1">Typing...</p>
+              <div className="flex items-end">
+                {message.role !== "User" && (
+                  <img
+                    src={robotPfp}
+                    alt="Robot Avatar"
+                    className="w-8 h-8 rounded-full mr-2"
+                  />
+                )}
+                <div
+                  className={`rounded-lg p-3 ${
+                    message.role === "User"
+                      ? "bg-blue-500 text-white"
+                      : "bg-white text-gray-800"
+                  }`}
+                >
+                  <p className="text-sm font-medium mb-1">
+                    {message.role === "User" ? selectedUsername : "AI Assistant"}
+                  </p>
+                  {isTyping && message.role === "User" ? (
+                    <div className="typing-indicator">
+                      <p className="text-sm">Typing...</p>
+                    </div>
+                  ) : (
+                    <p className="text-sm">{message.content}</p>
+                  )}
+                  {message.role !== "User" && message.translation && (
+                    <p
+                      className="text-xs mt-1 text-gray-600"
+                      dangerouslySetInnerHTML={{ __html: message.translation }}
+                    ></p>
+                  )}
                 </div>
-              ) : (
-                <p className="mb-1">{message.content}</p>
-              )}
-              {message.role !== "User" && (
-                <p
-                  className="text-xs"
-                  dangerouslySetInnerHTML={{ __html: message.translation }}
-                ></p>
-              )}
+                {message.role === "User" && (
+                  <img
+                    src={userPfp}
+                    alt="User Avatar"
+                    className="w-8 h-8 rounded-full ml-2"
+                  />
+                )}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                {message.role === "User"
+                  ? "Delivered"
+                  : `Seen at ${message.timestamp}`}
+              </p>
               {message.role !== "User" && (
                 <button
                   onClick={() => {
                     const utterance = new SpeechSynthesisUtterance(
-                      message.content,
+                      message.content
                     );
                     utterance.lang = getLanguageCode(selectedFlag);
                     window.speechSynthesis.speak(utterance);
                   }}
-                  className="mt-2 py-1 px-2 text-sm cursor-pointer border-none rounded "
+                  className="mt-2 p-1 text-sm text-blue-500 hover:text-blue-600 transition-colors duration-200"
                 >
-                  <img src={speech} alt="Speech" className="h-4 mr-2" />
+                  <img src={speech} alt="Speech" className="h-4 inline mr-1" />
+                  Speak
                 </button>
               )}
-            </div>
-            <div className="chat-footer opacity-50">
-              {message.role === "User"
-                ? "Delivered"
-                : `Seen at ${message.timestamp}`}
             </div>
           </div>
         ))}
       </div>
 
-      <div className="h-24 flex items-center bg-gray-300 px-4 border-t border-gray-400 fixed bottom-0 w-full">
+      <div className="h-24 flex items-center bg-white px-6 shadow-md">
         <input
           id="input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           type="text"
-          className="input flex-1 h-full bg-white p-2 ml-[-2vh] rounded border border-gray-400 resize-none"
+          className="flex-1 h-12 bg-gray-100 p-3 rounded-l-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           placeholder="Type your message here..."
           onKeyDown={(e) => handleKeyDown(e)}
         />
         <button
           id="generateButton"
           onClick={handleGenerateChat}
-          className="p-2 cursor-pointer rounded-full bg-transparent hovering ml-2"
+          className="h-12 px-6 bg-blue-500 text-white rounded-r-full hover:bg-blue-600 transition-colors duration-200"
         >
-          <img src={send} alt="Generate" className="h-8" />
+          <img src={send} alt="Send" className="h-5 inline" />
         </button>
         <button
           ref={micButtonRef}
           onClick={handleSpeechRecognition}
-          className="ml-4 p-2 cursor-pointer rounded-full bg-transparent relative hovering"
+          className="ml-4 p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors duration-200"
         >
           {isListening ? (
-            <div
-              className="w-6 h-6 rounded-full bg-red-500 animate-bounce absolute inset-0 m-auto"
-              style={{ boxShadow: "inset 0 0 5px rgba(0, 0, 0, 0.5)" }}
-            ></div>
+            <div className="w-6 h-6 rounded-full bg-red-500 animate-pulse"></div>
           ) : (
-            <img src={mic} alt="Speech" className="h-8" />
+            <img src={mic} alt="Speech" className="h-6" />
           )}
         </button>
       </div>
-      <style>
-        {`
-        .hovering:hover {
-          transform: scale(1.05);
-          opacity: 1;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-          border-color: #f0f0f0;
-          background-color: #D3D3D3;
-        }`}
-      </style>
     </div>
   );
 };

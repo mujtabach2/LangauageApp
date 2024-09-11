@@ -73,50 +73,49 @@ function Review() {
   };
 
   return (
-    <div className="flex flex-col pt-[3%] items-center bg-gray-100 h-[60vh] mt-[10vh]">
-        <style>
-            {`
-          
-            @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-            .lato-regular {
-                font-family: "Lato", sans-serif;
-                font-weight: 400;
-                font-style: normal;
-              }
-            `}
-        </style>
-
-    <div className="w-[60%]  px-10">
-    <h1 className="text-5xl font-bold text-center">What Our Users <span>Are Saying 💬
-        <svg
-    className="absolute left-[52%] mb-10 w-[20vw] s:w-[0vw] translate-yfull fill-[#397fd5]"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 665 40.7"
-
-  >
-    <path d="M220.5 3.6c-73.4-.8-147 2.2-218 15.2-1.3.2-1.8.7-1.9.8-.6.6-.6 1.3-.6 1.8 0 .3.4 1.7 2.1 1.8l12.7-.7c15.1-.8 30.3-2 45.4-3.3 34.2-3 68.4-5.6 102.7-8 19.3-1.3 38.5-2.4 57.8-3.3 46.3.5 92.5 2.7 137.8 4.8l-48.3 3a2309 2309 0 0 0-105 7.9l-5.7.5a3 3 0 0 0-1.3.3 2 2 0 0 0-1.4 2c0 .3 0 2 2.2 2.3 98.1 15.1 200.5-2.5 299 12.2 1.2.2 2.2-.6 2.4-1.8s-.6-2.2-1.8-2.4c-92.8-13.9-189 1-281.9-9.9a1843 1843 0 0 1 93.6-6.8c23.3-1.2 54.7-3.6 87.6-5.2l84.7 4.8 35.7 1.8c4.9.3 17.5 1.4 19.3.9 1.4-.3 1.8-1.3 1.8-1.8 0-.6 0-1.2-.6-1.9-.2-.2-.8-.6-2-1-33.2-9.5-87.6-9.4-138.5-7.1l-32.9-1.7c-25.1-1.2-50.5-2.4-76-3.4a5008 5008 0 0 1 215.8 0c30.2.5 111.6 3.8 143.7 6.7-.4.4-.6 1-.6 1.6a2 2 0 0 0 2.2 2c6.6-.3 10.4-.7 12-1.1.9-.2 1.5-.6 1.7-.9.6-.6.7-1.3.6-1.9 0-.4-.3-.8-.7-1.2a5 5 0 0 0-2.1-1c-12.6-3.1-120.8-7.7-156.7-8.3C410.4-.5 315.4-.9 220.5 3.6" />
-  </svg>
-  </span>
-    </h1>
-    <p className="text-lg text-center text-gray-600 pt-[2vh] pb-4">Read some of the review s from our users around the world!</p>
-    <Slider {...settings} >
-      {reviews.map((review, index) => (
-        <div key={index} class="border-1 border-gray-200 border-rounded-3xl">
-          <div className="bg-white text-[#397fd5] px-3 py-2 lato-regular"   >
-            <p className="text-black">{review.review}</p>
-          </div>
-          <div className="bg-gray-200 text-[#397fd5] flex items-center justify-between px-4 py-2">
-            <div>
-              <h2 className="card-title">{review.user.name}</h2>
-              <span className="font-bold text-black">{review.language}</span>
-            </div>
-            <img src={review.user.avatar} alt={review.user.name} className="rounded-full h-8 w-8" />
-          </div>
+    <section className="relative py-16 bg-gradient-to-b from-gray-100 to-white h-[80vh]">
+      <div className="container mx-auto px-4 flex flex-col items-center justify-center">
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-8">
+          What Our Users <span className="relative inline-block">
+            Are Saying 💬
+            <svg
+              className="absolute -bottom-2 left-0 w-full h-3 text-blue-400 opacity-50"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 665 40.7"
+            >
+              <path d="M220.5 3.6c-73.4-.8-147 2.2-218 15.2-1.3.2-1.8.7-1.9.8-.6.6-.6 1.3-.6 1.8 0 .3.4 1.7 2.1 1.8l12.7-.7c15.1-.8 30.3-2 45.4-3.3 34.2-3 68.4-5.6 102.7-8 19.3-1.3 38.5-2.4 57.8-3.3 46.3.5 92.5 2.7 137.8 4.8l-48.3 3a2309 2309 0 0 0-105 7.9l-5.7.5a3 3 0 0 0-1.3.3 2 2 0 0 0-1.4 2c0 .3 0 2 2.2 2.3 98.1 15.1 200.5-2.5 299 12.2 1.2.2 2.2-.6 2.4-1.8s-.6-2.2-1.8-2.4c-92.8-13.9-189 1-281.9-9.9a1843 1843 0 0 1 93.6-6.8c23.3-1.2 54.7-3.6 87.6-5.2l84.7 4.8 35.7 1.8c4.9.3 17.5 1.4 19.3.9 1.4-.3 1.8-1.3 1.8-1.8 0-.6 0-1.2-.6-1.9-.2-.2-.8-.6-2-1-33.2-9.5-87.6-9.4-138.5-7.1l-32.9-1.7c-25.1-1.2-50.5-2.4-76-3.4a5008 5008 0 0 1 215.8 0c30.2.5 111.6 3.8 143.7 6.7-.4.4-.6 1-.6 1.6a2 2 0 0 0 2.2 2c6.6-.3 10.4-.7 12-1.1.9-.2 1.5-.6 1.7-.9.6-.6.7-1.3.6-1.9 0-.4-.3-.8-.7-1.2a5 5 0 0 0-2.1-1c-12.6-3.1-120.8-7.7-156.7-8.3C410.4-.5 315.4-.9 220.5 3.6" />
+            </svg>
+          </span>
+        </h1>
+        <p className="text-lg text-center text-gray-600 mb-12">
+          Read some of the reviews from our users around the world!
+        </p>
+        <div className="w-full max-w-3xl mx-auto mt-10 bg-white rounded-lg shadow-lg p-10 bg-gradient-to-b from-gray-100 to-white">
+          <Slider {...settings}>
+            {reviews.map((review, index) => (
+              <div key={index} className="px-2 sm:px-4">
+                <div className="bg-white rounded-lg   overflow-hidden">
+                  <div className="p-4 sm:p-6">
+                    <p className="text-sm sm:text-base text-gray-800 mb-4">{review.review}</p>
+                    <div className="flex items-center">
+                      <img
+                        src={review.user.avatar}
+                        alt={review.user.name}
+                        className="rounded-full h-10 w-10 sm:h-12 sm:w-12 mr-3 sm:mr-4"
+                      />
+                      <div>
+                        <h2 className="font-semibold text-base sm:text-lg">{review.user.name}</h2>
+                        <span className="text-xs sm:text-sm text-gray-600">{review.language}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </Slider>
         </div>
-      ))}
-    </Slider>
-    </div>
-    </div>
+      </div>
+    </section>
   );
 }
 

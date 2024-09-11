@@ -37,3 +37,170 @@
   animation: slideIn 1s ease-in-out;
   display: inline-block; /* Prevents the word from breaking into two lines */
 }
+
+.header-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 2rem;
+}
+
+.header-content {
+  flex: 1;
+  padding-right: 2rem;
+}
+
+.header-text h2 {
+  color: #1B1C57;
+  font-size: 2.7rem;
+  font-family: sans-serif;
+  font-weight: 600;
+  text-transform: capitalize;
+  word-wrap: break-word;
+}
+
+.header-text p {
+  color: #707070;
+  font-size: 1.2rem;
+  font-family: sans-serif;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+.try-now-btn {
+  border-radius: 7%;
+  padding-left: 4vw;
+  padding-right: 4vw;
+  margin-top: 2vw;
+  font-size: 1.9rem;
+  background-color: #3980d5;
+  font-family: sans-serif;
+}
+
+.header-image {
+  flex: 1;
+}
+
+.header-image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.about-section {
+  margin-top: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .background-image {
+    display: none;
+  }
+
+  .features-container {
+    position: static;
+    transform: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem ; /* Added horizontal padding */
+    margin-top: -0rem;
+    max-width: 100%;
+    padding-bottom: -45rem;
+  }
+
+  .feature-card {
+    width: 90%;
+    margin: 1rem 0;
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white; /* Ensure card background is visible */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow for visibility */
+    border-radius: 8px; /* Optional: rounded corners */
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    border-radius: 30px;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature-icon {
+    height: 6vh; /* Smaller image size for mobile */
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+    padding-bottom: 2vh;
+  }
+
+  .about-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-left: 1rem; /* Add left padding */
+    padding-right: 1rem; /* Add right padding for balance */
+    background-color: #f5f5f5; /* Light background color for contrast */
+  }
+
+  .header-section {
+    flex-direction: column;
+  }
+
+  .header-image {
+    order: 2;
+    margin-top: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .header-section {
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .left-section,
+  .right-section {
+    width: 48% !important;
+  }
+
+  .left-section {
+    margin-bottom: 0 !important;
+  }
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 991px) {
+  .navbar-toggler {
+    display: none !important;
+  }
+
+  .navbar-collapse {
+    display: none !important;
+  }
+}
