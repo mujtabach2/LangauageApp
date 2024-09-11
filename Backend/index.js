@@ -8,10 +8,8 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-  origin: '*',
+  origin: 'https://intelli-chat.netlify.app',
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // Enable pre-flight requests for all routes

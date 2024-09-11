@@ -1,7 +1,7 @@
 # Redirects
 [[redirects]]
-  from = "/generate-chat"
-  to = "https://motionless-gray-lizard.cyclic.app/:splat"
+  from = "/api/*"
+  to = "https://intelli-chat-e9vv.onrender.com/:splat"
   status = 200
   force = true
 

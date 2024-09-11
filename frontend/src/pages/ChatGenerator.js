@@ -115,7 +115,7 @@ const ChatGenerator = () => {
 
   const handleGenerateChat = async () => {
     try {
-      const apiUrl = "https://intelli-chat-e9vv.onrender.com/generate-chat";
+      const apiUrl = '/generate-chat';  // Note the relative URL
       
       // Log the API URL to ensure it's correct
       console.log("API URL:", apiUrl);
@@ -165,19 +165,19 @@ const ChatGenerator = () => {
       }
 
       setInput("");
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (err) {
+      console.error("Error details:", err);
       let errorMessage = "An error occurred while generating the chat. Please try again.";
       
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-        console.error("Response status:", error.response.status);
-        errorMessage = error.response.data.message || errorMessage;
-      } else if (error.request) {
-        console.error("No response received:", error.request);
+      if (err.response) {
+        console.error("Response data:", err.response.data);
+        console.error("Response status:", err.response.status);
+        errorMessage = err.response.data.message || errorMessage;
+      } else if (err.request) {
+        console.error("No response received:", err.request);
         errorMessage = "No response received from the server. Please try again later.";
       } else {
-        console.error("Error message:", error.message);
+        console.error("Error message:", err.message);
       }
 
       setError(errorMessage);
