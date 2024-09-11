@@ -1,9 +1,20 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {GPTChatWrapper} from './gptChat.js';
+import cors from 'cors';
 
 const app = express();
-import cors from 'cors';
+
+// CORS configuration
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Enable pre-flight requests for all routes
+app.options('*', cors());
+
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:3001'];
@@ -22,8 +33,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3001';
 const port = process.env.PORT || 3000;
-
-
 
 app.post('/generate-chat', async (req, res) => {
   try {
@@ -48,9 +57,6 @@ app.post('/generate-chat', async (req, res) => {
   }
 });
 
-
 app.listen(port, () => {
   console.log(`Server is running at ${baseUrl}`);
 });
-
-app.options('*', cors(corsOptions));
