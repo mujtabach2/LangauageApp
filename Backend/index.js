@@ -18,7 +18,7 @@ app.options('*', cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const baseUrl = process.env.BASE_URL || 'https://intelli-chat-e9vv.onrender.com';
+const baseUrl = 'https://intelli-chat-e9vv.onrender.com';
 const port = process.env.PORT || 3000;
 
 // Root route
@@ -54,9 +54,21 @@ app.get('/test', (req, res) => {
   res.json({ message: 'Server is working' });
 });
 
+// Catch-all route
+app.use((req, res) => {
+  console.log('Received request for:', req.url);
+  res.status(404).send('Route not found');
+});
+
 // Add this line just before app.listen()
 console.log(`Server starting on port ${port}`);
 
 app.listen(port, () => {
   console.log(`Server is running at ${baseUrl}`);
+  console.log('Routes:');
+  app._router.stack.forEach(function(r){
+    if (r.route && r.route.path){
+      console.log(r.route.path)
+    }
+  });
 });
