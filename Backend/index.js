@@ -18,7 +18,7 @@ app.options('*', cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const baseUrl = 'https://intelli-chat-e9vv.onrender.com';
+const baseUrl = "https://langappbackend-9495eb968c5a.herokuapp.com/"
 const port = process.env.PORT || 3000;
 
 // Root route
