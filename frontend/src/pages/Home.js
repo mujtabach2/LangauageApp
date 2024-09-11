@@ -441,12 +441,12 @@ const Home = () => {
       </div>
 
       {/* MyTable Component */}
-      <div style={{ marginBottom: "4rem" }}> {/* Added wrapper with margin */}
+      <div style={{ marginBottom: "10rem" }}> {/* Added wrapper with margin */}
         <MyTable />
       </div>
 
       {/* Reviews Component */}
-      <div style={{ marginBottom: "10rem" }}> {/* Added wrapper with margin */}
+      <div style={{ marginBottom: "10rem", marginTop: "20vh" }}> {/* Added wrapper with margin */}
         <Reviews />
       </div>
 

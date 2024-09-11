@@ -141,10 +141,8 @@ const ChatGenerator = () => {
       };
       console.log(requestBody);
       const response = await axios.post(apiUrl, requestBody, {
-        validateStatus: (status) =>
-          (status >= 200 && status < 300) || status === 302,
         withCredentials: true,
-        timeout: 3000,
+        timeout: 10000, // Increase timeout to 10 seconds
       });
       const chatMessage =
         response.data && response.data.chat ? response.data.chat : null;
@@ -166,21 +164,21 @@ const ChatGenerator = () => {
       setInput("");
     } catch (err) {
       console.error("Error details:", err);
+      let errorMessage = "An error occurred while generating the chat. Please try again.";
+      
       if (err.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         console.error("Response data:", err.response.data);
         console.error("Response status:", err.response.status);
-        console.error("Response headers:", err.response.headers);
+        errorMessage = err.response.data.message || errorMessage;
       } else if (err.request) {
-        // The request was made but no response was received
         console.error("No response received:", err.request);
+        errorMessage = "No response received from the server. Please try again later.";
       } else {
-        // Something happened in setting up the request that triggered an Error
         console.error("Error message:", err.message);
       }
-      setError("An error occurred while generating the chat. Please try again.");
-      addMessageToChat("Generator", "An error occurred. Please try again.");
+
+      setError(errorMessage);
+      addMessageToChat("Generator", errorMessage);
     }
   };
 

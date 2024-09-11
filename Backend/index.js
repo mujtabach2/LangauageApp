@@ -3,14 +3,15 @@ import bodyParser from 'body-parser';
 import {GPTChatWrapper} from './gptChat.js';
 import cors from 'cors';
 
+
 const app = express();
 
 // CORS configuration
 app.use(cors({
-  origin: true, // This allows any origin
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
   optionsSuccessStatus: 200
 }));
 
