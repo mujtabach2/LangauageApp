@@ -4,12 +4,11 @@ import {GPTChatWrapper} from './gptChat.js';
 
 const app = express();
 import cors from 'cors';
-const corsOptions ={
-    origin:'https://intelli-chat.netlify.app',
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200
-}
-
+const corsOptions = {
+  origin: ['https://intelli-chat.netlify.app', 'http://localhost:3001'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
