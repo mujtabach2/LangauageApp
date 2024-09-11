@@ -33,7 +33,7 @@ app.post('/generate-chat', async (req, res) => {
     const { role, name, session_length, language, proficiency, topic, mode, starter, input } = req.body;
 
     console.log('Creating GPTChatWrapper with:', role, name, session_length, language, proficiency, topic, mode, starter, input);
-    const gpt_chat_wrapper = new GPTChatWrapper('User', name, session_length, language, proficiency, topic, mode, starter, input);
+    const gpt_chat_wrapper = new GPTChatWrapper(role, name, session_length, language, proficiency, topic, mode, starter, input);
     
     const response = await gpt_chat_wrapper.run();
     console.log('GPTChatWrapper response:', response);
@@ -46,14 +46,16 @@ app.post('/generate-chat', async (req, res) => {
     res.status(200).json({ chat: response.text });
   } catch (error) {
     console.error('Error in /generate-chat:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 });
-
 
 app.get('/test', (req, res) => {
   res.json({ message: 'Server is working' });
 });
+
+// Add this line just before app.listen()
+console.log(`Server starting on port ${port}`);
 
 app.listen(port, () => {
   console.log(`Server is running at ${baseUrl}`);
