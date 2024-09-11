@@ -8,7 +8,7 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://intelli-chat.netlify.app',
+  origin: '*',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -41,6 +41,10 @@ app.post('/generate-chat', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+});
+
+app.get('/test', (req, res) => {
+  res.json({ message: 'Server is working' });
 });
 
 app.listen(port, () => {
