@@ -154,7 +154,7 @@ const ChatGenerator = () => {
 
       setGeneratedChat(chatMessage);
       addMessageToChat("User", input);
-      addMessageToChat("Generator", chatMessage, translatedText);
+      addMessageToChat("Generator", chatMessage, translatedText); 
       if (!selectedTalkingMode) {
         const utterance = new SpeechSynthesisUtterance(chatMessage);
         utterance.lang = lang;
