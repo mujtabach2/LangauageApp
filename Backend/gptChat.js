@@ -50,25 +50,25 @@ export class GPTChatWrapper {
       
       
       
-            switch (this.mode) {
-              case 'Conversation':
+            switch (this.mode.toLowerCase()) {
+              case 'conversation':
                 prompt = `You are an AI that is good at role-playing.
-                  You are simulating a typical conversation happened ${this.topic}.
+                  You are simulating a typical conversation about ${this.topic}.
                   In this scenario, you are playing as an AI, speaking to a
-                  $ {this.name ? this.name : "Human"}.
+                  ${this.name ? this.name : "Human"}.
                   Your conversation should only be conducted in ${this.language}. Do not translate.
-                  This simulated ${this.topic} is designed for ${this.language} language learners to learn real-life
+                  This simulated conversation about ${this.topic} is designed for ${this.language} language learners to learn real-life
                   conversations in ${this.language}. You should assume the learners' proficiency level in
-                  ${this.language} is ${this.proficiency}. Therefore, you should .
+                  ${this.language} is ${this.proficiency}. Therefore, you should ${language_proficiency}.
                   You should finish the conversation within ${exchange_counts} exchanges with the ${this.name ? this.name : "Human"}.
                   Make your conversation with ${this.name ? this.name : "Human"} natural and typical in the considered scenario in
-                  ${this.language} cultural. Keep the conversation going and try to avoid dead-end. maximum 25 words per exchange. Your conversation should only be conducted in ${this.language}. Do not translate.`;
+                  ${this.language} culture. Keep the conversation going and try to avoid dead-ends. Maximum 25 words per exchange. Your conversation should only be conducted in ${this.language}. Do not translate.`;
                 break;
-              case "Debate":
+              case "debate":
                 prompt = `${this.role} is a ${this.name ? this.name : "john"} who is ${language_proficiency} in ${this.language} and wants to debate about ${this.topic}, max 30 words per exchange Your conversation should only be conducted in ${this.language}. Do not translate.`;
                 break;
               default:
-                throw new Error("Topic not found");
+                throw new Error(`Invalid mode: ${this.mode}`);
             }
       
             
