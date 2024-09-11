@@ -5,7 +5,14 @@ import {GPTChatWrapper} from './gptChat.js';
 const app = express();
 import cors from 'cors';
 const corsOptions = {
-  origin: [process.env.FRONTEND_URL, 'http://localhost:3001'],
+  origin: function (origin, callback) {
+    const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:3001'];
+    if (!origin || allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.netlify.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -45,3 +52,5 @@ app.post('/generate-chat', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running at ${baseUrl}`);
 });
+
+app.options('*', cors(corsOptions));
