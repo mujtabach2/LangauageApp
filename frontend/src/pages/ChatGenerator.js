@@ -115,10 +115,9 @@ const ChatGenerator = () => {
 
   const handleGenerateChat = async () => {
     try {
-      const apiUrl = '/generate-chat';  // Note the relative URL
+      const apiUrl = 'https://intelli-chat-e9vv.onrender.com/generate-chat';  // Note the relative URL
       
-      // Log the API URL to ensure it's correct
-      console.log("API URL:", apiUrl);
+      console.log("API URL:", apiUrl);  // Log the API URL
 
       anime({
         targets: "#generateButton",

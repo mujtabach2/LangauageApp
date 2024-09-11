@@ -8,7 +8,7 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-  origin: 'https://intelli-chat.netlify.app',
+  origin: '*',
   credentials: true,
 }));
 
@@ -21,25 +21,35 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const baseUrl = process.env.BASE_URL || 'https://intelli-chat-e9vv.onrender.com';
 const port = process.env.PORT || 3000;
 
+// Root route
+app.get('/', (req, res) => {
+  res.send('IntelliChat API is running');
+});
+
+// Generate chat route
 app.post('/generate-chat', async (req, res) => {
   try {
-    console.log(req.body);
+    console.log('Request received:', req.body);
     const { role, name, session_length, language, proficiency, topic, mode, starter, input } = req.body;
-    console.log(role, name, session_length, language, proficiency, topic, mode, starter, input);
 
+    console.log('Creating GPTChatWrapper with:', role, name, session_length, language, proficiency, topic, mode, starter, input);
     const gpt_chat_wrapper = new GPTChatWrapper('User', name, session_length, language, proficiency, topic, mode, starter, input);
+    
     const response = await gpt_chat_wrapper.run();
+    console.log('GPTChatWrapper response:', response);
 
-    if (response === null) {
+    if (!response || !response.text) {
+      console.log('No response text, returning error');
       return res.status(500).json({ error: 'Internal Server Error' });
     }
     
     res.status(200).json({ chat: response.text });
   } catch (error) {
-    console.error(error);
+    console.error('Error in /generate-chat:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 app.get('/test', (req, res) => {
   res.json({ message: 'Server is working' });
