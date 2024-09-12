@@ -51,14 +51,15 @@ const Flags = () => {
   };
 
   return (
-    <div class="flex justify-center items-center">
+    <div className="bg-white min-h-screen flex flex-col justify-center">
       <style>
         {`
           .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(4, 150px); /* Adjust the flag height as needed */
             gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
           }
           .grid-item {
             background-color: white;
@@ -75,52 +76,35 @@ const Flags = () => {
             box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
           }
           .flag {
-            font-size: 48px; /* Adjust the font size as needed */
-          }
-          .corner-button {
-            position: fixed;
-            top: 5vw; /* Adjust this value to control the distance from the bottom */
-            right: 3vw; /* Adjust this value to control the distance from the right */
-            z-index: 999; /* Adjust the z-index to make sure the button appears above other content */
+            font-size: 48px;
           }
         `}
       </style>
-      <Link to="/" className="corner-button">
-        <button type="button" class="btn-close" aria-label="Close"></button>
+      <Link to="/" className="absolute top-5 right-3 z-50">
+        <button type="button" className="btn-close" aria-label="Close"></button>
       </Link>
-      <div class="flex justify-center items-center flex-col  w-[50%]">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "90vh",
-          }}
-        >
-          <div className="grid-container" ref={gridRef}>
-            {languages.map((language, index) => (
-              <div
-                key={index}
-                className="grid-item"
-                data-flag={language.flag}
-                onClick={() => {
-                  handleButtonClick(language);
-                }}
-              >
-                <span className="flag">{language.flag}</span>
-                <br />
-                <span>{language.name}</span>
-              </div>
-            ))}
-          </div>
+      <div className="flex justify-center items-center flex-grow">
+        <div className="grid-container" ref={gridRef}>
+          {languages.map((language, index) => (
+            <div
+              key={index}
+              className="grid-item"
+              data-flag={language.flag}
+              onClick={() => handleButtonClick(language)}
+            >
+              <span className="flag">{language.flag}</span>
+              <br />
+              <span>{language.name}</span>
+            </div>
+          ))}
         </div>
-        <ul class="steps">
-          <li class="step step-success" data-content=""></li>
-          <li class="step" data-content=""></li>
-          <li class="step" data-content=""></li>
-          <li className="step step-info" data-content="💬"></li>
-        </ul>
       </div>
+      <ul className="steps w-full mb-6 sm:mb-8">
+        <li className="step step-success" data-content=""></li>
+        <li className="step" data-content=""></li>
+        <li className="step" data-content=""></li>
+        <li className="step step-info" data-content="💬"></li>
+      </ul>
     </div>
   );
 };

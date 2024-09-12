@@ -92,22 +92,25 @@ const ChatGenerator = () => {
   };
 
   const translateText = async (text, targetLanguage) => {
-    const apiKeys = process.env.GOOGLE_API_KEY; // Replace with your actual API key
-    const apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKeys}`;
+    const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
+    if (!apiKey) {
+      console.error('Google API key is not set');
+      return null;
+    }
+    const apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
 
     try {
       const response = await axios.post(apiUrl, {
         q: text,
-        source: targetLanguage, // Assuming the source language is English
+        source: targetLanguage,
         target: "en",
       });
 
-      console.log();
       return response.data.data.translations[0].translatedText;
     } catch (error) {
       console.error(
         "Translation error:",
-        error.response ? error.response.data : error.message,
+        error.response ? error.response.data : error.message
       );
       return null;
     }
@@ -276,7 +279,9 @@ const ChatGenerator = () => {
                       : "bg-white text-gray-800"
                   }`}
                 >
-                  <p className="text-sm font-medium mb-1">
+                  <p className={`text-sm font-medium mb-1 ${
+                    message.role === "User" ? "text-blue-200 text-right" : "text-blue-500 text-left"
+                  } `}>
                     {message.role === "User" ? selectedUsername : "AI Assistant"}
                   </p>
                   {isTyping && message.role === "User" ? (
@@ -284,13 +289,14 @@ const ChatGenerator = () => {
                       <p className="text-sm">Typing...</p>
                     </div>
                   ) : (
-                    <p className="text-sm">{message.content}</p>
-                  )}
-                  {message.role !== "User" && message.translation && (
-                    <p
-                      className="text-xs mt-1 text-gray-600"
-                      dangerouslySetInnerHTML={{ __html: message.translation }}
-                    ></p>
+                    <>
+                      <p className="text-sm">{message.content}</p>
+                      {message.role !== "User" && message.translation && (
+                        <p className="text-sm mt-2 italic text-gray-600">
+                          {message.translation}
+                        </p>
+                      )}
+                    </>
                   )}
                 </div>
                 {message.role === "User" && (

@@ -6,7 +6,7 @@ import anki from "./images/anki.png";
 import books from "./images/book.png";
 function MyTable() {
   return (
-    <div className="flex flex-col justify-center items-center w-full px-4">
+    <div className="flex flex-col justify-center items-center w-full px-4 pb-[20vh]">
       <style>
         {`
         .caveatS {

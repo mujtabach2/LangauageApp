@@ -180,7 +180,7 @@ const Home = () => {
         className="mt-10 header-section"
       >
         {/* Left Section */}
-        <div className="left-section" style={{ width: "100%", maxWidth: "600px", marginBottom: "2rem" }}>
+        <div className="left-section ml-10" style={{ width: "100%", maxWidth: "600px", marginBottom: "2rem" }}>
           <div>
             <h2
               style={{
@@ -210,7 +210,7 @@ const Home = () => {
               chat-based AI tools.
             </p>
           </div>
-          <div>
+          <div className="text-left" >
             <button
               onClick={handleTryNowClick}
               type="button"
@@ -441,13 +441,42 @@ const Home = () => {
       </div>
 
       {/* MyTable Component */}
-      <div style={{ marginBottom: "10rem" }}> {/* Added wrapper with margin */}
+      <div > {/* Increased padding */}
         <MyTable />
-      </div>
+      </div> 
 
       {/* Reviews Component */}
-      <div style={{ marginBottom: "10rem", marginTop: "20vh" }}> {/* Added wrapper with margin */}
+      <div style={{position: "relative" }}> {/* Removed marginTop */}
         <Reviews />
+        {/* Runway arrow animation */}
+        <div style={{
+          position: "absolute",
+          bottom: "-80px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "10px",
+          paddingBottom: "10vh",
+          marginBottom: "2vh",
+          marginTop: "20vh",
+        }}>
+          {[0, 1, 2, 3].map((index) => (
+            <div
+              key={index}
+              style={{
+                width: "0",
+                height: "0",
+                borderLeft: "20px solid transparent",
+                borderRight: "20px solid transparent",
+                borderTop: "20px solid #3980d5",
+                opacity: 0,
+                animation: `runwayPulse 2s infinite ${index * 0.5}s`,
+              }}
+            />
+          ))}
+        </div>
       </div>
 
       {/* CTA Section */}
@@ -459,7 +488,8 @@ const Home = () => {
           padding: "4rem 0",
           textAlign: "center",
           position: "relative",
-          marginBottom: "20rem", // Adjusted margin
+      
+          marginBottom: "20rem",
         }}
       >
         {/* Colorful background illustration */}

@@ -107,6 +107,7 @@
     margin-top: -0rem;
     max-width: 100%;
     padding-bottom: -45rem;
+  margin-left: 6rem;
   }
 
   .feature-card {
@@ -122,6 +123,8 @@
     padding-bottom: 1rem;
     padding-top: 1rem;
     border-radius: 30px;
+    margin-left: 1rem;
+
   }
 
   .card-body {
@@ -202,5 +205,16 @@
 
   .navbar-collapse {
     display: none !important;
+  }
+}
+
+@keyframes runwayPulse {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(10px);
   }
 }
